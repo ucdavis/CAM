@@ -19,7 +19,7 @@ namespace CAM.App_Start
         {
             ModelBinders.Binders.DefaultBinder = new UCDArchModelBinder();
 
-            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof(/* ClassFromMappingsAssembly */).Assembly);
+            NHibernateSessionConfiguration.Mappings.UseFluentMappings(typeof( CAM.Core.Domain.Request ).Assembly);
 
             IWindsorContainer container = InitializeServiceLocator();
         }
