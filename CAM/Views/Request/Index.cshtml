@@ -1,0 +1,117 @@
+﻿@model CAM.Core.Domain.Request
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<form class="form-horizontal">
+
+    <legend>Employee Information</legend>
+
+    <div class="control-group">
+
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="name" >Name</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "First Name" })
+                    @Html.TextBoxFor(model => model.LastName, new { @placeholder = "Lirst Name" })
+                    @Html.ValidationMessageFor( model => model.FirstName )
+                    @Html.ValidationMessageFor( model => model.LastName )
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Email, new { @class="control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor( model => model.Email, new { @placeholder = "Email" })
+                    @Html.ValidationMessageFor( model => model.Email )
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.PositionTitle, new { @class="control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor( model => model.PositionTitle, new { @placeholder = "Position Title" })
+                    @Html.ValidationMessageFor( model => model.PositionTitle)
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Department, new { @class="control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor( model => model.Department, new { @placeholder = "Department" })
+                    @Html.TextBoxFor( model => model.Unit, new { @placeholder = "Unit" })
+                    @Html.ValidationMessageFor( model => model.Department )
+                    @Html.ValidationMessageFor( model => model.Unit )
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.OfficeLocation, new { @class="control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor( model => model.OfficeLocation, new { @placeholder = "Location / Building" })
+                    @Html.TextBoxFor( model => model.Room, new { @placeholder = "Room #", @class="input-mini" })
+                    @Html.ValidationMessageFor( model => model.OfficeLocation )
+                    @Html.ValidationMessageFor( model => model.Room )
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.ContactPhone, new { @class="control-label" })
+                <div class="controls">
+                    @Html.TextBoxFor( model => model.ContactPhone, new { @placeholder = "(###) XXX-XXXX " })
+                    @Html.ValidationMessageFor( model => model.ContactPhone)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="name" >Employment Dates</label>
+                <div class="controls">
+                    @*@Html.TextBoxFor(model => model.Start, new { @class="datepicker input-small" })*@
+                    @Html.TextBox("Start", Model.Start.ToString("d"), new {@class="datepicker input-small"} )
+                    @Html.ValidationMessageFor( model => model.Start )
+                    <span style="margin: 0 5px;">through</span>
+                    @*@Html.TextBoxFor( model => model.End, new { @class="datepicker input-small" })*@
+                    @Html.TextBox("End", Model.End.HasValue ? Model.End.Value.ToString("d") : string.Empty, new {@class="datepicker input-small"} )
+                    @Html.ValidationMessageFor( model => model.End )
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Type:</label>
+                <div class="controls">
+                    <label class="radio">
+                        <input type="radio" name="Type" value="NewPosition" />
+                        New Position
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="Type" value="Rehire" />
+                        Rehire
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+
+        
+
+    </div>
+    
+    <legend>Email</legend>
+
+    <div class="control-group">
+
+        <fieldset>
+
+            <div class="control-group">
+                <label class="control-label" for="name" >Name</label>
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "First Name" })
+                    @Html.TextBoxFor(model => model.LastName, new { @placeholder = "Lirst Name" })
+                    @Html.ValidationMessageFor( model => model.FirstName )
+                    @Html.ValidationMessageFor( model => model.LastName )
+                </div>
+            </div>
+
+        </fieldset>
+
+    </div>
+
+    <div class="control-group">
+    <div class="controls"><input type="submit" value="Submit" /></div>
+    </div>
+
+</form>
