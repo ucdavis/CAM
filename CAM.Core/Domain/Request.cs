@@ -25,6 +25,7 @@ namespace CAM.Core.Domain
         public string Email { get; set; }
         [Required]
         [StringLength(100)]
+        [Display(Name="Position Title")]
         public string PositionTitle { get; set; }
         [Required]
         [StringLength(100)]
@@ -34,6 +35,7 @@ namespace CAM.Core.Domain
         public string Unit { get; set; }
         [Required]
         [StringLength(100)]
+        [Display(Name="Office Location")]
         public string OfficeLocation { get; set; }
         [Required]
         [StringLength(20)]
@@ -41,6 +43,7 @@ namespace CAM.Core.Domain
         [Required]
         [StringLength(50)]
         [Phone]
+        [Display(Name="Contact Phone")]
         public string ContactPhone { get; set; }
 
         public DateTime Start { get; set; }
