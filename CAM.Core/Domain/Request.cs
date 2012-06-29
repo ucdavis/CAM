@@ -53,6 +53,8 @@ namespace CAM.Core.Domain
 
         [Display(Name="Email Account")]
         public bool NeedsEmail { get; set; }
+
+        public string DefaultSave { get; set; }
     }
 
     public enum PositionType { NewPosition = 0, Rehire = 1};
