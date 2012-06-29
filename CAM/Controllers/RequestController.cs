@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CAM.Core.Domain;
+using UCDArch.Web.ActionResults;
 
 namespace CAM.Controllers
 {
@@ -13,6 +14,11 @@ namespace CAM.Controllers
         {
             var request = new Request();
             return View(request);
+        }
+
+        public JsonNetResult LoadRoleTemplate(string role)
+        {
+            throw new NotImplementedException();
         }
 
     }
