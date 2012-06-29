@@ -64,9 +64,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\DistributionList.cs" />
     <Compile Include="Domain\Request.cs" />
     <Compile Include="Domain\RequestBase.cs" />
     <Compile Include="Domain\RequestTemplate.cs" />
+    <Compile Include="Domain\Site.cs" />
+    <Compile Include="Domain\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

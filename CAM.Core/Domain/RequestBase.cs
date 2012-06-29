@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UCDArch.Core.DomainModel;
 
 namespace CAM.Core.Domain
@@ -16,6 +12,9 @@ namespace CAM.Core.Domain
             Software = new List<string>();
             NetworkShares = new List<string>();
         }
+
+        public virtual Site Site { get; set; }
+        public virtual Unit Unit { get; set; }
 
         public virtual PositionType Type { get; set; }
         public virtual HardwareType HardwareType { get; set; }
@@ -31,6 +30,6 @@ namespace CAM.Core.Domain
         public virtual IList<string> NetworkShares { get; set; }
     }
 
-    public enum PositionType { NewPosition = 0, Rehire = 1 };
-    public enum HardwareType { Desktop = 0, Laptop = 1 };
+    public enum PositionType { NewPosition = 0, Rehire };
+    public enum HardwareType { Desktop = 0, Laptop };
 }

@@ -7,11 +7,9 @@ namespace CAM.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            var sites = Repository.OfType<Site>().GetAll();
 
-            var test = Repository.OfType<RequestTemplate>().GetAll();
-
-            return View();
+            return View(sites);
         }
 
         public ActionResult About()

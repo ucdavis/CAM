@@ -1,3 +1,5 @@
+@model IEnumerable<CAM.Core.Domain.Site>
+
 @{
     ViewBag.Title = "Home Page";
 }
@@ -5,4 +7,16 @@
 @section featured {
 }
 
-hello
+<ul>
+    @foreach(var site in Model)
+    {
+        <li>@site.Name
+            <ul>
+                @foreach(var unit in site.Units)
+                {
+                    <li>@unit.Name</li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

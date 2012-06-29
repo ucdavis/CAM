@@ -16,6 +16,10 @@ namespace CAM.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
+            References(x => x.Site);
+            References(x => x.Unit);
+            Map(x => x.NeedsEmail);
+            Map(x => x.DefaultSave);
         }
     }
 
