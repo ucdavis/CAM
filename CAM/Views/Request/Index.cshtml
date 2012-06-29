@@ -110,14 +110,11 @@
             </div>
 
             <div class="control-group">
-
-            </div>
-
-            <div class="control-group">
                 <label class="control-label" for="distributionLists">Distribution List(s):</label>
                 <div class="controls">
                     <ul id="distLists" class="unstyled">
-                        <li>@Html.TextBox("DistributionLists")<a href="#" class="btn btn-danger removeDistList">
+                        <li>@Html.TextBox("DistributionLists")
+                            <a href="#" class="btn btn-danger removeDistList">
                                 <i class="icon-minus"></i> Remove
                             </a>
                         </li>
@@ -135,11 +132,84 @@
 
     <legend>Software</legend>
 
-    <div class="control-group"></div>
+    <div class="control-group">
+
+        <fieldset>
+
+            <div class="control-group">
+                <p class="help-block">
+                    The following software (http://computing.caes.ucdavis.edu/computing-policies/supported-software) will be installed by default on all CA&ES managed computers.  Please check the boxes under Optional Software if you would like the software installed on the new user’s computer.  If the user requires software that is not listed below, please contact the Computer Resources Unit (CRU) helpdesk at csrequests@caes.ucdavis.edu.
+                </p>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="software">Optional Software</label>
+                <div class="controls">
+                    <ul id="software" class="unstyled">
+                        <li>
+                            <label class="checkbox">
+                                <input type="checkbox" value="pps" />
+                                PPS
+                            </label>
+                        </li>
+                        <li>
+                            <label class="checkbox">
+                                <input type="checkbox" value="dymo" />
+                                DYMO Label Printing Software
+                            </label>
+                        </li>
+                        <li>
+                            <label class="checkbox">
+                                <input type="checkbox" value="skype" />
+                                Skype
+                            </label>
+                        </li>
+                        <li>
+                            <label class="checkbox">
+                                <input type="checkbox" value="endnote" />
+                                EndNote
+                            </label>
+                        </li>
+                        <li>
+                            <label class="checkbox">
+                                <input type="checkbox" value="earth" />
+                                Google Earth
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </fieldset>
+
+    </div>
 
     <legend>Hardware</legend>
 
-    <div class="control-group"></div>
+    <div class="control-group">
+
+        <!-- New Position -->
+        <fieldset style="display: none;">
+            <div class="controls">
+                <p class="help-block"></p>
+            </div>
+        </fieldset>
+
+        <!-- Rehire -->
+        <fieldset style="display: none;">
+            <div class="controls">
+                <p class="help-block"></p>
+            </div>
+        </fieldset>
+
+        <!-- No type selected -->
+        <fieldset">
+            <div class="controls">
+                <p class="help-block">You need to select whether the employee will be a new hire or a rehire.</p>
+            </div>
+        </fieldset>
+
+    </div>
 
     <div class="form-actions">
         <input type="submit" value="Submit" class="btn btn-primary" />
@@ -150,23 +220,14 @@
 
 @section AdditionalScripts{
     
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+
     <script type="text/javascript">
     $(function () {
 
         $("#addDistLists").click(function (e) {
-
-            var li = $("<li>");
-            li.append($("<input>").attr("type", "text").attr("name", "DistributionLists"));
-            var a = $("<a>").attr("href", "#").addClass("btn").addClass("btn-danger").addClass("removeDistList");
-            a.append($("<i>").addClass("icon-minus"));
-            a.append(" Remove");
-            li.append(a);
-
-            li.hide();
-
-            $("#distLists").append(li);
-
-            li.show('normal');
+            var test = $("#DistListTemplate").tmpl().appendTo("#distLists")
+            $(test).show("normal");
 
             e.preventDefault();
         });
@@ -185,6 +246,14 @@
         margin:  .5em 0;
     }
     </style>
+
+    <script id="DistListTemplate" type="text/x-jquery-tmpl">
+        <li style="display:  none;"><input type="text" Name="DistributionLists" value="${Value}" />
+            <a href="#" class="btn btn-danger removeDistList">
+                <i class="icon-minus"></i> Remove
+            </a>
+        </li>
+    </script>
 
 }
 
