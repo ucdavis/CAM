@@ -10,7 +10,7 @@ namespace CAM.Controllers
 {
     public class RequestController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
             var request = new Request();
             return View(request);

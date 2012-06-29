@@ -24,17 +24,29 @@ namespace CAM
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            routes.MapRoute(
+                name: "request",
+                url: "{site}/request/{id}",
+                defaults: new { site = "none", controller = "Request", action = "Index", id = UrlParameter.Optional }
+                );
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
+                name: "sitebase",
+                url: "{site}/{controller}/{action}/{id}",
+                defaults: new {site = "none", controller = "Home", action = "Index", id = UrlParameter.Optional}
+                );
+
+            //routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            //);
         }
 
         protected void Application_Start()
