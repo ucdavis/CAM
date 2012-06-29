@@ -50,6 +50,9 @@ namespace CAM.Core.Domain
         public DateTime? End { get; set; }
 
         public PositionType Type { get; set; }
+
+        [Display(Name="Email Account")]
+        public bool NeedsEmail { get; set; }
     }
 
     public enum PositionType { NewPosition = 0, Rehire = 1};

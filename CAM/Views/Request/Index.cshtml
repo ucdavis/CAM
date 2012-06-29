@@ -62,11 +62,9 @@
             <div class="control-group">
                 <label class="control-label" for="name" >Employment Dates</label>
                 <div class="controls">
-                    @*@Html.TextBoxFor(model => model.Start, new { @class="datepicker input-small" })*@
                     @Html.TextBox("Start", Model.Start.ToString("d"), new {@class="datepicker input-small"} )
                     @Html.ValidationMessageFor( model => model.Start )
                     <span style="margin: 0 5px;">through</span>
-                    @*@Html.TextBoxFor( model => model.End, new { @class="datepicker input-small" })*@
                     @Html.TextBox("End", Model.End.HasValue ? Model.End.Value.ToString("d") : string.Empty, new {@class="datepicker input-small"} )
                     @Html.ValidationMessageFor( model => model.End )
                 </div>
@@ -97,12 +95,37 @@
         <fieldset>
 
             <div class="control-group">
-                <label class="control-label" for="name" >Name</label>
+                @Html.LabelFor(model => model.NeedsEmail, new { @class="control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "First Name" })
-                    @Html.TextBoxFor(model => model.LastName, new { @placeholder = "Lirst Name" })
-                    @Html.ValidationMessageFor( model => model.FirstName )
-                    @Html.ValidationMessageFor( model => model.LastName )
+                    <label class="checkbox">
+                        @Html.CheckBoxFor(model => model.NeedsEmail)
+                        Yes, user needs a new email account
+                    </label>
+
+                    <p class="help-block">
+                        <em>* Users who will need to access Outlook calendars will need a CAES email account.</em>
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="control-group">
+
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="distributionLists">Distribution List(s):</label>
+                <div class="controls">
+                    <ul id="distLists" class="unstyled">
+                        <li>@Html.TextBox("DistributionLists")<a href="#" class="btn btn-danger removeDistList">
+                                <i class="icon-minus"></i> Remove
+                            </a>
+                        </li>
+                    </ul>
+
+                    <a href="#" id="addDistLists" class="btn btn-success">
+                        <i class="icon-plus"></i> Add
+                    </a>
                 </div>
             </div>
 
@@ -116,3 +139,44 @@
     </div>
 
 </form>
+
+@section AdditionalScripts{
+    
+    <script type="text/javascript">
+    $(function () {
+
+        $("#addDistLists").click(function (e) {
+
+            var li = $("<li>");
+            li.append($("<input>").attr("type", "text").attr("name", "DistributionLists"));
+            var a = $("<a>").attr("href", "#").addClass("btn").addClass("btn-danger").addClass("removeDistList");
+            a.append($("<i>").addClass("icon-minus"));
+            a.append(" Remove");
+            li.append(a);
+
+            li.hide();
+
+            $("#distLists").append(li);
+
+            li.show('normal');
+
+            e.preventDefault();
+        });
+
+        $("#distLists").on('click', 'a', function (e) {
+            $(this).closest("li").hide('normal', function () { $(this).remove(); });
+            e.preventDefault();
+        });
+
+    });
+    </script>
+
+    <style type="text/css">
+    #distLists li
+    {
+        margin:  .5em 0;
+    }
+    </style>
+
+}
+
