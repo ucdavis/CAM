@@ -17,7 +17,7 @@ namespace CAM.Core.Domain
         public virtual Unit Unit { get; set; }
 
         public virtual PositionType? Type { get; set; }
-        public virtual HardwareType HardwareType { get; set; }
+        public virtual HardwareType? HardwareType { get; set; }
 
         [Display(Name = "Email Account")]
         public virtual bool NeedsEmail { get; set; }

@@ -192,13 +192,13 @@
                     <ul class="unstyled">
                         <li>
                             <label class="radio">
-                                <input type="radio" name="ComputerType" value="Desktop" />
+                                <input type="radio" name="ComputerType" value="Desktop" @(Model.Request.HardwareType == HardwareType.Desktop ? "checked='checked'" : string.Empty) />
                                 Desktop
                             </label>
                         </li>
                         <li>
                             <label class="radio">
-                                <input type="radio" name="ComputerType" value="Laptop" />
+                                <input type="radio" name="ComputerType" value="Laptop" @(Model.Request.HardwareType == HardwareType.Laptop ? "checked='checked'" : string.Empty) />
                                 Laptop
                             </label>
                         </li>
