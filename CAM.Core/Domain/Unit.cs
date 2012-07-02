@@ -7,6 +7,7 @@ namespace CAM.Core.Domain
     {
         public virtual Site Site { get; set; }
         public virtual string Name { get; set; }
+        public virtual string Description { get; set; }
         public virtual bool IsActive { get; set; }
     }
 
@@ -18,6 +19,7 @@ namespace CAM.Core.Domain
 
             References(x => x.Site);
             Map(x => x.Name);
+            Map(x => x.Description);
             Map(x => x.IsActive);
         }
     }

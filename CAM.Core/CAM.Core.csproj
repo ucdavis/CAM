@@ -65,12 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\DistributionList.cs" />
+    <Compile Include="Domain\NetworkShare.cs" />
     <Compile Include="Domain\Request.cs" />
     <Compile Include="Domain\RequestBase.cs" />
     <Compile Include="Domain\RequestTemplate.cs" />
     <Compile Include="Domain\Site.cs" />
+    <Compile Include="Domain\Software.cs" />
     <Compile Include="Domain\Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IRepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

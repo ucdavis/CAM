@@ -1,4 +1,4 @@
-@model IEnumerable<CAM.Core.Domain.Site>
+@model HomeIndexViewModel
 
 @{
     ViewBag.Title = "Home Page";
@@ -7,16 +7,93 @@
 @section featured {
 }
 
-<ul>
-    @foreach(var site in Model)
-    {
-        <li>@site.Name
-            <ul>
-                @foreach(var unit in site.Units)
-                {
-                    <li>@unit.Name</li>
-                }
-            </ul>
+@if (!Model.HasSite())
+{
+    <ul>
+        @foreach(var site in Model.Sites)
+        {
+            <li>
+                @site.Name
+            </li>    
+        }
+    </ul>
+}
+else
+{
+    <section>
+        
+        <div class="page-header">
+            <h2>Units</h2>
+        </div>
+        
+        <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Unit Name</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var unit in Model.Units)
+            {
+                <tr>
+                    <td><input type="button" class="btn selectUnit" value="Select" data-id="@unit.Id" /></td>
+                    <td>@unit.Name</td>
+                    <td>@unit.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    </section>
+    
+    <section>
+        
+        <ul id="templates" class="unstyled" style="display:none;">
+        </ul>
+
+    </section>
+}
+
+@section AdditionalScripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+
+    <script type="text/javascript">
+
+        var loadUrl = '@Url.Action("LoadTemplates")';
+
+        $(function () {
+            $(".selectUnit").click(function () {
+
+                var $container = $("#templates");
+                $container.empty();
+                $container.hide();
+                
+                $.get(loadUrl, { unitId: $(this).data('id') }, function(result) {
+                    $("#templateTemplate").tmpl(result).appendTo($container);
+                    $container.show('normal');
+                });
+                
+            });
+        });
+    </script>
+
+    <script id="templateTemplate" type="text/x-jquery-tmpl">
+        <li>
+            <a href='@Url.Action("Index", "Request")/${Id}' class="btn btn-success">
+                Select
+            </a>
+            ${Name}
         </li>
+    </script>
+    
+    <style type="text/css">
+    #templates li
+    {
+        margin: 1em 0;
     }
-</ul>
+    </style>
+
+}

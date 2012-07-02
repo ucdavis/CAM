@@ -1,4 +1,4 @@
-﻿@model CAM.Core.Domain.Request
+﻿@model RequestViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -14,59 +14,59 @@
             <div class="control-group">
                 <label class="control-label" for="name" >Name</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "First Name" })
-                    @Html.TextBoxFor(model => model.LastName, new { @placeholder = "Lirst Name" })
-                    @Html.ValidationMessageFor( model => model.FirstName )
-                    @Html.ValidationMessageFor( model => model.LastName )
+                    @Html.TextBoxFor(model => model.Request.FirstName, new { @placeholder = "First Name" })
+                    @Html.TextBoxFor(model => model.Request.LastName, new { @placeholder = "Lirst Name" })
+                    @Html.ValidationMessageFor( model => model.Request.FirstName )
+                    @Html.ValidationMessageFor( model => model.Request.LastName )
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Email, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.Email, new { @class="control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Email, new { @placeholder = "Email" })
-                    @Html.ValidationMessageFor( model => model.Email )
+                    @Html.TextBoxFor( model => model.Request.Email, new { @placeholder = "Email" })
+                    @Html.ValidationMessageFor( model => model.Request.Email )
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.PositionTitle, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.PositionTitle, new { @class="control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.PositionTitle, new { @placeholder = "Position Title" })
-                    @Html.ValidationMessageFor( model => model.PositionTitle)
+                    @Html.TextBoxFor( model => model.Request.PositionTitle, new { @placeholder = "Position Title" })
+                    @Html.ValidationMessageFor( model => model.Request.PositionTitle)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Department, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.Department, new { @class="control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Department, new { @placeholder = "Department" })
-                    @Html.TextBoxFor( model => model.Unit, new { @placeholder = "Unit" })
-                    @Html.ValidationMessageFor( model => model.Department )
-                    @Html.ValidationMessageFor( model => model.Unit )
+                    @Html.TextBoxFor( model => model.Request.Department, new { @placeholder = "Department" })
+                    @Html.TextBoxFor( model => model.Request.Unit, new { @placeholder = "Unit" })
+                    @Html.ValidationMessageFor( model => model.Request.Department )
+                    @Html.ValidationMessageFor( model => model.Request.Unit )
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.OfficeLocation, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.OfficeLocation, new { @class="control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.OfficeLocation, new { @placeholder = "Location / Building" })
-                    @Html.TextBoxFor( model => model.Room, new { @placeholder = "Room #", @class="input-mini" })
-                    @Html.ValidationMessageFor( model => model.OfficeLocation )
-                    @Html.ValidationMessageFor( model => model.Room )
+                    @Html.TextBoxFor( model => model.Request.OfficeLocation, new { @placeholder = "Location / Building" })
+                    @Html.TextBoxFor( model => model.Request.Room, new { @placeholder = "Room #", @class="input-mini" })
+                    @Html.ValidationMessageFor( model => model.Request.OfficeLocation )
+                    @Html.ValidationMessageFor( model => model.Request.Room )
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.ContactPhone, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.ContactPhone, new { @class="control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.ContactPhone, new { @placeholder = "(###) XXX-XXXX " })
-                    @Html.ValidationMessageFor( model => model.ContactPhone)
+                    @Html.TextBoxFor( model => model.Request.ContactPhone, new { @placeholder = "(###) XXX-XXXX " })
+                    @Html.ValidationMessageFor( model => model.Request.ContactPhone)
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name" >Employment Dates</label>
                 <div class="controls">
-                    @Html.TextBox("Start", Model.Start.ToString("d"), new {@class="datepicker input-small"} )
-                    @Html.ValidationMessageFor( model => model.Start )
+                    @Html.TextBox("Start", Model.Request.Start.ToString("d"), new {@class="datepicker input-small"} )
+                    @Html.ValidationMessageFor( model => model.Request.Start )
                     <span style="margin: 0 5px;">through</span>
-                    @Html.TextBox("End", Model.End.HasValue ? Model.End.Value.ToString("d") : string.Empty, new {@class="datepicker input-small"} )
-                    @Html.ValidationMessageFor( model => model.End )
+                    @Html.TextBox("End", Model.Request.End.HasValue ? Model.Request.End.Value.ToString("d") : string.Empty, new {@class="datepicker input-small"} )
+                    @Html.ValidationMessageFor( model => model.Request.End )
                 </div>
             </div>
             <div class="control-group">
@@ -82,18 +82,6 @@
                     </label>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label">Role:</label>
-                <div class="controls">
-                    <select name="role">
-                        <option value="">--Select Role--</option>
-                        <option value="designer">Designer</option>
-                        <option value="programmer">Programmer</option>
-                        <option value="sysadmin">Sys Admin</option>
-                        <option value="studentassistant">Student Assistant</option>
-                    </select>
-                </div>
-            </div>
         </fieldset>
 
     </div>
@@ -105,10 +93,10 @@
         <fieldset>
 
             <div class="control-group">
-                @Html.LabelFor(model => model.NeedsEmail, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.NeedsEmail, new { @class="control-label" })
                 <div class="controls">
                     <label class="checkbox">
-                        @Html.CheckBoxFor(model => model.NeedsEmail)
+                        @Html.CheckBoxFor(model => model.Request.NeedsEmail)
                         Yes, user needs a new email account
                     </label>
 
@@ -123,11 +111,19 @@
                 <label class="control-label" for="distributionLists">Distribution List(s):</label>
                 <div class="controls">
                     <ul id="distLists" class="unstyled">
+                        @foreach(var dl in Model.Request.DistributionLists)
+                        {
+                            <li>@Html.TextBox("DistributionLists", dl.Name)
+                                <a href="#" class="btn btn-danger removeDistList">
+                                    <i class="icon-minus"></i> Remove
+                                </a>
+                            </li>    
+                        }
                         <li>@Html.TextBox("DistributionLists")
                             <a href="#" class="btn btn-danger removeDistList">
                                 <i class="icon-minus"></i> Remove
                             </a>
-                        </li>
+                        </li>    
                     </ul>
 
                     <a href="#" id="addDistLists" class="btn btn-success">
@@ -154,38 +150,22 @@
 
             <div class="control-group">
                 <label class="control-label" for="software">Optional Software</label>
+                
+
+
                 <div class="controls">
                     <ul id="software" class="unstyled">
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="pps" />
-                                PPS
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="dymo" />
-                                DYMO Label Printing Software
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="skype" />
-                                Skype
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="endnote" />
-                                EndNote
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="earth" />
-                                Google Earth
-                            </label>
-                        </li>
+                        
+                        @foreach(var software in Model.Softwares)
+                        {
+                            <li>                              
+                                <label class="checkbox">
+                                    @Html.CheckBox(software.Id.ToString(), Model.Request.Software.Any(a => a.Id == software.Id))
+                                    @software.Name
+                                </label>
+                            </li>
+                            
+                        }
                     </ul>
                 </div>
             </div>
@@ -258,136 +238,18 @@
             <div class="control-group">
                 <label for="networkPermissions" class="control-label">Network Shares</label>
                 <div class="controls">
+                    
                     <ul class="unstyled">
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="home" name="networkshares" checked disabled="disabled" />
-                                Home Directory (X:)
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="dept" name="networkshares" />
-                                Departmental Share (V:)
-                            </label>
-                        </li>
-                        <li>
-                            <strong>Unit Share (W:)</strong>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitAdmin" name="networkshares" />
-                                ADMIN
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitAsi" name="networkshares" />
-                                ASI
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitAsp" name="networkshares" />
-                                ASP
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCaba" name="networkshares" />
-                                CABA
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCat" name="networkshares" />
-                                CAT
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCcuh" name="networkshares" />
-                                CCUH
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCps" name="networkshares"  />
-                                CPS
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCpt" name="networkshares"  />
-                                CPT
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCrc" name="networkshares"  />
-                                CRC
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitCrf" name="networkshares"  />
-                                CRF
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitDad" name="networkshares"  />
-                                DAD
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitExec" name="networkshares"  />
-                                EXEC
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitFfhi" name="networkshares"  />
-                                FFHI
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitIpo" name="networkshares"  />
-                                IPO
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitPtf" name="networkshares"  />
-                                PTF
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitRmi" name="networkshares"  />
-                                RMI
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitSarep" name="networkshares"  />
-                                SAREP
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitUap" name="networkshares"  />
-                                UAP
-                            </label>
-                        </li>
-                        <li>
-                            <label class="checkbox">
-                                <input type="checkbox" value="unitUapStudents" name="networkshares"  />
-                                UAP Students
-                            </label>
-                        </li>
+                        @foreach(var ns in Model.NetworkShares)
+                        {
+                            <li>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="@ns.Id" name="networkshares" @(Model.Request.NetworkShares.Contains(ns) || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />
+                                    @ns.Name
+                                </label>
+                            </li>
+                        
+                        }
                     </ul>
                 </div>
             </div>
@@ -395,7 +257,7 @@
             <div class="control-group">
                 <label for="defaultSave" class="control-label">Default Save Location:</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.DefaultSave)
+                    @Html.TextBoxFor(model => model.Request.DefaultSave)
                 </div>
             </div>
 
@@ -418,7 +280,7 @@
     $(function () {
 
         $("#addDistLists").click(function (e) {
-            var test = $("#DistListTemplate").tmpl().appendTo("#distLists")
+            var test = $("#DistListTemplate").tmpl().appendTo("#distLists");
             $(test).show("normal");
 
             e.preventDefault();

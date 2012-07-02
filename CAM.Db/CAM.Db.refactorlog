@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="cf80c655-05f2-4b41-a1ba-14706ff561c9" ChangeDateTime="07/02/2012 15:04:00">
+    <Property Name="ElementName" Value="[dbo].[RequestTemplatesXDistributionLists].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestTemplatesXDistributionLists]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RequestTemplateId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="884a11ce-af6e-4a58-85a9-910f4b1433a9" ChangeDateTime="07/02/2012 15:21:38">
+    <Property Name="ElementName" Value="[dbo].[RequestTemplatesXSoftware].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestTemplatesXSoftware]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RequestTemplateId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a9fe3e56-93b2-45e5-8154-87f0fdaddcc5" ChangeDateTime="07/02/2012 15:48:39">
+    <Property Name="ElementName" Value="[dbo].[RequestTemplatesXNetworkShares].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestTemplatesXNetworkShares]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RequestTemplateId" />
+  </Operation>
+</Operations>

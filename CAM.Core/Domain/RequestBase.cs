@@ -8,9 +8,9 @@ namespace CAM.Core.Domain
     {
         public RequestBase()
         {
-            DistributionLists = new List<string>();
-            Software = new List<string>();
-            NetworkShares = new List<string>();
+            DistributionLists = new List<DistributionList>();
+            Software = new List<Software>();
+            NetworkShares = new List<NetworkShare>();
         }
 
         public virtual Site Site { get; set; }
@@ -25,9 +25,9 @@ namespace CAM.Core.Domain
         [Display(Name = "Default Save Location")]
         public virtual string DefaultSave { get; set; }
 
-        public virtual IList<string> DistributionLists { get; set; }
-        public virtual IList<string> Software { get; set; }
-        public virtual IList<string> NetworkShares { get; set; }
+        public virtual IList<DistributionList> DistributionLists { get; set; }
+        public virtual IList<Software> Software { get; set; }
+        public virtual IList<NetworkShare> NetworkShares { get; set; }
     }
 
     public enum PositionType { NewPosition = 0, Rehire };

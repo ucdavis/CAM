@@ -1,15 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using UCDArch.Core.DomainModel;
 
 namespace CAM.Core.Domain
 {
     public class Request : RequestBase
     {
         public Request()
+        {
+            SetDefaults();
+        }
+
+        public Request(RequestTemplate template)
+        {
+            SetDefaults();
+
+            NeedsEmail = template.NeedsEmail;
+            DefaultSave = template.DefaultSave;
+
+            foreach(var dl in template.DistributionLists) { DistributionLists.Add(dl); }
+            foreach(var sf in template.Software) { Software.Add(sf); }
+            foreach(var ns in template.NetworkShares) { NetworkShares.Add(ns);}
+        }
+
+        private void SetDefaults()
         {
             Start = DateTime.Now;
         }
@@ -48,8 +61,6 @@ namespace CAM.Core.Domain
 
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-
-        
     }
 
     

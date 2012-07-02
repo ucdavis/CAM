@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using CAM.Core.Domain;
 using UCDArch.Web.Controller;
 
 namespace CAM.Controllers
@@ -12,5 +14,11 @@ namespace CAM.Controllers
             Site = filterContext.RouteData.Values["site"] as string;
             base.OnActionExecuting(filterContext);
         }
+
+        public Site LoadSite()
+        {
+            return Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
+        }
+        
     }
 }

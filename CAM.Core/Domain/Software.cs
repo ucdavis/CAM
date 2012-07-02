@@ -3,17 +3,19 @@ using UCDArch.Core.DomainModel;
 
 namespace CAM.Core.Domain
 {
-    public class DistributionList : DomainObject
+    public class Software : DomainObject
     {
         public virtual string Name { get; set; }
-        public virtual bool IsActive { get; set; }
+        public virtual string IsActive { get; set; }
         public virtual Site Site { get; set; }
     }
 
-    public class DistributionListMap : ClassMap<DistributionList>
+    public class SoftwareMap : ClassMap<Software>
     {
-        public DistributionListMap()
+        public SoftwareMap()
         {
+            Table("Software");
+
             Id(x => x.Id);
 
             Map(x => x.Name);

@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using CAM.Core.Domain;
-using UCDArch.Web.ActionResults;
+﻿using System.Web.Mvc;
+using CAM.Core.Repositories;
+using CAM.Models;
 
 namespace CAM.Controllers
 {
-    public class RequestController : Controller
+    public class RequestController : ApplicationController
     {
-        public ActionResult Index(string id)
+        private readonly IRepositoryFactory _repositoryFactory;
+
+        public RequestController(IRepositoryFactory repositoryFactory)
         {
-            var request = new Request();
-            return View(request);
+            _repositoryFactory = repositoryFactory;
         }
 
-        public JsonNetResult LoadRoleTemplate(string role)
+        public ActionResult Index(int? id)
         {
-            throw new NotImplementedException();
+            var viewModel = RequestViewModel.Create(_repositoryFactory, null, LoadSite(), id);
+            return View(viewModel);
         }
-
     }
 }

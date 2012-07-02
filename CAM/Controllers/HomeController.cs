@@ -1,15 +1,31 @@
-﻿using System.Web.Mvc;
-using CAM.Core.Domain;
+﻿using System.Linq;
+using System.Web.Mvc;
+using CAM.Core.Repositories;
+using CAM.Models;
+using UCDArch.Web.ActionResults;
 
 namespace CAM.Controllers
 {
     public class HomeController : ApplicationController
     {
+        private readonly IRepositoryFactory _repositoryFactory;
+
+        public HomeController(IRepositoryFactory repositoryFactory)
+        {
+            _repositoryFactory = repositoryFactory;
+        }
+
         public ActionResult Index()
         {
-            var sites = Repository.OfType<Site>().GetAll();
+            var viewModel = HomeIndexViewModel.Create(_repositoryFactory, Site);
 
-            return View(sites);
+            return View(viewModel);
+        }
+
+        public JsonNetResult LoadTemplates(int unitId)
+        {
+            var templates = _repositoryFactory.RequestTemplateRepository.Queryable.Where(a => a.Unit.Id == unitId);
+            return new JsonNetResult(templates.Select(a => new {Id = a.Id, Name = a.Name}));
         }
 
         public ActionResult About()
