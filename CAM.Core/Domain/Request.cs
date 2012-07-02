@@ -17,6 +17,9 @@ namespace CAM.Core.Domain
             NeedsEmail = template.NeedsEmail;
             DefaultSave = template.DefaultSave;
 
+            Type = template.Type;
+            HardwareType = template.HardwareType;
+
             foreach(var dl in template.DistributionLists) { DistributionLists.Add(dl); }
             foreach(var sf in template.Software) { Software.Add(sf); }
             foreach(var ns in template.NetworkShares) { NetworkShares.Add(ns);}

@@ -16,7 +16,7 @@ namespace CAM.Core.Domain
         public virtual Site Site { get; set; }
         public virtual Unit Unit { get; set; }
 
-        public virtual PositionType Type { get; set; }
+        public virtual PositionType? Type { get; set; }
         public virtual HardwareType HardwareType { get; set; }
 
         [Display(Name = "Email Account")]

@@ -26,6 +26,9 @@ namespace CAM.Core.Domain
             HasManyToMany(x => x.DistributionLists).Table("RequestTemplatesXDistributionLists").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("DistributionListId");
             HasManyToMany(x => x.Software).Table("RequestTemplatesXSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId");
             HasManyToMany(x => x.NetworkShares).Table("RequestTemplatesXNetworkShares").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("NetworkShareId");
+
+            Map(x => x.Type).CustomType<NHibernate.Type.EnumStringType<PositionType>>();
+            Map(x => x.HardwareType).CustomType<NHibernate.Type.EnumStringType<HardwareType>>();
         }
     }
 
