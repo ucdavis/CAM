@@ -27,7 +27,7 @@ namespace CAM.Core.Domain
 
         private void SetDefaults()
         {
-            Start = DateTime.Now;
+            Start = DateTime.Now.AddDays(14);
         }
 
         [Required]
