@@ -68,6 +68,8 @@
     <Build Include="dbo\Tables\NetworkShares.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXNetworkShares.sql" />
     <Build Include="dbo\Tables\Software.sql" />
+    <Build Include="dbo\Tables\IpAddresses.sql" />
+    <Build Include="dbo\Tables\DnsNames.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />
