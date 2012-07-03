@@ -4,7 +4,7 @@
     [SiteId] VARCHAR (5)  NULL,
 	[UnitId] int not null,
     [NeedsEmail] BIT NOT NULL DEFAULT 1, 
-    [DefaultSave] VARCHAR(50) NULL, 
+    [AdditionalFolders] VARCHAR(100) NULL, 
     [HireType] VARCHAR(15) NULL, 
     [HardwareType] VARCHAR(15) NULL, 
     [EmployeeType] VARCHAR(15) NULL, 

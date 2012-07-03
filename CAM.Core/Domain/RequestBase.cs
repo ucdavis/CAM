@@ -23,8 +23,9 @@ namespace CAM.Core.Domain
         [Display(Name = "Email Account")]
         public virtual bool NeedsEmail { get; set; }
 
-        [Display(Name = "Default Save Location")]
-        public virtual string DefaultSave { get; set; }
+        [Display(Name = "Additional Folder(s)")]
+        [StringLength(100)]
+        public virtual string AdditionalFolders { get; set; }
 
         public virtual IList<DistributionList> DistributionLists { get; set; }
         public virtual IList<Software> Software { get; set; }

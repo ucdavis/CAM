@@ -15,7 +15,7 @@ namespace CAM.Core.Domain
             SetDefaults();
 
             NeedsEmail = template.NeedsEmail;
-            DefaultSave = template.DefaultSave;
+            AdditionalFolders = template.AdditionalFolders;
 
             HireType = template.HireType;
             HardwareType = template.HardwareType;

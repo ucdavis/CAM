@@ -299,6 +299,14 @@
                     </ul>
                 </div>
             </div>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.Request.AdditionalFolders, new {@class="control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Request.AdditionalFolders)
+                    @Html.ValidationMessageFor(model => model.Request.AdditionalFolders)
+                </div>
+            </div>
 
         </fieldset>
 

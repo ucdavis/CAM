@@ -28,4 +28,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="HireType" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="8959231b-71db-46fa-8c86-8da2e5e149bb" ChangeDateTime="07/03/2012 17:45:40">
+    <Property Name="ElementName" Value="[dbo].[RequestTemplates].[DefaultSave]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RequestTemplates]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AdditionalFolders" />
+  </Operation>
 </Operations>
