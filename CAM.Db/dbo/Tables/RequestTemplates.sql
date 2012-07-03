@@ -5,8 +5,9 @@
 	[UnitId] int not null,
     [NeedsEmail] BIT NOT NULL DEFAULT 1, 
     [DefaultSave] VARCHAR(50) NULL, 
-    [Type] VARCHAR(15) NULL, 
+    [HireType] VARCHAR(15) NULL, 
     [HardwareType] VARCHAR(15) NULL, 
+    [EmployeeType] VARCHAR(15) NULL, 
     CONSTRAINT [PK_RequestTemplates] PRIMARY KEY CLUSTERED ([Id] ASC), 
     CONSTRAINT [FK_RequestTemplates_Sites] FOREIGN KEY (SiteId) REFERENCES [Sites]([Id]), 
     CONSTRAINT [FK_RequestTemplates_Units] FOREIGN KEY ([UnitId]) REFERENCES [Units]([Id])

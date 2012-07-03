@@ -5,8 +5,11 @@
     ViewBag.Title = "Index";
 }
 
-<form class="form-horizontal">
-
+@using(Html.BeginForm("Index", "Request", FormMethod.Post, new { @class="form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
     <legend>Employee Information</legend>
 
     <div class="control-group">
@@ -15,78 +18,99 @@
             <div class="control-group">
                 <label class="control-label" for="name" >Name</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.FirstName, new { @placeholder = "First Name" })
-                    @Html.TextBoxFor(model => model.Request.LastName, new { @placeholder = "Lirst Name" })
-                    @Html.ValidationMessageFor( model => model.Request.FirstName )
-                    @Html.ValidationMessageFor( model => model.Request.LastName )
+                    @Html.TextBoxFor(model => model.Request.FirstName, new {@placeholder = "First Name"})
+                    @Html.TextBoxFor(model => model.Request.LastName, new {@placeholder = "Lirst Name"})
+                    @Html.ValidationMessageFor(model => model.Request.FirstName)
+                    @Html.ValidationMessageFor(model => model.Request.LastName)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Email, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.Email, new {@class = "control-label"})
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Request.Email, new { @placeholder = "Email" })
-                    @Html.ValidationMessageFor( model => model.Request.Email )
+                    @Html.TextBoxFor(model => model.Request.Email, new {@placeholder = "Email"})
+                    @Html.ValidationMessageFor(model => model.Request.Email)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.PositionTitle, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.PositionTitle, new {@class = "control-label"})
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Request.PositionTitle, new { @placeholder = "Position Title" })
-                    @Html.ValidationMessageFor( model => model.Request.PositionTitle)
+                    @Html.TextBoxFor(model => model.Request.PositionTitle, new {@placeholder = "Position Title"})
+                    @Html.ValidationMessageFor(model => model.Request.PositionTitle)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Department, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.Department, new {@class = "control-label"})
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Request.Department, new { @placeholder = "Department" })
-                    @Html.TextBoxFor( model => model.Request.Unit, new { @placeholder = "Unit" })
-                    @Html.ValidationMessageFor( model => model.Request.Department )
-                    @Html.ValidationMessageFor( model => model.Request.Unit )
+                    @Html.TextBoxFor(model => model.Request.Department, new {@placeholder = "Department"})
+                    @Html.TextBoxFor(model => model.Request.Unit, new {@placeholder = "Unit"})
+                    @Html.ValidationMessageFor(model => model.Request.Department)
+                    @Html.ValidationMessageFor(model => model.Request.Unit)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.OfficeLocation, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.OfficeLocation, new {@class = "control-label"})
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Request.OfficeLocation, new { @placeholder = "Location / Building" })
-                    @Html.TextBoxFor( model => model.Request.Room, new { @placeholder = "Room #", @class="input-mini" })
-                    @Html.ValidationMessageFor( model => model.Request.OfficeLocation )
-                    @Html.ValidationMessageFor( model => model.Request.Room )
+                    @Html.TextBoxFor(model => model.Request.OfficeLocation, new {@placeholder = "Location / Building"})
+                    @Html.TextBoxFor(model => model.Request.Room, new {@placeholder = "Room #", @class = "input-mini"})
+                    @Html.ValidationMessageFor(model => model.Request.OfficeLocation)
+                    @Html.ValidationMessageFor(model => model.Request.Room)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.ContactPhone, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.ContactPhone, new {@class = "control-label"})
                 <div class="controls">
-                    @Html.TextBoxFor( model => model.Request.ContactPhone, new { @placeholder = "(###) XXX-XXXX " })
-                    @Html.ValidationMessageFor( model => model.Request.ContactPhone)
+                    @Html.TextBoxFor(model => model.Request.ContactPhone, new {@placeholder = "(###) XXX-XXXX "})
+                    @Html.ValidationMessageFor(model => model.Request.ContactPhone)
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name" >Employment Dates</label>
                 <div class="controls">
-                    @Html.TextBox("Start", Model.Request.Start.ToString("d"), new {@class="datepicker input-small"} )
-                    @Html.ValidationMessageFor( model => model.Request.Start )
+                    @Html.TextBox("Start", Model.Request.Start.ToString("d"), new {@class = "datepicker input-small"})
+                    @Html.ValidationMessageFor(model => model.Request.Start)
                     <span style="margin: 0 5px;">through</span>
-                    @Html.TextBox("End", Model.Request.End.HasValue ? Model.Request.End.Value.ToString("d") : string.Empty, new {@class="datepicker input-small"} )
-                    @Html.ValidationMessageFor( model => model.Request.End )
+                    @Html.TextBox("End", Model.Request.End.HasValue ? Model.Request.End.Value.ToString("d") : string.Empty, new {@class = "datepicker input-small"})
+                    @Html.ValidationMessageFor(model => model.Request.End)
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">Type:</label>
+                <label class="control-label">Hire Type:</label>
                 <div class="controls">
                     <label class="radio">
-                        <input type="radio" name="Type" value="NewPosition" @(Model.Request.Type == PositionType.NewPosition ? "checked='checked'" : string.Empty) />
+                        @Html.RadioButton("HireType", HireType.NewPosition, Model.Request.HireType == HireType.NewPosition)
                         New Position
                     </label>
                     <label class="radio">
-                        <input type="radio" name="Type" value="Rehire" @(Model.Request.Type == PositionType.Rehire ? "checked='checked'" : string.Empty) />
+                        @Html.RadioButton("HireType", HireType.Rehire, Model.Request.HireType == HireType.Rehire)
                         Rehire
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Employee Type:</label>
+                <div class="controls">
+                    <label class="radio">
+                        @Html.RadioButton("EmployeeType", EmployeeType.Career, Model.Request.EmployeeType == EmployeeType.Career)
+                        Career Staff
+                    </label>
+                    <label class="radio">
+                        @Html.RadioButton("EmployeeType", EmployeeType.Temp, Model.Request.EmployeeType == EmployeeType.Temp)
+                        Temp
+                    </label>
+                    <label class="radio">
+                        @Html.RadioButton("EmployeeType", EmployeeType.Volunteer, Model.Request.EmployeeType == EmployeeType.Volunteer)
+                        Volunteer
+                    </label>
+                    <label class="radio">
+                        @Html.RadioButton("EmployeeType", EmployeeType.Student, Model.Request.EmployeeType == EmployeeType.Student)
+                        Student
                     </label>
                 </div>
             </div>
         </fieldset>
 
     </div>
-    
+
     <legend>Email</legend>
 
     <div class="control-group">
@@ -94,7 +118,7 @@
         <fieldset>
 
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.NeedsEmail, new { @class="control-label" })
+                @Html.LabelFor(model => model.Request.NeedsEmail, new {@class = "control-label"})
                 <div class="controls">
                     <label class="checkbox">
                         @Html.CheckBoxFor(model => model.Request.NeedsEmail)
@@ -112,13 +136,13 @@
                 <label class="control-label" for="distributionLists">Distribution List(s):</label>
                 <div class="controls">
                     <ul id="distLists" class="unstyled">
-                        @foreach(var dl in Model.Request.DistributionLists)
+                        @foreach (var dl in Model.Request.DistributionLists)
                         {
                             <li>@Html.TextBox("DistributionLists", dl.Name)
                                 <a href="#" class="btn btn-danger removeDistList">
                                     <i class="icon-minus"></i> Remove
                                 </a>
-                            </li>    
+                            </li>
                         }
                         <li>@Html.TextBox("DistributionLists")
                             <a href="#" class="btn btn-danger removeDistList">
@@ -157,15 +181,15 @@
                 <div class="controls">
                     <ul id="software" class="unstyled">
                         
-                        @foreach(var software in Model.Softwares)
+                        @foreach (var software in Model.Request.Software)
                         {
                             <li>                              
                                 <label class="checkbox">
-                                    @Html.CheckBox(software.Id.ToString(), Model.Request.Software.Any(a => a.Id == software.Id))
+                                    @Html.CheckBox(software.Id.ToString(), true)
                                     @software.Name
                                 </label>
                             </li>
-                            
+
                         }
                     </ul>
                 </div>
@@ -180,9 +204,9 @@
     <div class="control-group">
 
         <!-- New Position -->
-        <fieldset id="NewPosition" style='@(Model.Request.Type != PositionType.NewPosition ? @"display: none;" : string.Empty)'>
+        <fieldset id="NewPosition" style='@(Model.Request.HireType != HireType.NewPosition ? @"display: none;" : string.Empty)'>
             <div class="control-group">
-                <p class="help-block">The computer resources unit will either redeploy a spare computer or purchase a new computer.</p>
+                <p class="help-block">The computer resources unit will either redeploy an existing computer or purchase a new computer.</p>
             </div>
 
             
@@ -209,14 +233,14 @@
         </fieldset>
 
         <!-- Rehire -->
-        <fieldset id="Rehire" style='@(Model.Request.Type == PositionType.Rehire ? string.Empty : "display: none;")' >
+        <fieldset id="Rehire" style='@(Model.Request.HireType == HireType.Rehire ? string.Empty : "display: none;")' >
             <div class="control-group">
                 <p class="help-block">They will use the same computer used by the person they are replacing unless the computer is out of warranty</p>
             </div>
         </fieldset>
 
         <!-- No type selected -->
-        <fieldset id="notype" style='@(Model.Request.Type == null ? string.Empty : "display: none;")'>
+        <fieldset id="notype" style='@(Model.Request.HireType == null ? string.Empty : "display: none;")'>
             <div class="control-group">
                 <p class="help-block">You need to select whether the employee will be a new hire or a rehire.</p>
             </div>
@@ -231,9 +255,9 @@
         <fieldset>
 
             <div class="control-group">
-            <div class="controls">
-                <p class="help-block">Employees have access to communal network resources often referred to as “network drives”.  Permission to access the network drives is usually dependent on unit and/or departmental affiliation.  We will verify with the unit/department head and the employee’s supervisor before granting access to any network drives.  The employee will automatically have full access to their personal home directory.</p>
-            </div>
+                <div class="controls">
+                    <p class="help-block">Employees have access to communal network resources often referred to as “network drives”.  Permission to access the network drives is usually dependent on unit and/or departmental affiliation.  We will verify with the unit/department head and the employee’s supervisor before granting access to any network drives.  The employee will automatically have full access to their personal home directory.</p>
+                </div>
             </div>
 
             <div class="control-group">
@@ -241,7 +265,7 @@
                 <div class="controls">
                     
                     <ul class="unstyled">
-                        @foreach(var ns in Model.NetworkShares)
+                        @foreach (var ns in Model.Request.NetworkShares)
                         {
                             <li>
                                 <label class="checkbox">
@@ -249,16 +273,9 @@
                                     @ns.Name
                                 </label>
                             </li>
-                        
+
                         }
                     </ul>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label for="defaultSave" class="control-label">Default Save Location:</label>
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.DefaultSave)
                 </div>
             </div>
 
@@ -270,8 +287,7 @@
         <input type="submit" value="Submit" class="btn btn-primary" />
         <a href="#" class="btn">Cancel</a>
     </div>
-
-</form>
+}
 
 @section AdditionalScripts{
     

@@ -17,7 +17,7 @@ namespace CAM.Core.Domain
             NeedsEmail = template.NeedsEmail;
             DefaultSave = template.DefaultSave;
 
-            Type = template.Type;
+            HireType = template.HireType;
             HardwareType = template.HardwareType;
 
             foreach(var dl in template.DistributionLists) { DistributionLists.Add(dl); }

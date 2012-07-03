@@ -16,8 +16,9 @@ namespace CAM.Core.Domain
         public virtual Site Site { get; set; }
         public virtual Unit Unit { get; set; }
 
-        public virtual PositionType? Type { get; set; }
+        public virtual HireType? HireType { get; set; }
         public virtual HardwareType? HardwareType { get; set; }
+        public virtual EmployeeType? EmployeeType { get; set; }
 
         [Display(Name = "Email Account")]
         public virtual bool NeedsEmail { get; set; }
@@ -30,6 +31,7 @@ namespace CAM.Core.Domain
         public virtual IList<NetworkShare> NetworkShares { get; set; }
     }
 
-    public enum PositionType { NewPosition = 0, Rehire };
-    public enum HardwareType { Desktop = 0, Laptop };
+    public enum HireType { NewPosition, Rehire };
+    public enum HardwareType { Desktop, Laptop };
+    public enum EmployeeType { Career, Temp, Volunteer, Student }
 }

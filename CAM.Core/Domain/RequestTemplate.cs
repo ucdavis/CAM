@@ -7,6 +7,7 @@ namespace CAM.Core.Domain
     {
         [Display(Name="Template Name")]
         public virtual string Name { get; set; }
+
     }
 
     public class RequestTemplateMap : ClassMap<RequestTemplate>
@@ -27,8 +28,9 @@ namespace CAM.Core.Domain
             HasManyToMany(x => x.Software).Table("RequestTemplatesXSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();
             HasManyToMany(x => x.NetworkShares).Table("RequestTemplatesXNetworkShares").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("NetworkShareId").Cascade.SaveUpdate();
 
-            Map(x => x.Type).CustomType<NHibernate.Type.EnumStringType<PositionType>>();
+            Map(x => x.HireType).CustomType<NHibernate.Type.EnumStringType<HireType>>();
             Map(x => x.HardwareType).CustomType<NHibernate.Type.EnumStringType<HardwareType>>();
+            Map(x => x.EmployeeType).CustomType<NHibernate.Type.EnumStringType<EmployeeType>>();
         }
     }
 
