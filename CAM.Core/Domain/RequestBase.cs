@@ -33,5 +33,5 @@ namespace CAM.Core.Domain
 
     public enum HireType { NewPosition, Rehire };
     public enum HardwareType { Desktop, Laptop };
-    public enum EmployeeType { Career, Temp, Volunteer, Student }
+    public enum EmployeeType { Career, Temp, Volunteer, Student, Other }
 }

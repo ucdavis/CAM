@@ -105,6 +105,10 @@
                         @Html.RadioButton("EmployeeType", EmployeeType.Student, Model.Request.EmployeeType == EmployeeType.Student)
                         Student
                     </label>
+                    <label class="radio">
+                        @Html.RadioButton("EmployeeType", EmployeeType.Other, Model.Request.EmployeeType == EmployeeType.Other)
+                        Other
+                    </label>
                 </div>
             </div>
         </fieldset>
