@@ -19,7 +19,7 @@
                 <label class="control-label" for="name" >Name</label>
                 <div class="controls">
                     @Html.TextBoxFor(model => model.Request.FirstName, new {@placeholder = "First Name"})
-                    @Html.TextBoxFor(model => model.Request.LastName, new {@placeholder = "Lirst Name"})
+                    @Html.TextBoxFor(model => model.Request.LastName, new {@placeholder = "Last Name"})
                     @Html.ValidationMessageFor(model => model.Request.FirstName)
                     @Html.ValidationMessageFor(model => model.Request.LastName)
                 </div>
@@ -181,16 +181,18 @@
                 <div class="controls">
                     <ul id="software" class="unstyled">
                         
-                        @foreach (var software in Model.Request.Software)
+                        @foreach (var software in Model.GetSoftwareList())
                         {
                             <li>                              
                                 <label class="checkbox">
-                                    @Html.CheckBox(software.Id.ToString(), true)
-                                    @software.Name
+                                    @*@Html.CheckBox(software.Value, software.Selected)*@
+                                    <input type="checkbox" value="@software.Value" name="software" @(software.Selected ? "checked='checked'" : string.Empty) />
+                                    @software.Text
                                 </label>
                             </li>
 
                         }
+
                     </ul>
                 </div>
             </div>
@@ -265,12 +267,13 @@
                 <div class="controls">
                     
                     <ul class="unstyled">
-                        @foreach (var ns in Model.Request.NetworkShares)
+                        @foreach (var ns in Model.GetNetworkShareList())
                         {
                             <li>
                                 <label class="checkbox">
-                                    <input type="checkbox" value="@ns.Id" name="networkshares" @(Model.Request.NetworkShares.Contains(ns) || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />
-                                    @ns.Name
+                                    @*<input type="checkbox" value="@ns.Value" name="networkshares" @(Model.Request.NetworkShares.Contains(ns) || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />*@
+                                    <input type="checkbox" value="@ns.Value" name="networkshares" @(ns.Selected || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />
+                                    @ns.Text
                                 </label>
                             </li>
 
