@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-@using(Html.BeginForm("Index", "Request", FormMethod.Post, new { @class="form-horizontal"}))
+@using (Html.BeginForm("Index", "Request", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -18,58 +18,58 @@
             <div class="control-group">
                 <label class="control-label" for="name" >Name</label>
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.FirstName, new {@placeholder = "First Name"})
-                    @Html.TextBoxFor(model => model.Request.LastName, new {@placeholder = "Last Name"})
+                    @Html.TextBoxFor(model => model.Request.FirstName, new { @placeholder = "First Name" })
+                    @Html.TextBoxFor(model => model.Request.LastName, new { @placeholder = "Last Name" })
                     @Html.ValidationMessageFor(model => model.Request.FirstName)
                     @Html.ValidationMessageFor(model => model.Request.LastName)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Email, new {@class = "control-label"})
+                @Html.LabelFor(model => model.Request.Email, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.Email, new {@placeholder = "Email"})
+                    @Html.TextBoxFor(model => model.Request.Email, new { @placeholder = "Email" })
                     @Html.ValidationMessageFor(model => model.Request.Email)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.PositionTitle, new {@class = "control-label"})
+                @Html.LabelFor(model => model.Request.PositionTitle, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.PositionTitle, new {@placeholder = "Position Title"})
+                    @Html.TextBoxFor(model => model.Request.PositionTitle, new { @placeholder = "Position Title" })
                     @Html.ValidationMessageFor(model => model.Request.PositionTitle)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Department, new {@class = "control-label"})
+                @Html.LabelFor(model => model.Request.Department, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.Department, new {@placeholder = "Department"})
-                    @Html.TextBoxFor(model => model.Request.Unit, new {@placeholder = "Unit"})
+                    @Html.TextBoxFor(model => model.Request.Department, new { @placeholder = "Department" })
+                    @Html.TextBoxFor(model => model.Request.Unit, new { @placeholder = "Unit" })
                     @Html.ValidationMessageFor(model => model.Request.Department)
                     @Html.ValidationMessageFor(model => model.Request.Unit)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.OfficeLocation, new {@class = "control-label"})
+                @Html.LabelFor(model => model.Request.OfficeLocation, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.OfficeLocation, new {@placeholder = "Location / Building"})
-                    @Html.TextBoxFor(model => model.Request.Room, new {@placeholder = "Room #", @class = "input-mini"})
+                    @Html.TextBoxFor(model => model.Request.OfficeLocation, new { @placeholder = "Location / Building" })
+                    @Html.TextBoxFor(model => model.Request.Room, new { @placeholder = "Room #", @class = "input-mini" })
                     @Html.ValidationMessageFor(model => model.Request.OfficeLocation)
                     @Html.ValidationMessageFor(model => model.Request.Room)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.ContactPhone, new {@class = "control-label"})
+                @Html.LabelFor(model => model.Request.ContactPhone, new { @class = "control-label" })
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.ContactPhone, new {@placeholder = "(###) XXX-XXXX "})
+                    @Html.TextBoxFor(model => model.Request.ContactPhone, new { @placeholder = "(###) XXX-XXXX " })
                     @Html.ValidationMessageFor(model => model.Request.ContactPhone)
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name" >Employment Dates</label>
                 <div class="controls">
-                    @Html.TextBox("Start", Model.Request.Start.ToString("d"), new {@class = "datepicker input-small"})
+                    @Html.TextBox("Start", Model.Request.Start.ToString("d"), new { @class = "datepicker input-small" })
                     @Html.ValidationMessageFor(model => model.Request.Start)
                     <span style="margin: 0 5px;">through</span>
-                    @Html.TextBox("End", Model.Request.End.HasValue ? Model.Request.End.Value.ToString("d") : string.Empty, new {@class = "datepicker input-small"})
+                    @Html.TextBox("End", Model.Request.End.HasValue ? Model.Request.End.Value.ToString("d") : string.Empty, new { @class = "datepicker input-small" })
                     @Html.ValidationMessageFor(model => model.Request.End)
                 </div>
             </div>
@@ -118,7 +118,7 @@
         <fieldset>
 
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.NeedsEmail, new {@class = "control-label"})
+                @Html.LabelFor(model => model.Request.NeedsEmail, new { @class = "control-label" })
                 <div class="controls">
                     <label class="checkbox">
                         @Html.CheckBoxFor(model => model.Request.NeedsEmail)
@@ -255,29 +255,43 @@
     <div class="control-group">
 
         <fieldset>
-
+            
             <div class="control-group">
-                <div class="controls">
-                    <p class="help-block">Employees have access to communal network resources often referred to as “network drives”.  Permission to access the network drives is usually dependent on unit and/or departmental affiliation.  We will verify with the unit/department head and the employee’s supervisor before granting access to any network drives.  The employee will automatically have full access to their personal home directory.</p>
-                </div>
-            </div>
+            <p class="help-block">Employees have access to communal network resources often referred to as “network drives”.  Permission to access the network drives is usually dependent on unit and/or departmental affiliation.  We will verify with the unit/department head and the employee’s supervisor before granting access to any network drives.  The employee will automatically have full access to their personal home directory.</p>
+            </div>                
 
             <div class="control-group">
                 <label for="networkPermissions" class="control-label">Network Shares</label>
                 <div class="controls">
                     
                     <ul class="unstyled">
-                        @foreach (var ns in Model.GetNetworkShareList())
-                        {
-                            <li>
-                                <label class="checkbox">
-                                    @*<input type="checkbox" value="@ns.Value" name="networkshares" @(Model.Request.NetworkShares.Contains(ns) || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />*@
-                                    <input type="checkbox" value="@ns.Value" name="networkshares" @(ns.Selected || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />
-                                    @ns.Text
-                                </label>
-                            </li>
-
+                    
+                        @{
+                        var nsl = Model.GetNetworkShareList();
                         }
+                        
+                        @foreach (var g in nsl.Select(a => a.GroupId).Distinct())
+                        {
+                            if  (!string.IsNullOrEmpty(g))
+                            {
+                                <li>
+                                <strong>@g</strong>
+                                </li>
+                            }
+                            foreach (var ns in nsl.Where(a => a.GroupId == g))
+                            {
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" value="@ns.Value" name="networkshares" @(ns.Selected || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />
+                                        @ns.Text
+                                    </label>
+                                </li>
+
+                            }   
+                            
+                        }
+                        
+                        
                     </ul>
                 </div>
             </div>

@@ -51,7 +51,7 @@ namespace CAM.Models
 
         public IEnumerable<CustomSelect> GetNetworkShareList()
         {
-            return NetworkShares.Select(n => new CustomSelect() {Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect}).ToList();
+            return NetworkShares.Select(n => new CustomSelect() {Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect, GroupId = n.GroupId}).ToList();
         }
 
     }
@@ -59,5 +59,6 @@ namespace CAM.Models
     public class CustomSelect : SelectListItem
     {
         public bool ForceSelect { get; set; }
+        public string GroupId { get; set; }
     }
 }
