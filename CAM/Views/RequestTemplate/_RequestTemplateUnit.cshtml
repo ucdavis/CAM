@@ -1,0 +1,18 @@
+﻿@model RequestTemplateViewModel
+
+@if(Model.Units.Any())
+{
+    <legend>Unit</legend>
+    
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Request.Unit, new {@class="control-label"})
+                <div class="controls">
+                    @Html.DropDownListFor(model => model.Request.Unit, Model.GetUnits(), "--Select Unit--")
+                    @Html.ValidationMessageFor(model => model.Units)
+                </div>
+            </div>
+        </fieldset>
+    </div>
+}

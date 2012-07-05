@@ -62,9 +62,7 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Sites.sql" />
     <Build Include="dbo\Tables\RequestTemplates.sql" />
-    <Build Include="dbo\Tables\DistributionLists.sql" />
     <Build Include="dbo\Tables\Units.sql" />
-    <Build Include="dbo\Tables\RequestTemplatesXDistributionLists.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXSoftware.sql" />
     <Build Include="dbo\Tables\NetworkShares.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXNetworkShares.sql" />
@@ -73,6 +71,8 @@
     <Build Include="dbo\Tables\DnsNames.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXAvailableSoftware.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXAvailableNetworkShares.sql" />
+    <Build Include="dbo\Tables\DistributionLists.sql" />
+    <Build Include="dbo\Tables\RequestTemplatesXDistributionLists.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />

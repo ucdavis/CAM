@@ -1,0 +1,18 @@
+﻿@model RequestTemplateViewModel
+
+@{
+    ViewBag.Title = "Create Request Template";
+}
+
+@using (Html.BeginForm("Create", "RequestTemplate", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true);
+                
+    @Html.Partial("_RequestTemplateUnit")
+    
+    <legend>
+        
+    </legend>
+    
+}

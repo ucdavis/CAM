@@ -1,4 +1,5 @@
 using CAM.Core.Repositories;
+using CAM.Services;
 using Castle.Windsor;
 using UCDArch.Core.CommonValidator;
 using UCDArch.Core.DataAnnotationsValidator.CommonValidatorAdapter;
@@ -24,6 +25,7 @@ namespace CAM
             container.Register(Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>)).Named("repositoryType"));
             container.Register(Component.For<IRepository>().ImplementedBy<Repository>().Named("repository"));
             container.Register(Component.For<IRepositoryFactory>().ImplementedBy(typeof(RepositoryFactory)).Named("repositoryFactory"));
+            container.Register(Component.For<IActiveDirectoryService>().ImplementedBy(typeof(ActiveDirectoryService)).Named("activeDirectoryService"));
 
         }
     }

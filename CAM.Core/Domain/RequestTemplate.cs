@@ -16,6 +16,8 @@ namespace CAM.Core.Domain
         [Display(Name="Template Name")]
         public virtual string Name { get; set; }
 
+        public virtual string Description { get; set; }
+
         public virtual IList<Software> AvailableSoftware { get; set; }
         public virtual IList<NetworkShare> AvailableNetworkShares { get; set; }
 
@@ -28,6 +30,7 @@ namespace CAM.Core.Domain
             Id(x => x.Id);
 
             Map(x => x.Name);
+            Map(x => x.Description);
             
             References(x => x.Site);
             References(x => x.Unit);

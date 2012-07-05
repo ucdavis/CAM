@@ -17,9 +17,9 @@ namespace CAM.Models
         public static RequestViewModel Create(IRepositoryFactory repositoryFactory, Request request, Site site, int? templateId)
         {
             var viewModel = new RequestViewModel()
-                {
-                    Request = new Request()
-                };
+            {
+                Request = new Request()
+            };
 
             if (request == null)
             {
@@ -27,7 +27,7 @@ namespace CAM.Models
                 {
                     // load the template
                     var template = repositoryFactory.RequestTemplateRepository.GetNullableById(templateId.Value);
-    
+
                     // copy the values
                     viewModel.Request = new Request(template);
 
@@ -51,7 +51,7 @@ namespace CAM.Models
 
         public IEnumerable<CustomSelect> GetNetworkShareList()
         {
-            return NetworkShares.Select(n => new CustomSelect() {Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect, GroupId = n.GroupId}).ToList();
+            return NetworkShares.Select(n => new CustomSelect() { Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect, GroupId = n.GroupId }).ToList();
         }
 
     }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<RequestTemplate>
+
+@{
+    ViewBag.Title = "Request Templates";
+}
+
+<div class="row-fluid">
+    <a href="@Url.Action("Create")" class="btn pull-right btn-primary">
+        <i class="icon-plus"></i>
+        Create
+    </a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Unit</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var template in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Edit")" class="btn">
+                        <i class="icon-pencil"></i>
+                        Edit
+                    </a>
+                </td>
+                <td>@template.Name</td>
+                <td>@template.Description</td>
+                <td>@template.Unit.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

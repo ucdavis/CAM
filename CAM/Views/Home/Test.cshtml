@@ -1,0 +1,14 @@
+﻿@model List<string>
+
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>@Model.Count Results</h2>
+
+<ul>
+    @foreach(var r in Model)
+    {
+        <li>@r</li>
+    }
+</ul>
