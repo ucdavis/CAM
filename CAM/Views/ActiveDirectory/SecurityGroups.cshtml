@@ -1,7 +1,7 @@
 ﻿@model AdGroupViewModel
 
 @{
-    ViewBag.Title = "Active Directory Distribution Lists";
+    ViewBag.Title = "Active Directory Security Lists";
 }
 
 @if(!Model.GroupsToAdd.Any() && !Model.GroupsToRemove.Any())
@@ -14,10 +14,10 @@
 }
 else
 {
-    using(Html.BeginForm("DistributionLists", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
+    using (Html.BeginForm("SecurityGroups", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
     {
         @Html.AntiForgeryToken()
-    
+
         <legend>Groups To Add</legend>
 
         <div class="control-group">
@@ -26,7 +26,7 @@ else
                     <label>&nbsp;</label>
                     <div class="controls">
                         <ul class="unstyled">
-                            @foreach(var group in Model.GroupsToAdd.OrderBy(x => x.Name))
+                            @foreach (var group in Model.GroupsToAdd.OrderBy(x => x.Name))
                             {
                                 <li>
                                     <label class="checkbox">
@@ -40,7 +40,7 @@ else
                 </div>    
             </fieldset>
         </div>
-    
+
         <legend>Groups To Remove</legend>
 
         <div class="control-group">
@@ -49,7 +49,7 @@ else
                     <label>&nbsp;</label>
                     <div class="controls">
                         <ul class="unstyled">
-                            @foreach(var group in Model.GroupsToRemove.OrderBy(x => x.Name))
+                            @foreach (var group in Model.GroupsToRemove.OrderBy(x => x.Name))
                             {
                                 <li>
                                     <label class="checkbox">
@@ -63,10 +63,10 @@ else
                 </div>    
             </fieldset>
         </div>
-    
+
         <div class="form-actions">
             <input type="submit" value="Submit" class="btn btn-primary" />
             <a href="@Url.Action("Index")" class="btn">Cancel</a>
         </div>
-    }    
+    }
 }

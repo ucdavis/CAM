@@ -19,10 +19,8 @@ namespace CAM.Core.BaseClasses
         /// </summary>
         public virtual string Description { get; set; }
         /// <summary>
-        /// AD Sam Account Name (Identifier)
+        /// AD Security Identifier
         /// </summary>
-        public virtual string SamAccountName { get; set; }
-
         public virtual string SID { get; set; }
 
         public virtual bool IsActive { get; set; }

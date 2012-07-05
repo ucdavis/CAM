@@ -17,6 +17,7 @@ namespace CAM.Core.Domain
             Map(x => x.Description);
             Map(x => x.IsActive);
             References(x => x.Site);
+            Map(x => x.SID);
         }
     }
 }
