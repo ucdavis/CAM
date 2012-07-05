@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using CAM.Core.Domain;
+using CAM.Core.Repositories;
 using UCDArch.Web.Controller;
 
 namespace CAM.Controllers

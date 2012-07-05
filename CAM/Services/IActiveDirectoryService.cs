@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
@@ -118,14 +119,14 @@ namespace CAM.Services
         {
             var results = LoadGroups(true);
 
-            return results.Select(a => new AdGroup(a.SamAccountName, a.Name, a.Description)).ToList();
+            return results.Select(a => new AdGroup(a.SamAccountName, a.Name, a.Description, a.Sid.Value)).ToList();
         }
 
         public List<AdGroup> GetDistributionLists()
         {
             var results = LoadGroups(false);
 
-            return results.Select(a => new AdGroup(a.SamAccountName, a.Name, a.Description)).ToList();
+            return results.Select(a => new AdGroup(a.SamAccountName, a.Name, a.Description, a.Sid.Value)).ToList();
         }
 
         private IEnumerable<GroupPrincipal> LoadGroups(bool security)
@@ -143,15 +144,29 @@ namespace CAM.Services
 
     public class AdGroup
     {
-        public AdGroup(string id, string name, string description)
+        public AdGroup(string id, string name, string description, string sid)
         {
             Id = id;
             Name = name;
             Description = description;
+            SID = sid;
         }
 
+        /// <summary>
+        /// AD Sam Account Name
+        /// </summary>
         public string Id { get; set; }
+        /// <summary>
+        /// Display Name of the Object
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Description of the object
+        /// </summary>
         public string Description { get; set; }
+
+        public string SID { get; set; }
     }
+
+    public enum GroupType { Distribution, Security }
 }

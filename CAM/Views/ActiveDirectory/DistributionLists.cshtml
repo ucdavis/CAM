@@ -1,0 +1,72 @@
+﻿@model AdGroupViewModel
+
+@{
+    ViewBag.Title = "Active Directory Distribution Lists";
+}
+
+@if(!Model.GroupsToAdd.Any() && !Model.GroupsToRemove.Any())
+{
+    <div class="alert alert-info">
+        <p>
+            The system is in sync with your Active Directory.  No changes have been found.
+        </p>
+    </div>
+}
+else
+{
+    using(Html.BeginForm("DistributionLists", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
+    {
+        @Html.AntiForgeryToken()
+    
+        <legend>Groups To Add</legend>
+
+        <div class="control-group">
+            <fieldset>
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <div class="controls">
+                        <ul class="unstyled">
+                            @foreach(var group in Model.GroupsToAdd)
+                            {
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="add" value="@group.SID" checked="checked"/>
+                                        @group.Name
+                                    </label>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>    
+            </fieldset>
+        </div>
+    
+        <legend>Groups To Remove</legend>
+
+        <div class="control-group">
+            <fieldset>
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <div class="controls">
+                        <ul class="unstyled">
+                            @foreach(var group in Model.GroupsToRemove)
+                            {
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="remove" value="@group.Id" checked="checked"/>
+                                        @group.Name
+                                    </label>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>    
+            </fieldset>
+        </div>
+    
+        <div class="form-actions">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+            <a href="@Url.Action("Index")" class="btn">Cancel</a>
+        </div>
+    }    
+}

@@ -73,6 +73,7 @@
     <Build Include="dbo\Tables\RequestTemplatesXAvailableNetworkShares.sql" />
     <Build Include="dbo\Tables\DistributionLists.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXDistributionLists.sql" />
+    <Build Include="dbo\Tables\SecurityGroups.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />

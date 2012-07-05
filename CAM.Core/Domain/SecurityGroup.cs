@@ -1,17 +1,15 @@
 ﻿using CAM.Core.BaseClasses;
 using FluentNHibernate.Mapping;
-using UCDArch.Core.DomainModel;
 
 namespace CAM.Core.Domain
 {
-    public class DistributionList : GroupBase
+    public class SecurityGroup : GroupBase
     {
-
     }
 
-    public class DistributionListMap : ClassMap<DistributionList>
+    public class SecurityGroupMap : ClassMap<SecurityGroup>
     {
-        public DistributionListMap()
+        public SecurityGroupMap()
         {
             Id(x => x.Id);
 
@@ -19,7 +17,6 @@ namespace CAM.Core.Domain
             Map(x => x.Description);
             Map(x => x.IsActive);
             References(x => x.Site);
-            Map(x => x.SID);
         }
     }
 }

@@ -180,6 +180,7 @@
     <Compile Include="App_Start\UCDArchBootstrapper.cs" />
     <Compile Include="ComponentRegistrar.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActiveDirectoryController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IpAddressController.cs" />
@@ -189,6 +190,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AdGroupViewModel.cs" />
     <Compile Include="Models\HomeIndexViewModel.cs" />
     <Compile Include="Models\RequestTemplateViewModel.cs" />
     <Compile Include="Models\RequestViewModel.cs" />
@@ -372,6 +374,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\RequestTemplate\_RequestTemplateUnit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ActiveDirectory\DistributionLists.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
