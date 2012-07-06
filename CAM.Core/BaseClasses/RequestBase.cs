@@ -11,6 +11,7 @@ namespace CAM.Core.Domain
             Software = new List<Software>();
             NetworkShares = new List<NetworkShare>();
             DistributionLists = new List<DistributionList>();
+            SecurityGroups = new List<SecurityGroup>();
         }
 
         public virtual Site Site { get; set; }

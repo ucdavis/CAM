@@ -119,7 +119,12 @@ namespace CAM.Controllers
         public JsonNetResult SearchDistributionList(string term)
         {
             var results = _repositoryFactory.DistributionListRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name);
-            //return new JsonNetResult(results.Select(a => new {value= a.Id, label=a.Name}));
+            return new JsonNetResult(results.Select(a => new { value = a.Name, label = a.Name }));
+        }
+
+        public JsonNetResult SearchSecurityGroup(string term)
+        {
+            var results = _repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name);
             return new JsonNetResult(results.Select(a => new { value = a.Name, label = a.Name }));
         }
     }

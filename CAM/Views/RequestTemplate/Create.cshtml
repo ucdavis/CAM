@@ -11,7 +11,39 @@
                 
     @Html.Partial("_RequestTemplateUnit")
     
+    <legend>Security Groups</legend>
+    
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">Security Group(s):</label>
+                <div class="controls">
+                    <ul id="sgroups" class="unstyled control-lists">
+                        @foreach (var sg in Model.Request.SecurityGroups)
+                        {
+                            <li>@Html.TextBox("SecurityGroups", sg.Name)
+                                <a href="#" class="btn btn-danger remove">
+                                    <i class="icon-minus"></i> Remove
+                                </a>
+                            </li>
+                        }
+                        <li>@Html.TextBox("SecurityGroups")
+                            <a href="#" class="btn btn-danger remove">
+                                <i class="icon-minus"></i> Remove
+                            </a>
+                        </li>    
+                    </ul>
+                    
+                    <a href="#" class="btn btn-success addbtn" data-name="SecurityGroups">
+                        <i class="icon-plus"></i> Add
+                    </a>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
     @Html.Partial("_RequestTemplateEmail")
+    
     
 }
 
@@ -20,39 +52,54 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
 
     <script type="text/javascript">
+
+        var distUrl = '@Url.Action("SearchDistributionList")';
+        var sectUrl = '@Url.Action("SearchSecurityGroup")';
+
         $(function () {
-            $("#addDistLists").click(function (e) {
-                var dist = $("#DistListTemplate").tmpl().appendTo("#distLists");
-                InitializeAutoComplete($(dist).find('input'));
-                $(dist).show("normal");
+
+            $(".addbtn").click(function (e) {
+                var $list = $(this).siblings("ul");
+                var group = $("#ListTemplate").tmpl({ Name: $(this).data("name") }).appendTo($list);
+
+                if ($(this).data("name") == "DistributionLists") {
+                    InitializeAutoComplete($(group).find("input"), distUrl);
+                } else if ($(this).data("name") == "SecurityGroups") {
+                    InitializeAutoComplete($(group).find("input"), sectUrl);
+                }
+                
+                $(group).show('normal');
 
                 e.preventDefault();
             });
 
-            $("#distLists").on('click', 'a', function (e) {
-                $(this).closest("li").hide('normal', function () { $(this).remove(); });
+            // remove button, works for both security and distribution lists
+            $(".control-lists").on('click', 'a', function(e) {
+                $(this).closest("li").hide('normal', function() { $(this).remove(); });
                 e.preventDefault();
             });
 
-            $("#DistributionLists").each(function (index, item) {
-                InitializeAutoComplete($(this));
+            $("#DistributionLists").each(function(index, item) {
+                InitializeAutoComplete($(this), distUrl);
+            });
+
+            $("#SecurityGroups").each(function (index, item) {
+                InitializeAutoComplete($(this), sectUrl);
             });
 
         });
-    
-        function InitializeAutoComplete($obj) {
+
+        function InitializeAutoComplete($obj, url) {
+
             $obj.autocomplete({
-                source: '@Url.Action("SearchDistributionList")',
+                source: url,
                 minLength: 2
-                //change: function (event, ui) {
-                //    $(this).val(ui.item.label);
-                //}
             });
         }
     </script>
 
-    <script id="DistListTemplate" type="text/x-jquery-tmpl">
-        <li style="display:  none;"><input type="text" Name="DistributionLists" value="${Value}" />
+    <script id="ListTemplate" type="text/x-jquery-tmpl">
+        <li style="display: none;"><input type="text" Name="${Name}" />
             <a href="#" class="btn btn-danger removeDistList">
                 <i class="icon-minus"></i> Remove
             </a>
