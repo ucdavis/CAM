@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CAM.Core.Repositories;
 using CAM.Models;
+using UCDArch.Web.ActionResults;
 
 namespace CAM.Controllers
 {
@@ -114,5 +115,12 @@ namespace CAM.Controllers
         //        return View();
         //    }
         //}
+
+        public JsonNetResult SearchDistributionList(string term)
+        {
+            var results = _repositoryFactory.DistributionListRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name);
+            //return new JsonNetResult(results.Select(a => new {value= a.Id, label=a.Name}));
+            return new JsonNetResult(results.Select(a => new { value = a.Name, label = a.Name }));
+        }
     }
 }

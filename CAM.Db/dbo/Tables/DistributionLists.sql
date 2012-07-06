@@ -6,5 +6,6 @@
     [IsActive] BIT NOT NULL DEFAULT 1, 
     [SiteId] VARCHAR(5) NOT NULL, 
     [SID] VARCHAR(MAX) NULL, 
+    [NameLower] AS Lower(Name), 
     CONSTRAINT [FK_DistributionLists_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id])
 )

@@ -1,0 +1,51 @@
+﻿@model RequestTemplateViewModel
+
+<legend>
+    Email
+</legend>
+    
+<div class="control-group">
+    <fieldset>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.NeedsEmail, new { @class = "control-label" })
+            <div class="controls">
+                <label class="checkbox">
+                    @Html.CheckBoxFor(model => model.Request.NeedsEmail)
+                    Yes, user needs a new email account
+                </label>
+
+                <p class="help-block">
+                    <em>* Users who will need to access Outlook calendars will need a CAES email account.</em>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="distributionLists">Distribution List(s):</label>
+            <div class="controls">
+                <ul id="distLists" class="unstyled">
+                    @foreach (var dl in Model.Request.DistributionLists)
+                    {
+                        <li>@Html.TextBox("DistributionLists", dl.Name)
+                            <a href="#" class="btn btn-danger removeDistList">
+                                <i class="icon-minus"></i> Remove
+                            </a>
+                        </li>
+                    }
+                    <li>@Html.TextBox("DistributionLists")
+                        <a href="#" class="btn btn-danger removeDistList">
+                            <i class="icon-minus"></i> Remove
+                        </a>
+                    </li>    
+                </ul>
+
+                <a href="#" id="addDistLists" class="btn btn-success">
+                    <i class="icon-plus"></i> Add
+                </a>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+

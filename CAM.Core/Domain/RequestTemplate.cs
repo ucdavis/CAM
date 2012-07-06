@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using FluentNHibernate.Mapping;
-using System.Linq;
 
 namespace CAM.Core.Domain
 {
@@ -20,7 +18,6 @@ namespace CAM.Core.Domain
 
         public virtual IList<Software> AvailableSoftware { get; set; }
         public virtual IList<NetworkShare> AvailableNetworkShares { get; set; }
-
     }
 
     public class RequestTemplateMap : ClassMap<RequestTemplate>
@@ -39,10 +36,14 @@ namespace CAM.Core.Domain
             Map(x => x.AdditionalFolders);
 
             HasManyToMany(x => x.DistributionLists).Table("RequestTemplatesXDistributionLists").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("DistributionListId").Cascade.SaveUpdate();
+            
             HasManyToMany(x => x.Software).Table("RequestTemplatesXSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();
             HasManyToMany(x => x.AvailableSoftware).Table("RequestTemplatesXAvailableSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();
+            
             HasManyToMany(x => x.NetworkShares).Table("RequestTemplatesXNetworkShares").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("NetworkShareId").Cascade.SaveUpdate();
-            HasManyToMany(x => x.AvailableNetworkShares).Table("[RequestTemplatesXAvailableNetworkShares]").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("NetworkShareId").Cascade.SaveUpdate();
+            HasManyToMany(x => x.AvailableNetworkShares).Table("RequestTemplatesXAvailableNetworkShares").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("NetworkShareId").Cascade.SaveUpdate();
+            
+            HasManyToMany(x => x.SecurityGroups).Table("RequestTemplatesXSecurityGroups").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SecurityGroupId").Cascade.SaveUpdate();
 
             Map(x => x.HireType).CustomType<NHibernate.Type.EnumStringType<HireType>>();
             Map(x => x.HardwareType).CustomType<NHibernate.Type.EnumStringType<HardwareType>>();

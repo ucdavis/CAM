@@ -25,5 +25,7 @@ namespace CAM.Core.BaseClasses
 
         public virtual bool IsActive { get; set; }
         public virtual Site Site { get; set; }
+
+        public virtual string NameLower { get; set; }
     }
 }

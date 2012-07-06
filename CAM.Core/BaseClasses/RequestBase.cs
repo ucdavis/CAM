@@ -29,7 +29,8 @@ namespace CAM.Core.Domain
 
         public virtual IList<Software> Software { get; set; }
         public virtual IList<NetworkShare> NetworkShares { get; set; }
-        public virtual IList<DistributionList> DistributionLists { get; set; } 
+        public virtual IList<DistributionList> DistributionLists { get; set; }
+        public virtual IList<SecurityGroup> SecurityGroups { get; set; }
     }
 
     public enum HireType { NewPosition, Rehire };

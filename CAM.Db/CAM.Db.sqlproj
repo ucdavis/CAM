@@ -74,6 +74,7 @@
     <Build Include="dbo\Tables\DistributionLists.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXDistributionLists.sql" />
     <Build Include="dbo\Tables\SecurityGroups.sql" />
+    <Build Include="dbo\Tables\RequestTemplatesXSecurityGroups.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />

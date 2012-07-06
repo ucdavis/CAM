@@ -11,8 +11,51 @@
                 
     @Html.Partial("_RequestTemplateUnit")
     
-    <legend>
-        
-    </legend>
+    @Html.Partial("_RequestTemplateEmail")
     
+}
+
+@section AdditionalScripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#addDistLists").click(function (e) {
+                var dist = $("#DistListTemplate").tmpl().appendTo("#distLists");
+                InitializeAutoComplete($(dist).find('input'));
+                $(dist).show("normal");
+
+                e.preventDefault();
+            });
+
+            $("#distLists").on('click', 'a', function (e) {
+                $(this).closest("li").hide('normal', function () { $(this).remove(); });
+                e.preventDefault();
+            });
+
+            $("#DistributionLists").each(function (index, item) {
+                InitializeAutoComplete($(this));
+            });
+
+        });
+    
+        function InitializeAutoComplete($obj) {
+            $obj.autocomplete({
+                source: '@Url.Action("SearchDistributionList")',
+                minLength: 2
+                //change: function (event, ui) {
+                //    $(this).val(ui.item.label);
+                //}
+            });
+        }
+    </script>
+
+    <script id="DistListTemplate" type="text/x-jquery-tmpl">
+        <li style="display:  none;"><input type="text" Name="DistributionLists" value="${Value}" />
+            <a href="#" class="btn btn-danger removeDistList">
+                <i class="icon-minus"></i> Remove
+            </a>
+        </li>
+    </script>
 }
