@@ -11,36 +11,7 @@
                 
     @Html.Partial("_RequestTemplateUnit")
     
-    <legend>Security Groups</legend>
-    
-    <div class="control-group">
-        <fieldset>
-            <div class="control-group">
-                <label class="control-label">Security Group(s):</label>
-                <div class="controls">
-                    <ul id="sgroups" class="unstyled control-lists">
-                        @foreach (var sg in Model.Request.SecurityGroups)
-                        {
-                            <li>@Html.TextBox("SecurityGroups", sg.Name)
-                                <a href="#" class="btn btn-danger remove">
-                                    <i class="icon-minus"></i> Remove
-                                </a>
-                            </li>
-                        }
-                        <li>@Html.TextBox("SecurityGroups")
-                            <a href="#" class="btn btn-danger remove">
-                                <i class="icon-minus"></i> Remove
-                            </a>
-                        </li>    
-                    </ul>
-                    
-                    <a href="#" class="btn btn-success addbtn" data-name="SecurityGroups">
-                        <i class="icon-plus"></i> Add
-                    </a>
-                </div>
-            </div>
-        </fieldset>
-    </div>
+    @Html.Partial("_RequestTemplateSecurityGroups")
     
     @Html.Partial("_RequestTemplateEmail")
     
@@ -105,4 +76,11 @@
             </a>
         </li>
     </script>
+    
+    <style type="text/css">
+    .control-lists li
+    {
+        margin:  .5em 0;
+    }
+    </style>
 }

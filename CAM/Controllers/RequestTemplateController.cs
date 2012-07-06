@@ -118,14 +118,26 @@ namespace CAM.Controllers
 
         public JsonNetResult SearchDistributionList(string term)
         {
-            var results = _repositoryFactory.DistributionListRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name);
-            return new JsonNetResult(results.Select(a => new { value = a.Name, label = a.Name }));
+            var results = _repositoryFactory.DistributionListRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name).Select(a => new {value = a.Name, label = a.Name}).ToList();
+
+            if (results.Any())
+            {
+                return new JsonNetResult(results);
+            }
+
+            return new JsonNetResult(new {value=string.Empty, label="No Results Found"});
         }
 
         public JsonNetResult SearchSecurityGroup(string term)
         {
-            var results = _repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name);
-            return new JsonNetResult(results.Select(a => new { value = a.Name, label = a.Name }));
+            var results = _repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.NameLower.Contains(term.ToLower())).OrderBy(a => a.Name).Select(a => new { value = a.Name, label = a.Name }).ToList();
+
+            if (results.Any())
+            {
+                return new JsonNetResult(results);
+            }
+
+            return new JsonNetResult(new { value = string.Empty, label = "No Results Found" });
         }
     }
 }
