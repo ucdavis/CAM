@@ -20,31 +20,6 @@
 
             </div>
         </div>
-
-        <div class="control-group">
-            <label class="control-label" for="distributionLists">Distribution List(s):</label>
-            <div class="controls">
-                <ul id="distLists" class="control-lists unstyled">
-                    @foreach (var dl in Model.Request.DistributionLists)
-                    {
-                        <li>@Html.TextBox("DistributionLists", dl.Name)
-                            <a href="#" class="btn btn-danger remove">
-                                <i class="icon-minus"></i> Remove
-                            </a>
-                        </li>
-                    }
-                    <li>@Html.TextBox("DistributionLists")
-                        <a href="#" class="btn btn-danger remove">
-                            <i class="icon-minus"></i> Remove
-                        </a>
-                    </li>    
-                </ul>
-
-                <a href="#" id="addDistLists" class="btn btn-success addbtn" data-name="DistributionLists">
-                    <i class="icon-plus"></i> Add
-                </a>
-            </div>
-        </div>
     </fieldset>
 </div>
 
