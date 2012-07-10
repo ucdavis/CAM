@@ -10,24 +10,24 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true);
-    @Html.Hidden("Request.Site", Model.Request.Site.Id)
+    @Html.Hidden("RequestTemplate.Site", Model.RequestTemplate.Site.Id)
                 
     <legend>Template Details</legend>
     
     <div class="control-group">
         <fieldset>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Name, new {@class="control-label"})
+                @Html.LabelFor(model => model.RequestTemplate.Name, new {@class="control-label"})
                 <div class="controls">
-                    @Html.TextBoxFor(model => model.Request.Name, new {@class="span3"})
-                    @Html.ValidationMessageFor(model => model.Request.Name)
+                    @Html.TextBoxFor(model => model.RequestTemplate.Name, new {@class="span3"})
+                    @Html.ValidationMessageFor(model => model.RequestTemplate.Name)
                 </div>
             </div>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Description, new {@class="control-label"})
+                @Html.LabelFor(model => model.RequestTemplate.Description, new {@class="control-label"})
                 <div class="controls">
-                    @Html.TextAreaFor(model => model.Request.Description, new {@class="span3"})
-                    @Html.ValidationMessageFor(model => model.Request.Description)
+                    @Html.TextAreaFor(model => model.RequestTemplate.Description, new {@class="span3"})
+                    @Html.ValidationMessageFor(model => model.RequestTemplate.Description)
                 </div>
             </div>
         </fieldset>

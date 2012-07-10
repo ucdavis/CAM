@@ -22,8 +22,8 @@
                             @foreach (var s in Model.GetSoftware().OrderBy(a => a.Text))
                             {
                                 <tr>
-                                    <td><input type="checkbox" value="@s.Value" name="Request.AvailableSoftware" class="available" @(s.Available ? "checked='checked'" : string.Empty) /></td>
-                                    <td><input type="checkbox" value="@s.Value" name="Request.Software" class="selected" @(s.Selected ? "checked='checked'" : string.Empty) /></td>
+                                    <td><input type="checkbox" value="@s.Value" name="RequestTemplate.AvailableSoftware" class="available" @(s.Available ? "checked='checked'" : string.Empty) /></td>
+                                    <td><input type="checkbox" value="@s.Value" name="RequestTemplate.Software" class="selected" @(s.Selected ? "checked='checked'" : string.Empty) /></td>
                                     <td>@s.Text</td>
                                 </tr>
                             }
@@ -49,8 +49,8 @@
                             @foreach (var s in Model.GetSoftware(true).OrderBy(a => a.Text))
                             {
                                 <tr>
-                                    <td><input type="checkbox" value="@s.Value" name="Request.AvailableSoftware" class="available" @(s.Available ? "checked='checked'" : string.Empty) /></td>
-                                    <td><input type="checkbox" value="@s.Value" name="Request.Software" class="selected" @(s.Selected ? "checked='checked'" : string.Empty) /></td>
+                                    <td><input type="checkbox" value="@s.Value" name="RequestTemplate.AvailableSoftware" class="available" @(s.Available ? "checked='checked'" : string.Empty) /></td>
+                                    <td><input type="checkbox" value="@s.Value" name="RequestTemplate.Software" class="selected" @(s.Selected ? "checked='checked'" : string.Empty) /></td>
                                     <td>@s.Text</td>
                                 </tr>
                             }

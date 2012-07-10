@@ -7,10 +7,10 @@
 <div class="control-group">
     <fieldset>
         <div class="control-group">
-            @Html.LabelFor(model => model.Request.NeedsEmail, new { @class = "control-label" })
+            @Html.LabelFor(model => model.RequestTemplate.NeedsEmail, new { @class = "control-label" })
             <div class="controls">
                 <label class="checkbox">
-                    @Html.CheckBoxFor(model => model.Request.NeedsEmail)
+                    @Html.CheckBoxFor(model => model.RequestTemplate.NeedsEmail)
                     Yes, user needs a new email account
                 </label>
 

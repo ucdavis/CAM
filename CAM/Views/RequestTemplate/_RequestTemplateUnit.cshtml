@@ -7,9 +7,9 @@
     <div class="control-group">
         <fieldset>
             <div class="control-group">
-                @Html.LabelFor(model => model.Request.Unit, new {@class="control-label"})
+                @Html.LabelFor(model => model.RequestTemplate.Unit, new {@class="control-label"})
                 <div class="controls">
-                    @Html.DropDownListFor(model => model.Request.Unit, Model.GetUnits(), "--Select Unit--")
+                    @Html.DropDownListFor(model => model.RequestTemplate.Unit, Model.GetUnits(), "--Select Unit--")
                     @Html.ValidationMessageFor(model => model.Units)
                 </div>
             </div>

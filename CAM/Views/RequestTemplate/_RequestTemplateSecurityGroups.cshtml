@@ -20,8 +20,8 @@
                         @foreach(var sg in Model.GetSecurityGroups())
                         {
                             <tr>
-                                <td><input type="checkbox" value="@sg.Value" name="Request.AvailableSecurityGroups" class="available" @(sg.Available ? "checked='checked'" : string.Empty) /></td>
-                                <td><input type="checkbox" value="@sg.Value" name="Request.SecurityGroups" class="selected" @(sg.Selected ? "checked='checked'" : string.Empty) /></td>
+                                <td><input type="checkbox" value="@sg.Value" name="RequestTemplate.AvailableSecurityGroups" class="available" @(sg.Available ? "checked='checked'" : string.Empty) /></td>
+                                <td><input type="checkbox" value="@sg.Value" name="RequestTemplate.SecurityGroups" class="selected" @(sg.Selected ? "checked='checked'" : string.Empty) /></td>
                                 <td>@sg.Text</td>
                                 <td>@sg.Description</td>
                             </tr>

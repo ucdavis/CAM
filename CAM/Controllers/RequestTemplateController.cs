@@ -46,15 +46,15 @@ namespace CAM.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(RequestTemplate request)
+        public ActionResult Create(RequestTemplate requestTemplate)
         {
             if (ModelState.IsValid)
             {
-                _repositoryFactory.RequestTemplateRepository.EnsurePersistent(request);
+                _repositoryFactory.RequestTemplateRepository.EnsurePersistent(requestTemplate);
                 return Redirect("index");
             }
 
-            var viewModel = RequestTemplateViewModel.Create(_repositoryFactory, Site, request);
+            var viewModel = RequestTemplateViewModel.Create(_repositoryFactory, Site, requestTemplate);
             return View(viewModel);
         }
 
