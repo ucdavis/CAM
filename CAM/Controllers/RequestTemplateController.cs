@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using CAM.Core.Domain;
 using CAM.Core.Repositories;
 using CAM.Models;
 using UCDArch.Web.ActionResults;
@@ -40,6 +42,19 @@ namespace CAM.Controllers
         {
             var viewModel = RequestTemplateViewModel.Create(_repositoryFactory, Site);
 
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(RequestTemplate request)
+        {
+            if (ModelState.IsValid)
+            {
+                _repositoryFactory.RequestTemplateRepository.EnsurePersistent(request);
+                return Redirect("index");
+            }
+
+            var viewModel = RequestTemplateViewModel.Create(_repositoryFactory, Site, request);
             return View(viewModel);
         }
 
@@ -125,4 +140,5 @@ namespace CAM.Controllers
             return new JsonNetResult(new { value = string.Empty, label = "No Results Found" });
         }
     }
+
 }

@@ -17,9 +17,11 @@ namespace CAM.Models
 
         public static RequestTemplateViewModel Create(IRepositoryFactory repositoryFactory, string siteId, RequestTemplate requestTemplate = null)
         {
+            var site = repositoryFactory.SiteRepository.GetNullableById(siteId);
+
             var viewModel = new RequestTemplateViewModel()
                 {
-                    Request= requestTemplate ?? new RequestTemplate(),
+                    Request= requestTemplate ?? new RequestTemplate() {Site = site},
                     Units = repositoryFactory.UnitRepository.Queryable.Where(a => a.Site.Id == siteId).ToList(),
                     Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList(),
                     SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList()

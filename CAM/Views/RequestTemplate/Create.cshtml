@@ -4,11 +4,16 @@
     ViewBag.Title = "Create Request Template";
 }
 
+<h2>Create Request Template</h2>
+
 @using (Html.BeginForm("Create", "RequestTemplate", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true);
+    @Html.Hidden("Request.Site", Model.Request.Site.Id)
                 
+    <legend>Template Details</legend>
+    
     <div class="control-group">
         <fieldset>
             <div class="control-group">
