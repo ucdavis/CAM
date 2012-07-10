@@ -167,6 +167,4 @@ namespace CAM.Services
 
         public string SID { get; set; }
     }
-
-    public enum GroupType { Distribution, Security }
 }

@@ -378,9 +378,6 @@
     <Content Include="Views\RequestTemplate\_RequestTemplateUnit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\ActiveDirectory\DistributionLists.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\ActiveDirectory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

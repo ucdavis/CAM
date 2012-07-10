@@ -27,13 +27,13 @@ namespace CAM.Controllers
         public ActionResult SecurityGroups()
         {
             var results = _activeDirectoryService.GetSecurityGroups();
-            var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, GroupType.Security, results);
+            var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult SecurityGroups(List<string> add, List<int> remove)
+        public ActionResult SecurityGroups(List<string> add, List<string> update, List<int> remove)
         {
             var results = _activeDirectoryService.GetSecurityGroups();
             var site = _repositoryFactory.SiteRepository.GetNullableById(Site);
@@ -60,6 +60,25 @@ namespace CAM.Controllers
                 }
             }
 
+            if (update != null)
+            {
+                foreach(var s in update)
+                {
+                    var x = results.FirstOrDefault(y => y.SID == s);
+                    var sgroup = _repositoryFactory.SecurityGroupRepository.Queryable.FirstOrDefault(a => a.Site.Id == Site && a.SID == s);
+
+                    if (x != null && sgroup != null)
+                    {
+                        sgroup.Name = x.Name;
+                        sgroup.Description = x.Description;
+                        sgroup.IsActive = true;
+
+                        _repositoryFactory.SecurityGroupRepository.EnsurePersistent(sgroup);
+                    }
+
+                }
+            }
+
             if (remove != null)
             {
                 foreach (var r in remove)
@@ -73,7 +92,7 @@ namespace CAM.Controllers
                 }
             }
 
-            var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, GroupType.Security, results);
+            var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
             return View(viewModel);
         }
     }

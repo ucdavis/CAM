@@ -4,7 +4,7 @@
     ViewBag.Title = "Active Directory Security Lists";
 }
 
-@if(!Model.GroupsToAdd.Any() && !Model.GroupsToRemove.Any())
+@if(!Model.AdGroupCompares.Any())
 {
     <div class="alert alert-info">
         <p>
@@ -18,55 +18,78 @@ else
     {
         @Html.AntiForgeryToken()
 
-        <legend>Groups To Add</legend>
+        <legend>AD Group Changes</legend>
 
-        <div class="control-group">
-            <fieldset>
-                <div class="control-group">
-                    <label>&nbsp;</label>
-                    <div class="controls">
-                        <ul class="unstyled">
-                            @foreach (var group in Model.GroupsToAdd.OrderBy(x => x.Name))
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var row in Model.AdGroupCompares)
+                {
+                    <tr>
+                        <td>
+                            @if(row.ChangeType == ChangeType.Add)
                             {
-                                <li>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="add" value="@group.SID" checked="checked"/>
-                                        @group.Name
-                                    </label>
-                                </li>
+                                <div class="btn btn-success adaction" data-action="add"><i class="icon-plus"></i>Add</div>
+                                <input type="checkbox" value="@row.SID" checked="checked" name="add"/>
                             }
-                        </ul>
-                    </div>
-                </div>    
-            </fieldset>
-        </div>
-
-        <legend>Groups To Remove</legend>
-
-        <div class="control-group">
-            <fieldset>
-                <div class="control-group">
-                    <label>&nbsp;</label>
-                    <div class="controls">
-                        <ul class="unstyled">
-                            @foreach (var group in Model.GroupsToRemove.OrderBy(x => x.Name))
+                            else if (row.ChangeType == ChangeType.Update)
                             {
-                                <li>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="remove" value="@group.Id" checked="checked"/>
-                                        @group.Name
-                                    </label>
-                                </li>
+                                <div class="btn btn-warning adaction" data-action="update"><i class="icon-refresh"></i>Update</div>
+                                <input type="checkbox" value="@row.SID" checked="checked" name="update"/>
                             }
-                        </ul>
-                    </div>
-                </div>    
-            </fieldset>
-        </div>
-
+                            else if (row.ChangeType == ChangeType.Remove)
+                            {
+                                <div class="btn btn-danger adaction" data-action="remove"><i class="icon-minus"></i>Remove</div>
+                                <input type="checkbox" value="@row.GroupId" checked="checked" name="remove"/>
+                            }
+                        </td>
+                        <td>@row.Name</td>
+                        <td>@row.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    
         <div class="form-actions">
             <input type="submit" value="Submit" class="btn btn-primary" />
             <a href="@Url.Action("Index")" class="btn">Cancel</a>
         </div>
     }
+}
+
+@section AdditionalScripts
+{
+    <style type="text/css">
+        input[type='checkbox'] { display: none;}
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".adaction").click(function () {
+                
+                if ($(this).hasClass("btn-inverse")) {
+                    $(this).removeClass("btn-inverse");
+                    if ($(this).data("action") == "add") {
+                        $(this).addClass("btn-sucess");
+                    }
+                    if ($(this).data("action") == "update") {
+                        $(this).addClass("btn-warning");
+                    }
+                    if ($(this).data("action") == "remove") {
+                        $(this).addClass("btn-danger");
+                    }
+                } else {
+                    $(this).removeClass("btn-success btn-warning btn-danger");
+                    $(this).addClass("btn-inverse");
+                }
+
+            });
+        });
+    </script>
 }
