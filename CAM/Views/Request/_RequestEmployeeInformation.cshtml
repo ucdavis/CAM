@@ -68,11 +68,11 @@
             <label class="control-label">Hire Type</label>
             <div class="controls">
                 <label class="radio">
-                    @Html.RadioButton("HireType", HireType.NewPosition, Model.Request.HireType == HireType.NewPosition)
+                    @Html.RadioButton("Request.HireType", HireType.NewPosition, Model.Request.HireType == HireType.NewPosition)
                     New Position
                 </label>
                 <label class="radio">
-                    @Html.RadioButton("HireType", HireType.Rehire, Model.Request.HireType == HireType.Rehire)
+                    @Html.RadioButton("Request.HireType", HireType.Rehire, Model.Request.HireType == HireType.Rehire)
                     Rehire
                 </label>
             </div>
@@ -81,23 +81,23 @@
             <label class="control-label">Employee Type</label>
             <div class="controls">
                 <label class="radio">
-                    @Html.RadioButton("EmployeeType", EmployeeType.Career, Model.Request.EmployeeType == EmployeeType.Career)
+                    @Html.RadioButton("Request.EmployeeType", EmployeeType.Career, Model.Request.EmployeeType == EmployeeType.Career)
                     Career Staff
                 </label>
                 <label class="radio">
-                    @Html.RadioButton("EmployeeType", EmployeeType.Temp, Model.Request.EmployeeType == EmployeeType.Temp)
+                    @Html.RadioButton("Request.EmployeeType", EmployeeType.Temp, Model.Request.EmployeeType == EmployeeType.Temp)
                     Temp
                 </label>
                 <label class="radio">
-                    @Html.RadioButton("EmployeeType", EmployeeType.Volunteer, Model.Request.EmployeeType == EmployeeType.Volunteer)
+                    @Html.RadioButton("Request.EmployeeType", EmployeeType.Volunteer, Model.Request.EmployeeType == EmployeeType.Volunteer)
                     Volunteer
                 </label>
                 <label class="radio">
-                    @Html.RadioButton("EmployeeType", EmployeeType.Student, Model.Request.EmployeeType == EmployeeType.Student)
+                    @Html.RadioButton("Request.EmployeeType", EmployeeType.Student, Model.Request.EmployeeType == EmployeeType.Student)
                     Student
                 </label>
                 <label class="radio">
-                    @Html.RadioButton("EmployeeType", EmployeeType.Other, Model.Request.EmployeeType == EmployeeType.Other)
+                    @Html.RadioButton("Request.EmployeeType", EmployeeType.Other, Model.Request.EmployeeType == EmployeeType.Other)
                     Other
                 </label>
             </div>
