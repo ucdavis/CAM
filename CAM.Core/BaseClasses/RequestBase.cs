@@ -10,7 +10,6 @@ namespace CAM.Core.Domain
         {
             Software = new List<Software>();
             NetworkShares = new List<NetworkShare>();
-            DistributionLists = new List<DistributionList>();
             SecurityGroups = new List<SecurityGroup>();
         }
 
@@ -30,7 +29,6 @@ namespace CAM.Core.Domain
 
         public virtual IList<Software> Software { get; set; }
         public virtual IList<NetworkShare> NetworkShares { get; set; }
-        public virtual IList<DistributionList> DistributionLists { get; set; }
         public virtual IList<SecurityGroup> SecurityGroups { get; set; }
     }
 

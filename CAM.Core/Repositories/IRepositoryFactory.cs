@@ -5,7 +5,6 @@ namespace CAM.Core.Repositories
 {
     public interface IRepositoryFactory
     {
-        IRepository<DistributionList> DistributionListRepository { get; set; }
         IRepository<NetworkShare> NetworkShareRepository { get; set; }
         IRepository<Request> RequestRepository { get; set; }
         IRepository<RequestTemplate> RequestTemplateRepository { get; set; }
@@ -17,7 +16,6 @@ namespace CAM.Core.Repositories
 
     public class RepositoryFactory : IRepositoryFactory
     {
-        public IRepository<DistributionList> DistributionListRepository { get; set; }
         public IRepository<NetworkShare> NetworkShareRepository { get; set; }
         public IRepository<Request> RequestRepository { get; set; }
         public IRepository<RequestTemplate> RequestTemplateRepository { get; set; }

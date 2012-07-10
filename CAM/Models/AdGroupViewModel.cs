@@ -17,14 +17,7 @@ namespace CAM.Models
 
             var groups = new List<GroupBase>();
 
-            if (groupType == GroupType.Distribution)
-            {
-                groups = new List<GroupBase>(repositoryFactory.DistributionListRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive));
-            }
-            else if (groupType == GroupType.Security)
-            {
-                groups = new List<GroupBase>(repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive));                
-            }
+            groups = new List<GroupBase>(repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive));                
 
             viewModel.GroupsToAdd = adGroups.Where(a => !groups.Any(x => x.SID == a.SID)).ToList();
             viewModel.GroupsToRemove = groups.Where(a => !adGroups.Any(x => x.SID == a.SID)).ToList();
