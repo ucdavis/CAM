@@ -1,0 +1,59 @@
+﻿@model CAM.Models.RequestViewModel
+
+<legend>Network Drive Permissions</legend>
+
+<div class="control-group">
+
+    <fieldset>
+            
+        <div class="control-group">
+        <p class="help-block">Employees have access to communal network resources often referred to as “network drives”.  Permission to access the network drives is usually dependent on unit and/or departmental affiliation.  We will verify with the unit/department head and the employee’s supervisor before granting access to any network drives.  The employee will automatically have full access to their personal home directory.</p>
+        </div>                
+
+        <div class="control-group">
+            <label for="networkPermissions" class="control-label">Network Shares</label>
+            <div class="controls">
+                    
+                <ul class="unstyled">
+                    
+                    @{
+                    var nsl = Model.GetNetworkShareList();
+                    }
+                        
+                    @foreach (var g in nsl.Select(a => a.GroupId).Distinct())
+                    {
+                        if  (!string.IsNullOrEmpty(g))
+                        {
+                            <li>
+                            <strong>@g</strong>
+                            </li>
+                        }
+                        foreach (var ns in nsl.Where(a => a.GroupId == g))
+                        {
+                            <li>
+                                <label class="checkbox">
+                                    <input type="checkbox" value="@ns.Value" name="networkshares" @(ns.Selected || ns.ForceSelect ? "checked='checked'" : string.Empty) @(ns.ForceSelect ? "disabled='disabled'" : string.Empty) />
+                                    @ns.Text
+                                </label>
+                            </li>
+
+                        }   
+                            
+                    }
+                        
+                        
+                </ul>
+            </div>
+        </div>
+            
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.AdditionalFolders, new {@class="control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.AdditionalFolders)
+                @Html.ValidationMessageFor(model => model.Request.AdditionalFolders)
+            </div>
+        </div>
+
+    </fieldset>
+
+</div>

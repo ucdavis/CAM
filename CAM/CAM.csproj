@@ -396,6 +396,24 @@
   <ItemGroup>
     <Content Include="Views\RequestTemplate\Edit.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestEmployeeInformation.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestEmail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestSoftware.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestHardware.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestNetworkDrives.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestSecurityGroups.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

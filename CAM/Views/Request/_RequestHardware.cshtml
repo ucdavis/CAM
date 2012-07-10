@@ -1,0 +1,50 @@
+﻿@model CAM.Models.RequestViewModel
+
+<legend>Hardware</legend>
+
+<div class="control-group">
+
+    <!-- New Position -->
+    <fieldset id="NewPosition" style='@(Model.Request.HireType != HireType.NewPosition ? @"display: none;" : string.Empty)'>
+        <div class="control-group">
+            <p class="help-block">The computer resources unit will either redeploy an existing computer or purchase a new computer.</p>
+        </div>
+
+            
+        <div class="control-group">
+            <label for="ComputerType" class="control-label">New Computer</label>
+            <div class="controls">
+                <ul class="unstyled">
+                    <li>
+                        <label class="radio">
+                            <input type="radio" name="ComputerType" value="Desktop" @(Model.Request.HardwareType == HardwareType.Desktop ? "checked='checked'" : string.Empty) />
+                            Desktop
+                        </label>
+                    </li>
+                    <li>
+                        <label class="radio">
+                            <input type="radio" name="ComputerType" value="Laptop" @(Model.Request.HardwareType == HardwareType.Laptop ? "checked='checked'" : string.Empty) />
+                            Laptop
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </fieldset>
+
+    <!-- Rehire -->
+    <fieldset id="Rehire" style='@(Model.Request.HireType == HireType.Rehire ? string.Empty : "display: none;")' >
+        <div class="control-group">
+            <p class="help-block">They will use the same computer used by the person they are replacing unless the computer is out of warranty</p>
+        </div>
+    </fieldset>
+
+    <!-- No type selected -->
+    <fieldset id="notype" style='@(Model.Request.HireType == null ? string.Empty : "display: none;")'>
+        <div class="control-group">
+            <p class="help-block">You need to select whether the employee will be a new hire or a rehire.</p>
+        </div>
+    </fieldset>
+
+</div>

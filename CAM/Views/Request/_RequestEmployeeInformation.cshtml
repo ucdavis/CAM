@@ -1,0 +1,107 @@
+﻿@using CAM.Core.BaseClasses
+@model CAM.Models.RequestViewModel
+
+<legend>Employee Information</legend>
+
+<div class="control-group">
+
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="name" >Name</label>
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.FirstName, new { @placeholder = "First Name" })
+                @Html.TextBoxFor(model => model.Request.LastName, new { @placeholder = "Last Name" })
+                @Html.ValidationMessageFor(model => model.Request.FirstName)
+                @Html.ValidationMessageFor(model => model.Request.LastName)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.Email, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.Email, new { @placeholder = "Email" })
+                @Html.ValidationMessageFor(model => model.Request.Email)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.PositionTitle, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.PositionTitle, new { @placeholder = "Position Title" })
+                @Html.ValidationMessageFor(model => model.Request.PositionTitle)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.Department, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.Department, new { @placeholder = "Department" })
+                @Html.TextBoxFor(model => model.Request.Unit, new { @placeholder = "Unit" })
+                @Html.ValidationMessageFor(model => model.Request.Department)
+                @Html.ValidationMessageFor(model => model.Request.Unit)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.OfficeLocation, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.OfficeLocation, new { @placeholder = "Location / Building" })
+                @Html.TextBoxFor(model => model.Request.Room, new { @placeholder = "Room #", @class = "input-mini" })
+                @Html.ValidationMessageFor(model => model.Request.OfficeLocation)
+                @Html.ValidationMessageFor(model => model.Request.Room)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.ContactPhone, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Request.ContactPhone, new { @placeholder = "(###) XXX-XXXX " })
+                @Html.ValidationMessageFor(model => model.Request.ContactPhone)
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="name" >Employment Dates</label>
+            <div class="controls">
+                @Html.TextBox("Start", Model.Request.Start.ToString("d"), new { @class = "datepicker input-small" })
+                @Html.ValidationMessageFor(model => model.Request.Start)
+                <span style="margin: 0 5px;">through</span>
+                @Html.TextBox("End", Model.Request.End.HasValue ? Model.Request.End.Value.ToString("d") : string.Empty, new { @class = "datepicker input-small" })
+                @Html.ValidationMessageFor(model => model.Request.End)
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Hire Type</label>
+            <div class="controls">
+                <label class="radio">
+                    @Html.RadioButton("HireType", HireType.NewPosition, Model.Request.HireType == HireType.NewPosition)
+                    New Position
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("HireType", HireType.Rehire, Model.Request.HireType == HireType.Rehire)
+                    Rehire
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Employee Type</label>
+            <div class="controls">
+                <label class="radio">
+                    @Html.RadioButton("EmployeeType", EmployeeType.Career, Model.Request.EmployeeType == EmployeeType.Career)
+                    Career Staff
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("EmployeeType", EmployeeType.Temp, Model.Request.EmployeeType == EmployeeType.Temp)
+                    Temp
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("EmployeeType", EmployeeType.Volunteer, Model.Request.EmployeeType == EmployeeType.Volunteer)
+                    Volunteer
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("EmployeeType", EmployeeType.Student, Model.Request.EmployeeType == EmployeeType.Student)
+                    Student
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("EmployeeType", EmployeeType.Other, Model.Request.EmployeeType == EmployeeType.Other)
+                    Other
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+</div>

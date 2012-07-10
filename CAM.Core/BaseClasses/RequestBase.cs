@@ -30,6 +30,7 @@ namespace CAM.Core.BaseClasses
 
         public virtual IList<Software> Software { get; set; }
         public virtual IList<NetworkShare> NetworkShares { get; set; }
+        [Display(Name = "Security Groups")]
         public virtual IList<SecurityGroup> SecurityGroups { get; set; }
     }
 

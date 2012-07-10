@@ -1,0 +1,26 @@
+﻿@model CAM.Models.RequestViewModel
+
+<legend>Email</legend>
+
+<div class="control-group">
+
+    <fieldset>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Request.NeedsEmail, new { @class = "control-label" })
+            <div class="controls">
+                <label class="checkbox">
+                    @Html.CheckBoxFor(model => model.Request.NeedsEmail)
+                    Yes, user needs a new email account
+                </label>
+
+                <p class="help-block">
+                    <em>* Users who will need to access Outlook calendars will need a CAES email account.</em>
+                </p>
+
+            </div>
+        </div>
+
+    </fieldset>
+
+</div>

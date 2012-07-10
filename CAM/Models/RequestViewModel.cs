@@ -13,6 +13,7 @@ namespace CAM.Models
         // list values
         public IEnumerable<Software> Softwares { get; set; }
         public IEnumerable<NetworkShare> NetworkShares { get; set; }
+        public IEnumerable<SecurityGroup> SecurityGroups { get; set; }
 
         public static RequestViewModel Create(IRepositoryFactory repositoryFactory, Request request, Site site, int? templateId)
         {
@@ -33,20 +34,27 @@ namespace CAM.Models
 
                     viewModel.Softwares = template.AvailableSoftware;
                     viewModel.NetworkShares = template.AvailableNetworkShares;
+                    viewModel.SecurityGroups = template.AvailableSecurityGroups;
                 }
                 else
                 {
-                    viewModel.Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site == site).ToList();
-                    viewModel.NetworkShares = repositoryFactory.NetworkShareRepository.Queryable.Where(a => a.Site == site).ToList();
+                    viewModel.Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
+                    viewModel.NetworkShares = repositoryFactory.NetworkShareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
+                    viewModel.SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
                 }
             }
 
             return viewModel;
         }
 
-        public IEnumerable<SelectListItem> GetSoftwareList()
+        public IEnumerable<SelectListItem> GetSecurityGroups()
         {
-            return Softwares.Select(s => new SelectListItem() { Selected = Request.Software.Contains(s), Text = s.Name, Value = s.Id.ToString() }).ToList();
+            return SecurityGroups.Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = Request.SecurityGroups.Contains(a)}).ToList();
+        }
+
+        public IEnumerable<SelectListItem> GetSoftwareList(bool webApplication = false)
+        {
+            return Softwares.Where(a => a.WebApplication == webApplication).Select(s => new SelectListItem() { Selected = Request.Software.Contains(s), Text = s.Name, Value = s.Id.ToString() }).ToList();
         }
 
         public IEnumerable<CustomSelect> GetNetworkShareList()

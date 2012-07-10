@@ -1,0 +1,59 @@
+﻿@model CAM.Models.RequestViewModel
+
+<legend>Software</legend>
+
+<div class="control-group">
+
+    <fieldset>
+
+        <div class="control-group">
+            <p class="help-block">
+                The following software (http://computing.caes.ucdavis.edu/computing-policies/supported-software) will be installed by default on all CA&ES managed computers.  Please check the boxes under Optional Software if you would like the software installed on the new user’s computer.  If the user requires software that is not listed below, please contact the Computer Resources Unit (CRU) helpdesk at csrequests@caes.ucdavis.edu.
+            </p>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="software">Optional Software</label>
+                
+            <div class="controls">
+                <ul id="software" class="unstyled">
+                        
+                    @foreach (var software in Model.GetSoftwareList())
+                    {
+                        <li>                              
+                            <label class="checkbox">
+                                <input type="checkbox" value="@software.Value" name="software" @(software.Selected ? "checked='checked'" : string.Empty) />
+                                @software.Text
+                            </label>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="software">Optional Software</label>
+                
+            <div class="controls">
+                <ul id="software" class="unstyled">
+                        
+                    @foreach (var software in Model.GetSoftwareList(true).OrderBy(a => a.Text))
+                    {
+                        <li>                              
+                            <label class="checkbox">
+                                <input type="checkbox" value="@software.Value" name="software" @(software.Selected ? "checked='checked'" : string.Empty) />
+                                @software.Text
+                            </label>
+                        </li>
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+
+    </fieldset>
+
+</div>
