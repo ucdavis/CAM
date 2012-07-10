@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using CAM.Core.BaseClasses;
 using FluentNHibernate.Mapping;
 
 namespace CAM.Core.Domain
@@ -9,15 +10,19 @@ namespace CAM.Core.Domain
         public RequestTemplate()
         {
             AvailableSoftware = new List<Software>();
+            AvailableSecurityGroups = new List<SecurityGroup>();
         }
 
         [Display(Name="Template Name")]
+        [StringLength(50)]
         public virtual string Name { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public virtual string Description { get; set; }
 
         public virtual IList<Software> AvailableSoftware { get; set; }
         public virtual IList<NetworkShare> AvailableNetworkShares { get; set; }
+        public virtual IList<SecurityGroup> AvailableSecurityGroups { get; set; }
     }
 
     public class RequestTemplateMap : ClassMap<RequestTemplate>
@@ -42,6 +47,7 @@ namespace CAM.Core.Domain
             HasManyToMany(x => x.AvailableNetworkShares).Table("RequestTemplatesXAvailableNetworkShares").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("NetworkShareId").Cascade.SaveUpdate();
             
             HasManyToMany(x => x.SecurityGroups).Table("RequestTemplatesXSecurityGroups").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SecurityGroupId").Cascade.SaveUpdate();
+            HasManyToMany(x => x.AvailableSecurityGroups).Table("RequestTemplatesXAvailableSecurityGroups").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SecurityGroupId").Cascade.SaveUpdate();
 
             Map(x => x.HireType).CustomType<NHibernate.Type.EnumStringType<HireType>>();
             Map(x => x.HardwareType).CustomType<NHibernate.Type.EnumStringType<HardwareType>>();

@@ -1,14 +1,14 @@
-﻿using FluentNHibernate.Mapping;
+﻿using CAM.Core.BaseClasses;
+using FluentNHibernate.Mapping;
 using UCDArch.Core.DomainModel;
 
 namespace CAM.Core.Domain
 {
-    public class NetworkShare : DomainObject
+    public class NetworkShare : ObjectBase
     {
         public virtual string Name { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual string GroupId { get; set; }
-        public virtual Site Site { get; set; }
         public virtual bool ForceSelect { get; set; }
     }
 

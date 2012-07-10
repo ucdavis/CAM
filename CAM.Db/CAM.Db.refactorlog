@@ -35,4 +35,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="AdditionalFolders" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="4887358e-5ae8-4dcf-bf4f-87073e48202e" ChangeDateTime="07/10/2012 17:58:47">
+    <Property Name="ElementName" Value="[dbo].[Software].[RoleManager]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Software]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WebRoleManager" />
+  </Operation>
 </Operations>

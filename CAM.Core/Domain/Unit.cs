@@ -1,11 +1,10 @@
-﻿using FluentNHibernate.Mapping;
-using UCDArch.Core.DomainModel;
+﻿using CAM.Core.BaseClasses;
+using FluentNHibernate.Mapping;
 
 namespace CAM.Core.Domain
 {
-    public class Unit : DomainObject
+    public class Unit : ObjectBase
     {
-        public virtual Site Site { get; set; }
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
         public virtual bool IsActive { get; set; }

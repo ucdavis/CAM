@@ -5,27 +5,29 @@
 <div class="control-group">
     <fieldset>
         <div class="control-group">
-            <label class="control-label">Security Group(s):</label>
+            <label class="control-label">Security Group(s):</label>    
             <div class="controls">
-                <ul id="sgroups" class="unstyled control-lists">
-                    @foreach (var sg in Model.Request.SecurityGroups)
-                    {
-                        <li>@Html.TextBox("SecurityGroups", sg.Name)
-                            <a href="#" class="btn btn-danger remove">
-                                <i class="icon-minus"></i> Remove
-                            </a>
-                        </li>
-                    }
-                    <li>@Html.TextBox("SecurityGroups")
-                        <a href="#" class="btn btn-danger remove">
-                            <i class="icon-minus"></i> Remove
-                        </a>
-                    </li>    
-                </ul>
-                    
-                <a href="#" class="btn btn-success addbtn" data-name="SecurityGroups">
-                    <i class="icon-plus"></i> Add
-                </a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Available</th>
+                            <th>Selected</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var sg in Model.GetSecurityGroups())
+                        {
+                            <tr>
+                                <td><input type="checkbox" value="@sg.Value" name="securityAvailable" class="available" @(sg.Available ? "checked='checked'" : string.Empty) /></td>
+                                <td><input type="checkbox" value="@sg.Value" name="securitySelected" class="selected" @(sg.Selected ? "checked='checked'" : string.Empty) /></td>
+                                <td>@sg.Text</td>
+                                <td>@sg.Description</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </fieldset>

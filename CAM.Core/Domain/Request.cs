@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using CAM.Core.BaseClasses;
 
 namespace CAM.Core.Domain
 {

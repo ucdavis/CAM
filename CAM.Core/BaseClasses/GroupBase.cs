@@ -3,7 +3,7 @@ using UCDArch.Core.DomainModel;
 
 namespace CAM.Core.BaseClasses
 {
-    public class GroupBase : DomainObject
+    public class GroupBase : ObjectBase
     {
         public GroupBase()
         {
@@ -24,7 +24,6 @@ namespace CAM.Core.BaseClasses
         public virtual string SID { get; set; }
 
         public virtual bool IsActive { get; set; }
-        public virtual Site Site { get; set; }
 
         public virtual string SearchableName { get; set; }
     }

@@ -140,14 +140,14 @@
                 <label class="control-label" for="distributionLists">Distribution List(s):</label>
                 <div class="controls">
                     <ul id="distLists" class="unstyled">
-                        @foreach (var dl in Model.Request.DistributionLists)
+@*                        @foreach (var dl in Model.Request.DistributionLists)
                         {
                             <li>@Html.TextBox("DistributionLists", dl.Name)
                                 <a href="#" class="btn btn-danger removeDistList">
                                     <i class="icon-minus"></i> Remove
                                 </a>
                             </li>
-                        }
+                        }*@
                         <li>@Html.TextBox("DistributionLists")
                             <a href="#" class="btn btn-danger removeDistList">
                                 <i class="icon-minus"></i> Remove
@@ -189,7 +189,6 @@
                         {
                             <li>                              
                                 <label class="checkbox">
-                                    @*@Html.CheckBox(software.Value, software.Selected)*@
                                     <input type="checkbox" value="@software.Value" name="software" @(software.Selected ? "checked='checked'" : string.Empty) />
                                     @software.Text
                                 </label>

@@ -9,77 +9,57 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true);
                 
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Request.Name, new {@class="control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Request.Name, new {@class="span3"})
+                    @Html.ValidationMessageFor(model => model.Request.Name)
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Request.Description, new {@class="control-label"})
+                <div class="controls">
+                    @Html.TextAreaFor(model => model.Request.Description, new {@class="span3"})
+                    @Html.ValidationMessageFor(model => model.Request.Description)
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    
     @Html.Partial("_RequestTemplateUnit")
     
     @Html.Partial("_RequestTemplateSecurityGroups")
     
     @Html.Partial("_RequestTemplateEmail")
     
-    
+    @Html.Partial("_RequestTemplateSoftware")
+
+    <div class="form-actions">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+    </div>
 }
 
 @section AdditionalScripts
 {
-    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
-
     <script type="text/javascript">
-
-        var sectUrl = '@Url.Action("SearchSecurityGroup")';
-
         $(function () {
-
-            $(".addbtn").click(function (e) {
-                var $list = $(this).siblings("ul");
-                var group = $("#ListTemplate").tmpl({ Name: $(this).data("name") }).appendTo($list);
-
-                if ($(this).data("name") == "DistributionLists") {
-                    InitializeAutoComplete($(group).find("input"), distUrl);
-                } else if ($(this).data("name") == "SecurityGroups") {
-                    InitializeAutoComplete($(group).find("input"), sectUrl);
+            
+            // if uncheck available, selected needs to be unselected
+            $(".available").change(function () {
+                if (!$(this).is(":checked")) {
+                    $(this).closest("tr").find(".selected").attr("checked", false);
                 }
-                
-                $(group).show('normal');
-
-                e.preventDefault();
             });
 
-            // remove button, works for both security and distribution lists
-            $(".control-lists").on('click', 'a', function(e) {
-                $(this).closest("li").hide('normal', function() { $(this).remove(); });
-                e.preventDefault();
+            // uncheck selected, available shouldn't be selected
+            $(".selected").change(function () {
+                if ($(this).is(":checked")) {
+                    $(this).closest("tr").find(".available").attr("checked", true);
+                }
             });
-
-            $("#DistributionLists").each(function(index, item) {
-                InitializeAutoComplete($(this), distUrl);
-            });
-
-            $("#SecurityGroups").each(function (index, item) {
-                InitializeAutoComplete($(this), sectUrl);
-            });
-
         });
-
-        function InitializeAutoComplete($obj, url) {
-
-            $obj.autocomplete({
-                source: url,
-                minLength: 2
-            });
-        }
     </script>
-
-    <script id="ListTemplate" type="text/x-jquery-tmpl">
-        <li style="display: none;"><input type="text" Name="${Name}" />
-            <a href="#" class="btn btn-danger removeDistList">
-                <i class="icon-minus"></i> Remove
-            </a>
-        </li>
-    </script>
-    
-    <style type="text/css">
-    .control-lists li
-    {
-        margin:  .5em 0;
-    }
-    </style>
 }

@@ -189,6 +189,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExtendedSelectListItem.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdGroupViewModel.cs" />
     <Compile Include="Models\HomeIndexViewModel.cs" />
@@ -310,7 +311,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -388,6 +388,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\RequestTemplate\_RequestTemplateSecurityGroups.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\RequestTemplate\_RequestTemplateSoftware.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
