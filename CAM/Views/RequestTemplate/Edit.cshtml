@@ -1,16 +1,17 @@
 ﻿@model RequestTemplateViewModel
 
 @{
-    ViewBag.Title = "Create Request Template";
+    ViewBag.Title = "Edit Template";
 }
 
-<h2>Create Request Template</h2>
+<h2>Edit Request Template</h2>
 
-@using (Html.BeginForm("Create", "RequestTemplate", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit", "RequestTemplate", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true);
     @Html.Hidden("RequestTemplate.Site", Model.RequestTemplate.Site.Id)
+    @Html.Hidden("Id", Model.RequestTemplate.Id)
                 
     <legend>Template Details</legend>
     
@@ -42,7 +43,7 @@
     @Html.Partial("_RequestTemplateSoftware")
 
     <div class="form-actions">
-        <input type="submit" value="Submit" class="btn btn-primary" />
+        <input type="submit" value="Save" class="btn btn-primary" />
         @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
     </div>
 }

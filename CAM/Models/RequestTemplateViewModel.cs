@@ -32,7 +32,7 @@ namespace CAM.Models
 
         public List<SelectListItem> GetUnits()
         {
-            return Units.Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = RequestTemplate.Unit == a }).ToList();
+            return Units.Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = RequestTemplate.Unit.Id == a.Id }).ToList();
         }
 
         public List<ExtendedSelectListItem> GetSoftware(bool web = false)

@@ -81,52 +81,34 @@ namespace CAM.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View();
+            var template = _repositoryFactory.RequestTemplateRepository.GetNullableById(id);
+            var viewModel = RequestTemplateViewModel.Create(_repositoryFactory, Site, template);
+            return View(viewModel);
         }
 
-        ////
-        //// POST: /RequestTemplate/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, RequestTemplate requestTemplate)
+        {
+            var templateToEdit = _repositoryFactory.RequestTemplateRepository.GetNullableById(id);
 
-        //[HttpPost]
-        //public ActionResult Edit(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
+            if (ModelState.IsValid)
+            {
+                templateToEdit.Name = requestTemplate.Name;
+                templateToEdit.Description = requestTemplate.Description;
+                templateToEdit.NeedsEmail = requestTemplate.NeedsEmail;
 
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+                templateToEdit.AvailableSecurityGroups = requestTemplate.AvailableSecurityGroups;
+                templateToEdit.SecurityGroups = requestTemplate.SecurityGroups;
+                templateToEdit.AvailableSoftware = requestTemplate.AvailableSoftware;
+                templateToEdit.Software = requestTemplate.Software;
 
-        ////
-        //// GET: /RequestTemplate/Delete/5
+                _repositoryFactory.RequestTemplateRepository.EnsurePersistent(templateToEdit);
+                return RedirectToAction("Index");
+            }
 
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        ////
-        //// POST: /RequestTemplate/Delete/5
-
-        //[HttpPost]
-        //public ActionResult Delete(int id, FormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            var viewModel = RequestTemplateViewModel.Create(_repositoryFactory, Site, templateToEdit);
+            return View(viewModel);
+        }
 
         public JsonNetResult SearchSecurityGroup(string term)
         {
