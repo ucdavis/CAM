@@ -131,7 +131,7 @@ namespace CAM.Services
 
         private IEnumerable<GroupPrincipal> LoadGroups(bool security)
         {
-            var ad = new PrincipalContext(ContextType.Domain, _server, "OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", _aduser, _adpass);
+            var ad = new PrincipalContext(ContextType.Domain, _server, "OU=Security Distribution,OU=Groups,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", _aduser, _adpass);
 
             var g = new GroupPrincipal(ad) {IsSecurityGroup = security};
             var searcher = new PrincipalSearcher(g);
