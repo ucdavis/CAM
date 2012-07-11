@@ -13,26 +13,9 @@
     @Html.Hidden("RequestTemplate.Site", Model.RequestTemplate.Site.Id)
     @Html.Hidden("Id", Model.RequestTemplate.Id)
                 
-    <legend>Template Details</legend>
+    @Html.Partial("_RequestTemplateDetails")
     
-    <div class="control-group">
-        <fieldset>
-            <div class="control-group">
-                @Html.LabelFor(model => model.RequestTemplate.Name, new {@class="control-label"})
-                <div class="controls">
-                    @Html.TextBoxFor(model => model.RequestTemplate.Name, new {@class="span3"})
-                    @Html.ValidationMessageFor(model => model.RequestTemplate.Name)
-                </div>
-            </div>
-            <div class="control-group">
-                @Html.LabelFor(model => model.RequestTemplate.Description, new {@class="control-label"})
-                <div class="controls">
-                    @Html.TextAreaFor(model => model.RequestTemplate.Description, new {@class="span3"})
-                    @Html.ValidationMessageFor(model => model.RequestTemplate.Description)
-                </div>
-            </div>
-        </fieldset>
-    </div>
+    @Html.Partial("_RequestTemplateEmployeeType")
     
     @Html.Partial("_RequestTemplateUnit")
     
@@ -50,5 +33,5 @@
 
 @section AdditionalScripts
 {
-    <script type="text/javascript" src="@Url.Content("~/Script/RequestTemplate.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/RequestTemplate.js")"></script>
 }

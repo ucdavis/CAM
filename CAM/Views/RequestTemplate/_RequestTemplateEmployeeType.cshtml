@@ -1,0 +1,47 @@
+﻿@using CAM.Core.BaseClasses
+@model RequestTemplateViewModel
+
+<legend>Employee Type</legend>
+
+<div class="control-group">
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label">Hire Type</label>
+            <div class="controls">
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.HireType", HireType.NewPosition, Model.RequestTemplate.HireType == HireType.NewPosition)
+                    New Position
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.HireType", HireType.Rehire, Model.RequestTemplate.HireType == HireType.Rehire)
+                    Rehire
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Employee Type</label>
+            <div class="controls">
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.EmployeeType", EmployeeType.Career, Model.RequestTemplate.EmployeeType == EmployeeType.Career)
+                    Career Staff
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.EmployeeType", EmployeeType.Temp, Model.RequestTemplate.EmployeeType == EmployeeType.Temp)
+                    Temp
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.EmployeeType", EmployeeType.Volunteer, Model.RequestTemplate.EmployeeType == EmployeeType.Volunteer)
+                    Volunteer
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.EmployeeType", EmployeeType.Student, Model.RequestTemplate.EmployeeType == EmployeeType.Student)
+                    Student
+                </label>
+                <label class="radio">
+                    @Html.RadioButton("RequestTemplate.EmployeeType", EmployeeType.Other, Model.RequestTemplate.EmployeeType == EmployeeType.Other)
+                    Other
+                </label>
+            </div>
+        </div>
+    </fieldset>
+</div>

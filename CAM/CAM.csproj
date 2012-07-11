@@ -420,6 +420,12 @@
   <ItemGroup>
     <Content Include="Views\Request\Review.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\RequestTemplate\_RequestTemplateEmployeeType.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\RequestTemplate\_RequestTemplateDetails.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
