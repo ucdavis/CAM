@@ -35,10 +35,48 @@ namespace CAM.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Index()
+        public ActionResult Index(bool viewAll = false)
         {
             var results = _repositoryFactory.RequestRepository.Queryable.Where(a => a.Site.Id == Site);
+
+            if (!viewAll)
+            {
+                results = results.Where(a => a.Pending);
+            }
+
             return View(results);
+        }
+
+        public ActionResult Review(int id)
+        {
+            var request = _repositoryFactory.RequestRepository.GetNullableById(id);
+
+            if (request == null)
+            {
+                Message = "Request not found.";
+                return RedirectToAction("Index");
+            }
+            
+            return View(request);
+        }
+
+        [HttpPost]
+        public ActionResult Review(int id, bool Approved)
+        {
+            var request = _repositoryFactory.RequestRepository.GetNullableById(id);
+
+            if (request == null)
+            {
+                Message = "Request not found.";
+                return RedirectToAction("Index");
+            }
+
+            request.Pending = false;
+            request.Approved = Approved;
+            _repositoryFactory.RequestRepository.EnsurePersistent(request);
+
+            Message = string.Format("Requeste for {0} {1} has {2} approved.", request.FirstName, request.LastName, Approved ? "been" : "not been");
+            return RedirectToAction("Index");
         }
     }
 }

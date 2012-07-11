@@ -1,0 +1,149 @@
+﻿@model Request
+
+@{
+    ViewBag.Title = "Review Request";
+}
+
+<h2 class="page-header">Review Request</h2>
+
+<div class="form-horizontal">
+    
+    <div class="control-group">
+        
+        <legend>Request Details</legend>
+
+        <fieldset>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label">Name</label>
+                    <div class="controls">@string.Format("{0} {1}", Model.FirstName, Model.LastName)</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Email</label>
+                    <div class="controls">
+                        @Model.Email
+                    </div>
+                </div>  
+                <div class="control-group">
+                    <label class="control-label">Contact Phone</label>
+                    <div class="controls">
+                        @Model.ContactPhone
+                    </div>
+                </div>
+            </div>    
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label">Unit</label>
+                    <div class="controls"> @Model.UnitName </div>
+                </div>  
+                <div class="control-group">
+                    <label class="control-label">Needs Email</label>
+                    <div class="controls">
+                        @(Model.NeedsEmail ? "Yes" : "No")
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Location</label>
+                    <div class="controls">
+                        @string.Format("{0} {1}", Model.Room, Model.OfficeLocation)
+                    </div>
+                </div>   
+                <div class="control-group">
+                    <label class="control-label">Employment Dates</label>
+                    <div class="controls">
+                        @if(Model.End.HasValue)
+                        {
+                            <text>
+                                @string.Format("{0}-{1}", Model.Start.ToString("d"), Model.End.Value.ToString("d"))
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                @Model.Start.ToString("d")
+                            </text>
+                        }
+                    </div>
+                </div>   
+
+            </div>    
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label">Employee Type</label>
+                    <div class="controls">
+                        @Model.EmployeeType
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Hire Type</label>
+                    <div class="controls">
+                        @Model.HireType
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Supervisor</label>
+                    <div class="controls">
+                        @Model.CreatedBy
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Date Request</label>
+                    <div class="controls">
+                        @Model.CreatedDate
+                    </div>
+                </div>      
+            </div>    
+        </fieldset>
+    </div>
+    <div class="control-group">
+        <div class="span6">
+            <legend>Security Groups</legend>
+        
+            <ul class="unstyled">
+                @foreach(var sg in Model.SecurityGroups)
+                {
+                    <li>@sg.Name</li>
+                }
+            </ul>
+
+        </div>
+        <div class="span6">
+        
+            <legend>Software</legend>
+        
+            <ul class="unstyled">
+                @foreach(var sg in Model.Software)
+                {
+                    <li>@sg.Name 
+                        @if(sg.WebApplication)
+                        {
+                            <text>(Web Application)</text>
+                        }
+                    </li>
+                }
+            </ul>
+
+        </div>
+    </div>
+    <div class="form-actions">
+        @using(Html.BeginForm("Review", "Request", new {Approved=true, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Approve" class="btn btn-success" />    
+        }
+        @using(Html.BeginForm("Review", "Request", new {Approved=false, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Deny" class="btn btn-danger"/>
+        }
+        @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+    </div>
+
+</div>
+
+@section AdditionalScripts
+{
+    <style type="text/css">
+        .controls { font-weight: bold;padding-top: 5px;}
+    </style>
+}

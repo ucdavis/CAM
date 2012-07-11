@@ -19,6 +19,10 @@
     [AdditionalFolders] VARCHAR(100) NULL, 
     [UnitId] INT NULL, 
     [SiteId] VARCHAR(5) NOT NULL, 
+    [Pending] BIT NOT NULL DEFAULT 1, 
+    [Approved] BIT NULL, 
+    [CreatedBy] VARCHAR(15) NOT NULL, 
+    [CreatedDate] DATETIME NOT NULL DEFAULT getdate(), 
     CONSTRAINT [FK_Requests_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id]), 
     CONSTRAINT [FK_Requests_ToTable] FOREIGN KEY ([UnitId]) REFERENCES [Units]([Id]) 
 )

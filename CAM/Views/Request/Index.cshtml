@@ -6,6 +6,18 @@
 
 <h2>Pending Requests</h2>
 
+<div class="pull-right">
+    @if (!Convert.ToBoolean(Request.QueryString["viewAll"]))
+    {
+        @Html.ActionLink("View All", "Index", new {@viewall = true}, new {@class="btn"})    
+    }
+    else
+    {
+        @Html.ActionLink("View Pending", "Index", new {@viewall = false}, new {@class="btn"})    
+    }
+    
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -17,6 +29,7 @@
             <th>Position</th>
             <th>Hire Type</th>
             <th>Employee Type</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +37,7 @@
         {
             <tr>
                 <td>
-                    <a href="#" class="btn btn-primary">Review</a>
+                    @Html.ActionLink("Review", "Review", new {id=rq.Id}, new {@class="btn btn-primary"})
                 </td>
                 <td>@rq.FirstName</td>
                 <td>@rq.LastName</td>
@@ -46,6 +59,23 @@
                 <td>@rq.PositionTitle</td>
                 <td>@rq.HireType</td>
                 <td>@rq.EmployeeType</td>
+                <td>
+                    @if(rq.Pending)
+                    {
+                        <span class="label label-info">Pending</span>
+                    }
+                    else
+                    {
+                        if (rq.Approved.Value)
+                        {
+                            <span class="label label-success">Approved</span>
+                        }
+                        else
+                        {
+                            <span class="label label-important">Denied</span>
+                        }
+                    }
+                </td>
             </tr>
         }
     </tbody>

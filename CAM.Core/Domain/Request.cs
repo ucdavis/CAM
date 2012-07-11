@@ -32,6 +32,8 @@ namespace CAM.Core.Domain
         private void SetDefaults()
         {
             Start = DateTime.Now.AddDays(14);
+
+            Pending = true;
         }
 
         [Required]
@@ -66,6 +68,11 @@ namespace CAM.Core.Domain
 
         public virtual DateTime Start { get; set; }
         public virtual DateTime? End { get; set; }
+
+        public virtual bool Pending { get; set; }
+        public virtual bool? Approved { get; set; }
+        public virtual string CreatedBy { get; set; }
+        public virtual string CreatedDate { get; set; }
     }
 
     public class RequestMap : ClassMap<Request>
@@ -86,6 +93,11 @@ namespace CAM.Core.Domain
 
             Map(x => x.Start);
             Map(x => x.End).Column("`End`");
+
+            Map(x => x.Pending);
+            Map(x => x.Approved);
+            Map(x => x.CreatedBy);
+            Map(x => x.CreatedDate);
 
             References(x => x.Unit);
             References(x => x.Site);
