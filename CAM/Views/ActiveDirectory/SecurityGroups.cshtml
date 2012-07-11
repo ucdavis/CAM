@@ -4,20 +4,30 @@
     ViewBag.Title = "Active Directory Security Lists";
 }
 
-@if(!Model.AdGroupCompares.Any())
+@using (Html.BeginForm("SecurityGroups", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
 {
-    <div class="alert alert-info">
-        <p>
-            The system is in sync with your Active Directory.  No changes have been found.
-        </p>
-    </div>
-}
-else
-{
-    using (Html.BeginForm("SecurityGroups", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
-    {
-        @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
+    if(Model == null)
+    {
+        <div class="well form-inline">
+            <span class="help-block">Login credentials for your AD.</span>
+            <input type="text" name="userName" placeholder="User Name"/>
+            <input type="password" name="password" placeholder="Password"/>
+            <input type="submit" value="Authenticate" class="btn btn-primary"/>
+        </div>   
+    
+    }
+    else if(!Model.AdGroupCompares.Any())
+    {
+        <div class="alert alert-info">
+            <p>
+                The system is in sync with your Active Directory.  No changes have been found.
+            </p>
+        </div>
+    }
+    else
+    {
         <legend>AD Group Changes</legend>
 
         <table class="table table-striped">
@@ -61,6 +71,7 @@ else
             <a href="@Url.Action("Index")" class="btn">Cancel</a>
         </div>
     }
+
 }
 
 @section AdditionalScripts

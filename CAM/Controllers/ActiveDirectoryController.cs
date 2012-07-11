@@ -26,15 +26,22 @@ namespace CAM.Controllers
 
         public ActionResult SecurityGroups()
         {
-            var results = _activeDirectoryService.GetSecurityGroups();
-            var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
+            //if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
+            //{
+            //    _activeDirectoryService.Initialize(userName, password, LoadSite());
+            //    var results = _activeDirectoryService.GetSecurityGroups();
+            //    var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
 
-            return View(viewModel);
+            //    return View(viewModel);
+            //}
+
+            return View();
         }
 
         [HttpPost]
-        public ActionResult SecurityGroups(List<string> add, List<string> update, List<int> remove)
+        public ActionResult SecurityGroups(string userName, string password, List<string> add, List<string> update, List<int> remove)
         {
+            _activeDirectoryService.Initialize(userName, password, LoadSite());
             var results = _activeDirectoryService.GetSecurityGroups();
             var site = _repositoryFactory.SiteRepository.GetNullableById(Site);
 

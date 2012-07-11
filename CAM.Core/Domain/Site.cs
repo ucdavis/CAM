@@ -17,7 +17,7 @@ namespace CAM.Core.Domain
 
         public virtual string ActiveDirectoryServer { get; set; }
         public virtual string SecurityGroupOu { get; set; }
-        public virtual string UsersOu { get; set; }
+        public virtual string UserOu { get; set; }
 
         public virtual bool HasUnits()
         {
@@ -35,7 +35,7 @@ namespace CAM.Core.Domain
             HasMany(x => x.Units);
             Map(x => x.ActiveDirectoryServer);
             Map(x => x.SecurityGroupOu);
-            Map(x => x.UsersOu);
+            Map(x => x.UserOu);
         }
     }
 }

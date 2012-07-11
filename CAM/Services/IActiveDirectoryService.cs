@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
+using CAM.Core.Domain;
 
 namespace CAM.Services
 {
     public interface IActiveDirectoryService
     {
-        //List<string> ReadAllUsers();
-        //List<string> ReadAllGroups();
-        //void ReadAllDistributionLists();
+        void Initialize(string userName, string password, Site site);
 
         /// <summary>
         /// Loads a list of security groups according to site filters
@@ -27,10 +26,20 @@ namespace CAM.Services
 
     public class ActiveDirectoryService : IActiveDirectoryService
     {
-        private readonly string _server = ConfigurationManager.AppSettings["adserver"];
         private readonly string _aduser = ConfigurationManager.AppSettings["aduser"];
         private readonly string _adpass = ConfigurationManager.AppSettings["adpass"];
-        
+
+        private Site Site { get; set; }
+        private string UserName { get; set; }
+        private string Password { get; set; }
+
+        public void Initialize(string userName, string password, Site site)
+        {
+            Site = site;
+            UserName = userName;
+            Password = password;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -131,7 +140,7 @@ namespace CAM.Services
 
         private IEnumerable<GroupPrincipal> LoadGroups(bool security)
         {
-            var ad = new PrincipalContext(ContextType.Domain, _server, "OU=Security Distribution,OU=Groups,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", _aduser, _adpass);
+            var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, Site.SecurityGroupOu, UserName, Password);
 
             var g = new GroupPrincipal(ad) {IsSecurityGroup = security};
             var searcher = new PrincipalSearcher(g);
