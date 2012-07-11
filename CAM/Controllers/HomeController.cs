@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using CAM.Core.Repositories;
 using CAM.Models;
 using CAM.Services;
+using CAM.Web.Services;
 using UCDArch.Web.ActionResults;
 
 namespace CAM.Controllers
@@ -12,11 +13,13 @@ namespace CAM.Controllers
     {
         private readonly IRepositoryFactory _repositoryFactory;
         private readonly IActiveDirectoryService _activeDirectoryService;
+        private readonly IDirectorySearchService _directorySearchService;
 
-        public HomeController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService)
+        public HomeController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService, IDirectorySearchService directorySearchService)
         {
             _repositoryFactory = repositoryFactory;
             _activeDirectoryService = activeDirectoryService;
+            _directorySearchService = directorySearchService;
         }
 
         public ActionResult Index()
@@ -53,10 +56,23 @@ namespace CAM.Controllers
                 var results = new List<string>();
 
                 _activeDirectoryService.Initialize(userName, password, LoadSite());
-                var result = _activeDirectoryService.GetOrganizationalUnits();
+                var result = _activeDirectoryService.GetUser("lai");
 
-                //results = result.OrderBy(a => a.GetContainer()).ThenBy(a => a.LastName).Select(a => string.Format("{0} {1} ({2}) ({3}) ({4})", a.FirstName, a.LastName, a.Description, a.Enabled, a.Email)).ToList();
-                results = result.Select(a => string.Format("{0} ({1})", a.Name, a.Path)).Distinct().ToList();
+                if (result != null)
+                {
+                    results.Add(result.Email);
+
+                    var du = _directorySearchService.FindUser(result.Email);
+                    results.Add(du.LoginId);
+                    results.Add(result.EmployeeId);
+                    results.Add("----------------");
+                }
+                else
+                {
+                    results.Add("not found");
+                }
+
+                //_activeDirectoryService.AssignEmployeeId("lai", "anlai");
 
                 return View(results);    
             }

@@ -21,9 +21,20 @@ namespace CAM.Services
         /// </summary>
         /// <returns></returns>
         List<AdGroup> GetDistributionLists();
-
+        /// <summary>
+        /// Gets a list of OUs, using user searching and returning those containers
+        /// </summary>
+        /// <returns></returns>
         List<AdOrganizationalUnit> GetOrganizationalUnits();
+        /// <summary>
+        /// Gets a list of all users
+        /// </summary>
+        /// <returns></returns>
         List<AdUser> GetUsers();
+
+        AdUser GetUser(string userId);
+
+        void AssignEmployeeId(string userId, string employeeId);
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
@@ -89,6 +100,46 @@ namespace CAM.Services
             var results = LoadUsers();
 
             return results.ToList();
+        }
+
+        public AdUser GetUser(string userId)
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return null; }
+
+            var ous = Site.UserOu.Split('|');
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var u = UserPrincipal.FindByIdentity(ad, userId);
+                    if (u != null) return new AdUser(u);
+                }
+            }
+
+            return null;
+        }
+
+        public void AssignEmployeeId(string userId, string employeeId)
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return; }
+
+            var ous = Site.UserOu.Split('|');
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var u = UserPrincipal.FindByIdentity(ad, userId);
+                    if (u != null)
+                    {
+                        u.EmployeeId = employeeId;
+                        u.Save();
+
+                        return;
+                    }
+                }
+            }
         }
 
         private IEnumerable<AdUser> LoadUsers()
