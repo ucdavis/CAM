@@ -75,6 +75,9 @@
     <Build Include="dbo\Tables\SecurityGroups.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXSecurityGroups.sql" />
     <Build Include="dbo\Tables\RequestTemplatesXAvailableSecurityGroups.sql" />
+    <Build Include="dbo\Tables\Requests.sql" />
+    <Build Include="dbo\Tables\RequestsXSoftwares.sql" />
+    <Build Include="dbo\Tables\RequestsXSecurityGroups.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />

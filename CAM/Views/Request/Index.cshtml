@@ -9,6 +9,8 @@
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Hidden("Request.Site", Model.Request.Site.Id)
+    @Html.Hidden("Request.Unit", Model.Request.Unit != null ? Model.Request.Unit.Id.ToString() : string.Empty)
     
     @Html.Partial("_RequestEmployeeInformation")
 

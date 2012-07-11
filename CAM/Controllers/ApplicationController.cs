@@ -20,6 +20,11 @@ namespace CAM.Controllers
         {
             return Repository.OfType<Site>().Queryable.FirstOrDefault(a => a.Id == Site);
         }
-        
+
+        private const string MessageKey = "Message";
+        public string Message { 
+            get { return TempData[MessageKey] as string; }
+            set { TempData[MessageKey] = value; }
+        }
     }
 }

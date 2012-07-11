@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using CAM.Core.Domain;
 using CAM.Core.Repositories;
+using CAM.Helpers;
 
 namespace CAM.Models
 {
@@ -19,7 +20,7 @@ namespace CAM.Models
         {
             var viewModel = new RequestViewModel()
             {
-                Request = new Request()
+                Request = new Request() {Site = site}
             };
 
             if (request == null)
@@ -57,16 +58,10 @@ namespace CAM.Models
             return Softwares.Where(a => a.WebApplication == webApplication).Select(s => new SelectListItem() { Selected = Request.Software.Contains(s), Text = s.Name, Value = s.Id.ToString() }).ToList();
         }
 
-        public IEnumerable<CustomSelect> GetNetworkShareList()
+        public IEnumerable<ExtendedSelectListItem> GetNetworkShareList()
         {
-            return NetworkShares.Select(n => new CustomSelect() { Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect, GroupId = n.GroupId }).ToList();
+            return NetworkShares.Select(n => new ExtendedSelectListItem() { Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect, GroupId = n.GroupId }).ToList();
         }
 
-    }
-
-    public class CustomSelect : SelectListItem
-    {
-        public bool ForceSelect { get; set; }
-        public string GroupId { get; set; }
     }
 }
