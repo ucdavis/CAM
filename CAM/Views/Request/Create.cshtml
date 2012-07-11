@@ -5,6 +5,8 @@
     ViewBag.Title = "Index";
 }
 
+<h2 class="page-header">Create Access Request</h2>
+
 @using (Html.BeginForm("Create", "Request", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
