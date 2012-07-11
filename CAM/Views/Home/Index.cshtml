@@ -13,7 +13,7 @@
         @foreach(var site in Model.Sites)
         {
             <li>
-                @site.Name
+                @Html.ActionLink(site.Name, "Index", new {@site=site.Id})
             </li>    
         }
     </ul>
