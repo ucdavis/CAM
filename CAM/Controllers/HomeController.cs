@@ -46,15 +46,22 @@ namespace CAM.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        public ActionResult Test(string userName, string password)
         {
-            var results = new List<string>();
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password) )
+            {
+                var results = new List<string>();
 
-            var result = _activeDirectoryService.GetSecurityGroups();
+                _activeDirectoryService.Initialize(userName, password, LoadSite());
+                var result = _activeDirectoryService.GetOrganizationalUnits();
 
-            results = result.Select(a => string.Format("{0} ({1})", a.Name, a.Description)).ToList();
+                //results = result.OrderBy(a => a.GetContainer()).ThenBy(a => a.LastName).Select(a => string.Format("{0} {1} ({2}) ({3}) ({4})", a.FirstName, a.LastName, a.Description, a.Enabled, a.Email)).ToList();
+                results = result.Select(a => string.Format("{0} ({1})", a.Name, a.Path)).Distinct().ToList();
 
-            return View(results);
+                return View(results);    
+            }
+
+            return View();
         }
     }
 }

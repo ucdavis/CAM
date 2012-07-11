@@ -22,6 +22,8 @@ namespace CAM.Services
         /// <returns></returns>
         List<AdGroup> GetDistributionLists();
 
+        List<AdOrganizationalUnit> GetOrganizationalUnits();
+        List<AdUser> GetUsers();
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
@@ -40,125 +42,84 @@ namespace CAM.Services
             Password = password;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// http://social.msdn.microsoft.com/Forums/en-IE/csharpgeneral/thread/e8855f8a-3c0f-4744-9513-dbc1322c267c
-        /// </remarks>
-        /// <returns></returns>
-        //private string GetLdap()
-        //{
-        //    var context = new DirectoryContext(DirectoryContextType.Domain, _server, _aduser, _adpass);
-        //    var domain = Domain.GetDomain(context);
-
-        //    foreach (DomainController dc in domain.DomainControllers)
-        //    {
-        //        if (!string.IsNullOrEmpty(dc.Name))
-        //        {
-        //            return string.Format("LDAP://{0}/CN=Users/DC={1},DC={2}", dc.Name, _server.Substring(0, _server.Length - 4), dc.Name.Substring(dc.Name.Length - 3, 3));
-        //        }
-        //    }
-
-        //    return null;
-        //}
-
-        //public List<string> ReadAllUsers()
-        //{
-        //    var de = new DirectoryEntry("LDAP://philip.caesdo.caes.ucdavis.edu/DC=caesdo,DC=caes,DC=ucdavis,DC=edu", _aduser, _adpass);
-        //    var ds = new DirectorySearcher(de);
-        //    //ds.Filter = "(objectClass=user)";
-        //    ds.Filter = "(objectCategory=person)";
-
-        //    //ds.PropertiesToLoad.Clear();
-        //    //ds.PropertiesToLoad.Add("name");                // name
-        //    //ds.PropertiesToLoad.Add("distinguishedName");   // ldap, key?
-        //    //ds.PropertiesToLoad.Add("cn");                    // login id
-
-        //    var results = new List<string>();
-
-        //    foreach (SearchResult result in ds.FindAll())
-        //    {
-        //        try
-        //        {
-        //            var test = string.Format("{0}({1})",result.Properties["name"][0].ToString(), result.Properties["cn"][0]);
-                    
-        //            results.Add(test);
-        //        }
-        //        catch
-        //        {
-        //        }
-
-        //    }
-
-        //    return results;
-        //}
-
-        //public List<string> ReadAllGroups()
-        //{
-
-        //    var de = new DirectoryEntry("LDAP://philip.caesdo.caes.ucdavis.edu/DC=caesdo,DC=caes,DC=ucdavis,DC=edu", _aduser, _adpass);
-        //    var ds = new DirectorySearcher(de);
-        //    ds.Filter = "(objectClass=group)";
-        //    var results = new List<string>();
-
-        //    foreach (SearchResult result in ds.FindAll())
-        //    {
-        //        try
-        //        {
-        //            var test = result.Properties["objectClass"][0];
-        //            results.Add(test.ToString());
-        //        }
-        //        catch
-        //        {
-        //        }
-
-        //    }
-
-        //    return results;
-            
-        //}
-
-        //public void ReadAllDistributionLists()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public List<AdGroup> GetSecurityGroups()
         {
             var results = LoadGroups(true);
 
-            return results.Select(a => new AdGroup(a.SamAccountName, a.Name, a.Description, a.Sid.Value)).ToList();
+            return results.Select(a => new AdGroup(a)).ToList();
         }
 
         public List<AdGroup> GetDistributionLists()
         {
             var results = LoadGroups(false);
 
-            return results.Select(a => new AdGroup(a.SamAccountName, a.Name, a.Description, a.Sid.Value)).ToList();
+            return results.Select(a => new AdGroup(a)).ToList();
+        }
+
+        public List<AdOrganizationalUnit> GetOrganizationalUnits()
+        {
+            var results = GetUsers();
+            return results.Select(a => new AdOrganizationalUnit(a.GetContainer(), a.GetContainerPath())).Distinct().ToList();
         }
 
         private IEnumerable<GroupPrincipal> LoadGroups(bool security)
         {
-            var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, Site.SecurityGroupOu, UserName, Password);
+            if (Site == null || string.IsNullOrEmpty(Site.SecurityGroupOu)) { return new List<GroupPrincipal>(); }
 
-            var g = new GroupPrincipal(ad) {IsSecurityGroup = security};
-            var searcher = new PrincipalSearcher(g);
+            var ous = Site.SecurityGroupOu.Split('|');
+            var results = new List<GroupPrincipal>();
 
-            var results = searcher.FindAll();
+            foreach(var ou in ous)
+            {
+                using(var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, Site.SecurityGroupOu, UserName, Password))
+                {
+                    var g = new GroupPrincipal(ad) { IsSecurityGroup = security };
+                    var searcher = new PrincipalSearcher(g);
+        
+                    results.AddRange(searcher.FindAll().Select(a => (GroupPrincipal)a));
+                }
+            }
 
-            return results.Select(a => (GroupPrincipal) a).ToList();
+            return results;
+        }
+
+        public List<AdUser> GetUsers()
+        {
+            var results = LoadUsers();
+
+            return results.Select(a => new AdUser(a)).ToList();
+        }
+
+        private IEnumerable<UserPrincipal> LoadUsers()
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) {return new List<UserPrincipal>();}
+
+            var ous = Site.UserOu.Split('|');
+            var results = new List<UserPrincipal>();
+
+            foreach(var ou in ous)
+            {
+                using(var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var u = new UserPrincipal(ad) {Enabled = true};
+                    var searcher = new PrincipalSearcher(u);
+
+                    results.AddRange(searcher.FindAll().Select(a => (UserPrincipal)a));        
+                }
+            }
+
+            return results;
         }
     } 
 
     public class AdGroup
     {
-        public AdGroup(string id, string name, string description, string sid)
+        public AdGroup(GroupPrincipal groupPrincipal)
         {
-            Id = id;
-            Name = name;
-            Description = description;
-            SID = sid;
+            Id = groupPrincipal.SamAccountName;
+            Name = groupPrincipal.Name;
+            Description = groupPrincipal.Description;
+            SID = groupPrincipal.Sid.Value;
         }
 
         /// <summary>
@@ -175,5 +136,80 @@ namespace CAM.Services
         public string Description { get; set; }
 
         public string SID { get; set; }
+    }
+
+    public class AdUser
+    {
+        public AdUser(UserPrincipal userPrincipal)
+        {
+            Id = userPrincipal.SamAccountName;
+            EmployeeId = userPrincipal.EmployeeId;
+
+            FirstName = userPrincipal.GivenName;
+            LastName = userPrincipal.Surname;
+            Email = userPrincipal.EmailAddress;
+            Description = userPrincipal.Description;
+            SID = userPrincipal.Sid.Value;
+
+            ContainerPath = userPrincipal.DistinguishedName;
+
+            Expiration = userPrincipal.AccountExpirationDate;
+            Enabled = userPrincipal.Enabled;
+        }
+
+        /// <summary>
+        /// SAM account name
+        /// </summary>
+        public string Id { get; set; }
+        /// <summary>
+        /// Employee ID field from AD
+        /// </summary>
+        public string EmployeeId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        /// <summary>
+        /// User's description
+        /// </summary>
+        public string Description { get; set; }
+        
+        /// <summary>
+        /// Security ID
+        /// </summary>
+        public string SID { get; set; }
+        public string ContainerPath { get; set; }
+        /// <summary>
+        /// Account expiration
+        /// </summary>
+        public DateTime? Expiration { get; set; }
+        public bool? Enabled { get; set; }
+
+        public string GetContainer()
+        {
+            var startIndex = ContainerPath.IndexOf("OU=") + 3;
+            var endIndex = ContainerPath.IndexOf(',', startIndex);
+
+            return ContainerPath.Substring(startIndex, endIndex - startIndex);
+        }
+
+        public string GetContainerPath()
+        {
+            var startIndex = ContainerPath.IndexOf("OU=");
+            var endIndex = ContainerPath.Length;
+
+            return ContainerPath.Substring(startIndex, endIndex - startIndex);
+        }
+    }
+
+    public class AdOrganizationalUnit
+    {
+        public AdOrganizationalUnit(string name, string path)
+        {
+            Name = name;
+            Path = path;
+        }
+
+        public string Name { get; set; }
+        public string Path { get; set; }
     }
 }

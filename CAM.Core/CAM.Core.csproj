@@ -70,6 +70,7 @@
     <Compile Include="Domain\DnsName.cs" />
     <Compile Include="Domain\IpAddress.cs" />
     <Compile Include="Domain\NetworkShare.cs" />
+    <Compile Include="Domain\OrganizationalUnit.cs" />
     <Compile Include="Domain\Request.cs" />
     <Compile Include="BaseClasses\RequestBase.cs" />
     <Compile Include="Domain\RequestTemplate.cs" />

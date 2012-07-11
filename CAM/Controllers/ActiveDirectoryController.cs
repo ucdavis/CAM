@@ -26,15 +26,6 @@ namespace CAM.Controllers
 
         public ActionResult SecurityGroups()
         {
-            //if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
-            //{
-            //    _activeDirectoryService.Initialize(userName, password, LoadSite());
-            //    var results = _activeDirectoryService.GetSecurityGroups();
-            //    var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
-
-            //    return View(viewModel);
-            //}
-
             return View();
         }
 

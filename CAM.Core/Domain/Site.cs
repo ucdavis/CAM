@@ -10,6 +10,7 @@ namespace CAM.Core.Domain
         public Site()
         {
             Units = new List<Unit>();
+            OrganizationalUnits = new List<OrganizationalUnit>();
         }
 
         public virtual string Name { get; set; }
@@ -18,6 +19,8 @@ namespace CAM.Core.Domain
         public virtual string ActiveDirectoryServer { get; set; }
         public virtual string SecurityGroupOu { get; set; }
         public virtual string UserOu { get; set; }
+
+        public virtual IList<OrganizationalUnit> OrganizationalUnits { get; set; }
 
         public virtual bool HasUnits()
         {
@@ -36,6 +39,8 @@ namespace CAM.Core.Domain
             Map(x => x.ActiveDirectoryServer);
             Map(x => x.SecurityGroupOu);
             Map(x => x.UserOu);
+
+            HasMany(x => x.OrganizationalUnits);
         }
     }
 }
