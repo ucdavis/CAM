@@ -34,7 +34,7 @@ namespace CAM.Controllers
         {
             _activeDirectoryService.Initialize(userName, password, LoadSite());
             var results = _activeDirectoryService.GetSecurityGroups();
-            var site = _repositoryFactory.SiteRepository.GetNullableById(Site);
+            var site = LoadSite();
 
             if (add != null)
             {
@@ -91,6 +91,57 @@ namespace CAM.Controllers
             }
 
             var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
+            return View(viewModel);
+        }
+
+        public ActionResult OrganizationalUnits()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OrganizationalUnits(string userName, string passWord, List<string> add, List<string> remove)
+        {
+            _activeDirectoryService.Initialize(userName, passWord, LoadSite());
+            var results = _activeDirectoryService.GetOrganizationalUnits();
+            var site = LoadSite();
+
+            if (add != null)
+            {
+                foreach(var a in add)
+                {
+                    var x = results.FirstOrDefault(y => y.Path == a);
+                    var ou = _repositoryFactory.OrganizationalUnitRepository.Queryable.FirstOrDefault(z => z.Site.Id == Site && z.Path == a);
+                    if (ou == null && x != null)
+                    {
+                        ou= new OrganizationalUnit() {Name = x.Name, Path = x.Path, Site = site};
+                    }
+                    else if (ou != null)
+                    {
+                        ou.IsActive = true;
+                    }
+
+                    if (ou!= null)
+                    {
+                        _repositoryFactory.OrganizationalUnitRepository.EnsurePersistent(ou);
+                    }
+                }
+            }
+            
+            if (remove != null)
+            {
+                foreach(var r in remove)
+                {
+                    var ou = _repositoryFactory.OrganizationalUnitRepository.Queryable.FirstOrDefault(a => a.Site.Id == Site && a.Path == r);
+                    if (ou != null)
+                    {
+                        ou.IsActive = false;
+                        _repositoryFactory.OrganizationalUnitRepository.EnsurePersistent(ou);
+                    }
+                }
+            }
+
+            var viewModel = AdOuViewModel.Create(_repositoryFactory, LoadSite(), results);
             return View(viewModel);
         }
     }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CAM.Core.BaseClasses;
 using CAM.Core.Repositories;
+using CAM.Helpers;
 using CAM.Services;
 
 namespace CAM.Models
@@ -35,9 +36,6 @@ namespace CAM.Models
 
             return viewModel;
         }
-
-
-
     }
 
     public class AdGroupCompare
@@ -48,6 +46,4 @@ namespace CAM.Models
         public string Description { get; set; }
         public ChangeType ChangeType { get; set; }
     }
-
-    public enum ChangeType { Add, Remove, Update }
 }

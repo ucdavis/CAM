@@ -1,22 +1,21 @@
 ﻿@using CAM.Helpers
-@model AdGroupViewModel
+@model AdOuViewModel
 
 @{
-    ViewBag.Title = "Active Directory Security Lists";
+    ViewBag.Title = "Active Directory Organizational Units";
 }
 
-<h2 div class="page-header">Active Directory Security Groups</h2>
+<h2 class="page-header">Active Directory Organizational Units</h2>
 
-@using (Html.BeginForm("SecurityGroups", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
+@using(Html.BeginForm("OrganizationalUnits", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
 {
     @Html.AntiForgeryToken()
-
+    
     if(Model == null)
     {
-        @Html.Partial("_AdAuthForm", "Authorize")
-    
+        @Html.Partial("_AdAuthForm", "Authorize")    
     }
-    else if(!Model.AdGroupCompares.Any())
+    else if(!Model.AdOuCompares.Any())
     {
         <div class="alert alert-info">
             <p>
@@ -31,32 +30,34 @@
                 <tr>
                     <th></th>
                     <th>Name</th>
-                    <th>Description</th>
+                    <th>Path</th>
+                    <th>Change Type</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(var row in Model.AdGroupCompares)
+                @foreach (var row in Model.AdOuCompares)
                 {
                     <tr>
                         <td>
-                            @if(row.ChangeType == ChangeType.Add)
+                            @if (row.ChangeType == ChangeType.Add)
                             {
                                 <div class="btn btn-success adaction" data-action="add"><i class="icon-plus"></i>Add</div>
-                                <input type="checkbox" value="@row.SID" checked="checked" name="add"/>
+                                <input type="checkbox" value="@row.Path" checked="checked" name="add"/>
                             }
                             else if (row.ChangeType == ChangeType.Update)
                             {
                                 <div class="btn btn-warning adaction" data-action="update"><i class="icon-refresh"></i>Update</div>
-                                <input type="checkbox" value="@row.SID" checked="checked" name="update"/>
+                                <input type="checkbox" value="@row.Path" checked="checked" name="update"/>
                             }
                             else if (row.ChangeType == ChangeType.Remove)
                             {
                                 <div class="btn btn-danger adaction" data-action="remove"><i class="icon-minus"></i>Remove</div>
-                                <input type="checkbox" value="@row.GroupId" checked="checked" name="remove"/>
+                                <input type="checkbox" value="@row.Path" checked="checked" name="remove"/>
                             }
                         </td>
                         <td>@row.Name</td>
-                        <td>@row.Description</td>
+                        <td>@row.Path</td>
+                        <td>@row.ChangeType</td>
                     </tr>
                 }
             </tbody>
@@ -64,7 +65,6 @@
     
         @Html.Partial("_AdAuthForm", "Submit")
     }
-
 }
 
 @section AdditionalScripts
@@ -80,7 +80,7 @@
                 if ($(this).hasClass("btn-inverse")) {
                     $(this).removeClass("btn-inverse");
                     if ($(this).data("action") == "add") {
-                        $(this).addClass("btn-sucess");
+                        $(this).addClass("btn-success");
                     }
                     if ($(this).data("action") == "update") {
                         $(this).addClass("btn-warning");

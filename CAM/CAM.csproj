@@ -189,9 +189,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Helpers\ExtendedSelectListItem.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AdGroupViewModel.cs" />
+    <Compile Include="Models\AdOuViewModel.cs" />
     <Compile Include="Models\HomeIndexViewModel.cs" />
     <Compile Include="Models\RequestTemplateViewModel.cs" />
     <Compile Include="Models\RequestViewModel.cs" />
@@ -425,6 +427,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\RequestTemplate\_RequestTemplateDetails.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ActiveDirectory\OrganizationalUnits.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_AdAuthForm.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

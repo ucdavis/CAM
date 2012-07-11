@@ -46,37 +46,38 @@ namespace CAM.Services
         {
             var results = LoadGroups(true);
 
-            return results.Select(a => new AdGroup(a)).ToList();
+            return results.ToList();
         }
 
         public List<AdGroup> GetDistributionLists()
         {
             var results = LoadGroups(false);
 
-            return results.Select(a => new AdGroup(a)).ToList();
+            return results.ToList();
         }
 
         public List<AdOrganizationalUnit> GetOrganizationalUnits()
         {
             var results = GetUsers();
-            return results.Select(a => new AdOrganizationalUnit(a.GetContainer(), a.GetContainerPath())).Distinct().ToList();
+            return results.Select(a => new {Container= a.GetContainer(), Path = a.GetContainerPath()}).Distinct()
+                .Select(a => new AdOrganizationalUnit(a.Container, a.Path)).ToList();
         }
 
-        private IEnumerable<GroupPrincipal> LoadGroups(bool security)
+        private IEnumerable<AdGroup> LoadGroups(bool security)
         {
-            if (Site == null || string.IsNullOrEmpty(Site.SecurityGroupOu)) { return new List<GroupPrincipal>(); }
+            if (Site == null || string.IsNullOrEmpty(Site.SecurityGroupOu)) { return new List<AdGroup>(); }
 
             var ous = Site.SecurityGroupOu.Split('|');
-            var results = new List<GroupPrincipal>();
+            var results = new List<AdGroup>();
 
             foreach(var ou in ous)
             {
-                using(var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, Site.SecurityGroupOu, UserName, Password))
+                using(var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
                 {
                     var g = new GroupPrincipal(ad) { IsSecurityGroup = security };
                     var searcher = new PrincipalSearcher(g);
         
-                    results.AddRange(searcher.FindAll().Select(a => (GroupPrincipal)a));
+                    results.AddRange(searcher.FindAll().Select(a => new AdGroup((GroupPrincipal)a)));
                 }
             }
 
@@ -87,15 +88,15 @@ namespace CAM.Services
         {
             var results = LoadUsers();
 
-            return results.Select(a => new AdUser(a)).ToList();
+            return results.ToList();
         }
 
-        private IEnumerable<UserPrincipal> LoadUsers()
+        private IEnumerable<AdUser> LoadUsers()
         {
-            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) {return new List<UserPrincipal>();}
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) {return new List<AdUser>();}
 
             var ous = Site.UserOu.Split('|');
-            var results = new List<UserPrincipal>();
+            var results = new List<AdUser>();
 
             foreach(var ou in ous)
             {
@@ -104,7 +105,7 @@ namespace CAM.Services
                     var u = new UserPrincipal(ad) {Enabled = true};
                     var searcher = new PrincipalSearcher(u);
 
-                    results.AddRange(searcher.FindAll().Select(a => (UserPrincipal)a));        
+                    results.AddRange(searcher.FindAll().Select(a => new AdUser((UserPrincipal)a)));        
                 }
             }
 
