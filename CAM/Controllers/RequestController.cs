@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using CAM.Core.Domain;
 using CAM.Core.Repositories;
 using CAM.Models;
@@ -14,14 +15,14 @@ namespace CAM.Controllers
             _repositoryFactory = repositoryFactory;
         }
 
-        public ActionResult Index(int? id)
+        public ActionResult Create(int? id)
         {
             var viewModel = RequestViewModel.Create(_repositoryFactory, null, LoadSite(), id);
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Index(int? id, Request request)
+        public ActionResult Create(int? id, Request request)
         {
             if (ModelState.IsValid)
             {
@@ -32,6 +33,12 @@ namespace CAM.Controllers
 
             var viewModel = RequestViewModel.Create(_repositoryFactory, request, LoadSite(), id);
             return View(viewModel);
+        }
+
+        public ActionResult Index()
+        {
+            var results = _repositoryFactory.RequestRepository.Queryable.Where(a => a.Site.Id == Site);
+            return View(results);
         }
     }
 }

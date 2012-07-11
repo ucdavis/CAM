@@ -1,0 +1,31 @@
+﻿@using CAM.Core.BaseClasses
+@model RequestViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm("Create", "Request", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("Request.Site", Model.Request.Site.Id)
+    @Html.Hidden("Request.Unit", Model.Request.Unit != null ? Model.Request.Unit.Id.ToString() : string.Empty)
+    
+    @Html.Partial("_RequestEmployeeInformation")
+
+    @Html.Partial("_RequestSecurityGroups")
+    
+    @Html.Partial("_RequestEmail")
+
+    @Html.Partial("_RequestSoftware")
+
+    <div class="form-actions">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        <a href="#" class="btn">Cancel</a>
+    </div>
+}
+
+@section AdditionalScripts{
+}
+
