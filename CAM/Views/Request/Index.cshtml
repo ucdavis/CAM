@@ -5,3 +5,48 @@
 }
 
 <h2>Pending Requests</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Unit</th>
+            <th>Start</th>
+            <th>Position</th>
+            <th>Hire Type</th>
+            <th>Employee Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var rq in Model)
+        {
+            <tr>
+                <td>
+                    <a href="#" class="btn btn-primary">Review</a>
+                </td>
+                <td>@rq.FirstName</td>
+                <td>@rq.LastName</td>
+                <td>@rq.UnitName</td>
+                <td>
+                    @if(DateTime.Now >= rq.Start.AddDays(-7) && DateTime.Now <= rq.Start)
+                    {
+                        <span class="label label-warning">@rq.Start.ToString("d")</span>
+                    }
+                    else if (DateTime.Now > rq.Start)
+                    {
+                        <span class="label label-important">@rq.Start.ToString("d")</span>
+                    }
+                    else
+                    {
+                        @rq.Start.ToString("d")
+                    }
+                </td>
+                <td>@rq.PositionTitle</td>
+                <td>@rq.HireType</td>
+                <td>@rq.EmployeeType</td>
+            </tr>
+        }
+    </tbody>
+</table>
