@@ -4,6 +4,8 @@
     [ActiveDirectoryServer] VARCHAR(100) NULL, 
     [SecurityGroupOu] VARCHAR(MAX) NULL, 
     [UserOu] VARCHAR(MAX) NULL, 
+    [Username] VARCHAR(50) NULL, 
+    [Password] VARCHAR(50) NULL, 
     CONSTRAINT [PK_Sites] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

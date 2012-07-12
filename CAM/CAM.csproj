@@ -187,6 +187,7 @@
     <Compile Include="Controllers\IpAddressController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\RequestTemplateController.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -215,6 +216,7 @@
     <Content Include="Assets\js\bootstrap-datepicker.js" />
     <Content Include="Assets\js\bootstrap.js" />
     <Content Include="Assets\js\bootstrap.min.js" />
+    <Content Include="Content\Custom.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -435,6 +437,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_AdAuthForm.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Site\Settings.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Site\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

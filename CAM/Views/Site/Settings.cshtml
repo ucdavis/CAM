@@ -1,0 +1,72 @@
+﻿@model Site
+
+@{
+    ViewBag.Title = "Site Settings";
+}
+
+<h2 class="page-header">Site Settings</h2>
+
+<div class="form-horizontal">
+    <div class="control-group">
+        <fieldset>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Id, new {@class="control-label"})
+                <div class="controls form-text">@Model.Id</div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Name, new {@class="control-label"})
+                <div class="controls form-text">@Model.Name</div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.ActiveDirectoryServer, new {@class="control-label"})
+                <div class="controls form-text">
+                    @Model.ActiveDirectoryServer
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.SecurityGroupOu, new {@class="control-label"})
+                <div class="controls form-text">
+                    <ul class="unstyled">
+                        @foreach(var ou in Model.GetSecurityOus())
+                        {
+                            <li>@ou</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.UserOu, new {@class="control-label"})
+                <div class="controls form-text">
+                    <ul class="unstyled">
+                        @foreach(var ou in Model.GetUserOus())
+                        {
+                            <li>@ou</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            @if(Model.HasCredentials())
+            {
+                <div class="control-group">
+                    <label class="control-label">Username</label>
+                    <div class="controls form-text">
+                        @Model.Username
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Password</label>
+                    <div class="controls form-text">
+                        ************
+                    </div>
+                </div>
+            }
+        </fieldset>
+    </div>
+    
+    <div class="form-actions">
+        <a href="@Url.Action("Edit")" class="btn btn-primary">
+            <i class="icon-pencil"></i>
+            Edit
+        </a>
+    </div>
+</div>

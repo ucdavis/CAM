@@ -78,6 +78,7 @@
     <Compile Include="Domain\Site.cs" />
     <Compile Include="Domain\Software.cs" />
     <Compile Include="Domain\Unit.cs" />
+    <Compile Include="Helpers\Crypto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepositoryFactory.cs" />
   </ItemGroup>

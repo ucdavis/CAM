@@ -16,17 +16,17 @@
             <div class="span4">
                 <div class="control-group">
                     <label class="control-label">Name</label>
-                    <div class="controls">@string.Format("{0} {1}", Model.FirstName, Model.LastName)</div>
+                    <div class="controls form-text">@string.Format("{0} {1}", Model.FirstName, Model.LastName)</div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Email</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @Model.Email
                     </div>
                 </div>  
                 <div class="control-group">
                     <label class="control-label">Contact Phone</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @Model.ContactPhone
                     </div>
                 </div>
@@ -34,23 +34,23 @@
             <div class="span4">
                 <div class="control-group">
                     <label class="control-label">Unit</label>
-                    <div class="controls"> @Model.UnitName </div>
+                    <div class="controls form-text">@Model.UnitName </div>
                 </div>  
                 <div class="control-group">
                     <label class="control-label">Needs Email</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @(Model.NeedsEmail ? "Yes" : "No")
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Location</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @string.Format("{0} {1}", Model.Room, Model.OfficeLocation)
                     </div>
                 </div>   
                 <div class="control-group">
                     <label class="control-label">Employment Dates</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @if(Model.End.HasValue)
                         {
                             <text>
@@ -70,25 +70,25 @@
             <div class="span4">
                 <div class="control-group">
                     <label class="control-label">Employee Type</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @Model.EmployeeType
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Hire Type</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @Model.HireType
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Supervisor</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @Model.CreatedBy
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Date Request</label>
-                    <div class="controls">
+                    <div class="controls form-text">
                         @Model.CreatedDate
                     </div>
                 </div>      
@@ -143,7 +143,4 @@
 
 @section AdditionalScripts
 {
-    <style type="text/css">
-        .controls { font-weight: bold;padding-top: 5px;}
-    </style>
 }
