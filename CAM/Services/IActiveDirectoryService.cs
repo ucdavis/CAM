@@ -148,6 +148,12 @@ namespace CAM.Services
         {
             using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
             {
+                // example John Smith
+                // lastname
+                // jsmith
+                // josmith
+                // johsmith
+
                 if (UserPrincipal.FindByIdentity(ad, lastName) != null)
                 {
                     throw new Exception("user id already taken.");
