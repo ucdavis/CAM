@@ -32,8 +32,24 @@
         <div class="control-group">
             @Html.LabelFor(model => model.Request.DepartmentName, new { @class = "control-label" })
             <div class="controls">
-                @Html.TextBoxFor(model => model.Request.DepartmentName, new { @placeholder = "Department" })
-                @Html.TextBoxFor(model => model.Request.UnitName, new { @placeholder = "Unit" })
+                @if(string.IsNullOrEmpty(Model.Request.DepartmentName))
+                {
+                    @Html.TextBoxFor(model => model.Request.DepartmentName, new { @placeholder = "Department" })    
+                }
+                else
+                {
+                    <div class="form-text" style="display: inline-block;">@Model.Request.DepartmentName</div>
+                    @Html.HiddenFor(model => model.Request.DepartmentName)
+                }
+                @if(string.IsNullOrEmpty(Model.Request.UnitName))
+                {
+                    @Html.TextBoxFor(model => model.Request.UnitName, new { @placeholder = "Unit" })    
+                }
+                else
+                {
+                    <div class="form-text" style="display: inline-block;">@Model.Request.UnitName</div>
+                    @Html.HiddenFor(model => model.Request.UnitName)
+                }
                 @Html.ValidationMessageFor(model => model.Request.DepartmentName)
                 @Html.ValidationMessageFor(model => model.Request.UnitName)
             </div>

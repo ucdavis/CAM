@@ -6,6 +6,22 @@
 <div class="control-group">
     <fieldset>
         <div class="control-group">
+            @Html.LabelFor(model => model.RequestTemplate.PositionTitle, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.RequestTemplate.PositionTitle, new { @placeholder = "Position Title" })
+                @Html.ValidationMessageFor(model => model.RequestTemplate.PositionTitle)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.RequestTemplate.DepartmentName, new { @class = "control-label" })
+            <div class="controls">
+                @Html.TextBoxFor(model => model.RequestTemplate.DepartmentName, new { @placeholder = "Department" })
+                @Html.TextBoxFor(model => model.RequestTemplate.UnitName, new { @placeholder = "Unit" })
+                @Html.ValidationMessageFor(model => model.RequestTemplate.DepartmentName)
+                @Html.ValidationMessageFor(model => model.RequestTemplate.UnitName)
+            </div>
+        </div>
+        <div class="control-group">
             <label class="control-label">Hire Type</label>
             <div class="controls">
                 <label class="radio">

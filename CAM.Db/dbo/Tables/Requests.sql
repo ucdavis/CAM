@@ -24,6 +24,8 @@
     [CreatedBy] VARCHAR(15) NOT NULL, 
     [CreatedDate] DATETIME NOT NULL DEFAULT getdate(), 
     [OrganizationalUnitId] INT NULL, 
+	[HomeDirectory] VARCHAR(100) NULL, 
+    [HomeDrive] VARCHAR(5) NULL, 
     CONSTRAINT [FK_Requests_Sites] FOREIGN KEY ([SiteId]) REFERENCES [Sites]([Id]), 
     CONSTRAINT [FK_Requests_Units] FOREIGN KEY ([UnitId]) REFERENCES [Units]([Id]), 
     CONSTRAINT [FK_Requests_OrganizationalUnits] FOREIGN KEY ([OrganizationalUnitId]) REFERENCES [OrganizationalUnits]([Id]) 

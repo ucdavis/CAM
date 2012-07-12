@@ -21,6 +21,17 @@ namespace CAM.Core.BaseClasses
         public virtual HardwareType? HardwareType { get; set; }
         public virtual EmployeeType? EmployeeType { get; set; }
 
+        [StringLength(100)]
+        [Display(Name = "Position Title")]
+        public virtual string PositionTitle { get; set; }
+
+        [Display(Name="Department")]
+        [StringLength(100)]
+        public virtual string DepartmentName { get; set; }
+        [Display(Name="Unit")]
+        [StringLength(100)]
+        public virtual string UnitName { get; set; }
+
         [Display(Name = "Email Account")]
         public virtual bool NeedsEmail { get; set; }
 
@@ -39,6 +50,7 @@ namespace CAM.Core.BaseClasses
         // home directory
         // \\uncpath\{0}\homefolder => {0} = username
         public virtual string HomeDirectory { get; set; }
+        public virtual string HomeDrive { get; set; }
     }
 
     public enum HireType { NewPosition, Rehire };

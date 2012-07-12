@@ -431,7 +431,7 @@
     <Content Include="Views\Request\Review.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\RequestTemplate\_RequestTemplateEmployeeType.cshtml" />
+    <Content Include="Views\RequestTemplate\_RequestTemplateEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\RequestTemplate\_RequestTemplateDetails.cshtml" />

@@ -36,11 +36,17 @@ namespace CAM.Core.Domain
             
             References(x => x.Site);
             References(x => x.Unit);
-            
+
+            Map(x => x.PositionTitle);
+            Map(x => x.DepartmentName);
+            Map(x => x.UnitName);
+
             Map(x => x.NeedsEmail);
             Map(x => x.AdditionalFolders);
 
             References(x => x.OrganizationalUnit);
+            Map(x => x.HomeDirectory);
+            Map(x => x.HomeDrive);
 
             HasManyToMany(x => x.Software).Table("RequestTemplatesXSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();
             HasManyToMany(x => x.AvailableSoftware).Table("RequestTemplatesXAvailableSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();

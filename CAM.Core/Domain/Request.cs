@@ -22,6 +22,10 @@ namespace CAM.Core.Domain
             NeedsEmail = template.NeedsEmail;
             AdditionalFolders = template.AdditionalFolders;
 
+            PositionTitle = template.PositionTitle;
+            DepartmentName = template.DepartmentName;
+            UnitName = template.UnitName;
+
             HireType = template.HireType;
             HardwareType = template.HardwareType;
 
@@ -45,14 +49,6 @@ namespace CAM.Core.Domain
         [Required]
         [StringLength(50)]
         public virtual string Email { get; set; }
-        [Required]
-        [StringLength(100)]
-        [Display(Name="Position Title")]
-        public virtual string PositionTitle { get; set; }
-        
-        [StringLength(100)]
-        public virtual string DepartmentName { get; set; }
-        public virtual string UnitName { get; set; }
         
         [Required]
         [StringLength(100)]
@@ -119,6 +115,8 @@ namespace CAM.Core.Domain
             References(x => x.Site);
 
             References(x => x.OrganizationalUnit);
+            Map(x => x.HomeDirectory);
+            Map(x => x.HomeDrive);
 
             Map(x => x.HireType).CustomType<NHibernate.Type.EnumStringType<HireType>>();
             Map(x => x.HardwareType).CustomType<NHibernate.Type.EnumStringType<HardwareType>>();
