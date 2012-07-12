@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
+﻿using AutoMapper;
 using CAM.Core.Domain;
 
 namespace CAM
@@ -33,13 +29,6 @@ namespace CAM
 
             CreateMap<RequestTemplate, RequestTemplate>()
                 .ForMember(x => x.Id, x => x.Ignore())
-                .ForMember(x => x.Software, x => x.Ignore())
-                .ForMember(x => x.NetworkShares, x => x.Ignore())
-                .ForMember(x => x.SecurityGroups, x => x.Ignore())
-                .ForMember(x => x.OrganizationalUnit, x => x.Ignore())
-                .ForMember(x => x.AvailableSoftware, x => x.Ignore())
-                .ForMember(x => x.AvailableNetworkShares, x => x.Ignore())
-                .ForMember(x => x.AvailableSecurityGroups, x => x.Ignore())
                 ;
         }
     }
