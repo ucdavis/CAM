@@ -36,6 +36,7 @@ namespace CAM.Services
 
         void AssignEmployeeId(string userId, string employeeId);
         void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, List<string> securityGroups);
+        void AssignUserToGroup(string userId, string groupId);
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
@@ -163,14 +164,48 @@ namespace CAM.Services
                 
                 user.SamAccountName = lastName;
                 user.SetPassword("Devel$$123456789");
+
                 user.Save();
             }
+
+            foreach(var groupId in securityGroups) AssignUserToGroup(lastName, groupId);
+
+            // create exchange mailbox if needed
 
             using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
             {
                 var user = UserPrincipal.FindByIdentity(ad, lastName);
-                user.Enabled = true;
+                user.Enabled = false;
                 user.Save();
+            }
+        }
+
+        public void AssignUserToGroup(string userId, string groupId)
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return; }
+
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(groupId)) { return; }
+
+            var ous = Site.UserOu.Split('|');
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var user = UserPrincipal.FindByIdentity(ad, userId);
+                    var group = GroupPrincipal.FindByIdentity(ad, groupId);
+
+                    if (user != null || group != null)
+                    {
+                        if (!group.Members.Contains(user))
+                        {
+                            group.Members.Add(user);
+                            group.Save();
+
+                            return;
+                        }
+                    }
+                }
             }
         }
 
