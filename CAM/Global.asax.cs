@@ -27,7 +27,8 @@ namespace CAM
             routes.MapRoute(
                 name: "request",
                 url: "{site}/request/{id}",
-                defaults: new { site = "none", controller = "Request", action = "Index", id = UrlParameter.Optional }
+                defaults: new { site = "none", controller = "Request", action = "Index", id = UrlParameter.Optional },
+                constraints: new { id = @"\d+" }
                 );
 
             routes.MapRoute(
