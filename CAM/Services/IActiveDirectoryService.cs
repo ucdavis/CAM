@@ -35,6 +35,7 @@ namespace CAM.Services
         AdUser GetUser(string userId);
 
         void AssignEmployeeId(string userId, string employeeId);
+        void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, List<string> securityGroups);
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
@@ -139,6 +140,37 @@ namespace CAM.Services
                         return;
                     }
                 }
+            }
+        }
+
+        public void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, List<string> securityGroups)
+        {
+            using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
+            {
+                if (UserPrincipal.FindByIdentity(ad, lastName) != null)
+                {
+                    throw new Exception("user id already taken.");
+                }
+
+                var user = new UserPrincipal(ad);
+                user.Name = string.Format("{0}, {1}", lastName, firstName);
+                user.GivenName = firstName;
+                user.Surname = lastName;
+                
+                user.EmployeeId = loginId.ToLower();
+                user.Description = title;
+                user.EmailAddress = string.IsNullOrEmpty(email) ? string.Format("{0}@caes.ucdavis.edu", lastName.ToLower()) : email;
+                
+                user.SamAccountName = lastName;
+                user.SetPassword("Devel$$123456789");
+                user.Save();
+            }
+
+            using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
+            {
+                var user = UserPrincipal.FindByIdentity(ad, lastName);
+                user.Enabled = true;
+                user.Save();
             }
         }
 

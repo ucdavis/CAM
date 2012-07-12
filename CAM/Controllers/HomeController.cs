@@ -51,31 +51,40 @@ namespace CAM.Controllers
 
         public ActionResult Test(string userName, string password)
         {
-            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password) )
-            {
-                var results = new List<string>();
+            
+            var site = LoadSite();
+            _activeDirectoryService.Initialize(site.Username, site.Password, site);
+            _activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", null);
 
-                _activeDirectoryService.Initialize(userName, password, LoadSite());
-                var result = _activeDirectoryService.GetUser("lai");
+            //var result = _activeDirectoryService.GetUser("lai");
+            
 
-                if (result != null)
-                {
-                    results.Add(result.Email);
 
-                    var du = _directorySearchService.FindUser(result.Email);
-                    results.Add(du.LoginId);
-                    results.Add(result.EmployeeId);
-                    results.Add("----------------");
-                }
-                else
-                {
-                    results.Add("not found");
-                }
+            //if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password) )
+            //{
+            //    var results = new List<string>();
 
-                //_activeDirectoryService.AssignEmployeeId("lai", "anlai");
+            //    _activeDirectoryService.Initialize(userName, password, LoadSite());
+            //    var result = _activeDirectoryService.GetUser("lai");
 
-                return View(results);    
-            }
+            //    if (result != null)
+            //    {
+            //        results.Add(result.Email);
+
+            //        var du = _directorySearchService.FindUser(result.Email);
+            //        results.Add(du.LoginId);
+            //        results.Add(result.EmployeeId);
+            //        results.Add("----------------");
+            //    }
+            //    else
+            //    {
+            //        results.Add("not found");
+            //    }
+
+            //    //_activeDirectoryService.AssignEmployeeId("lai", "anlai");
+
+            //    return View(results);    
+            //}
 
             return View();
         }
