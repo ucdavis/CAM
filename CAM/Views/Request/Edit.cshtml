@@ -1,0 +1,28 @@
+﻿@model RequestViewModel
+
+@{
+    ViewBag.Title = "Edit Request";
+}
+
+<h2 class="page-header">Edit Request</h2>
+
+@using (Html.BeginForm("Edit", "Request", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("Request.Site", Model.Request.Site.Id)
+    @Html.Hidden("Request.Unit", Model.Request.Unit != null ? Model.Request.Unit.Id.ToString() : string.Empty)
+    
+    @Html.Partial("_RequestEmployeeInformation")
+
+    @Html.Partial("_RequestSecurityGroups")
+    
+    @Html.Partial("_RequestEmail")
+
+    @Html.Partial("_RequestSoftware")
+
+    <div class="form-actions">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+    </div>
+}

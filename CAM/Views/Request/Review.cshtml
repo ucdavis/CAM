@@ -4,13 +4,35 @@
     ViewBag.Title = "Review Request";
 }
 
+
+
 <h2 class="page-header">Review Request</h2>
 
 <div class="form-horizontal">
     
     <div class="control-group">
         
-        <legend>Request Details</legend>
+        <legend>
+            Request Details
+            @if(Model.Pending)
+            {
+                <span class="label label-info">Pending</span>
+                <div class="pull-right">
+                <a href="@Url.Action("Edit", new {id=@Model.Id})" class="btn btn-primary"><i class="icon-pencil"></i>Edit</a>
+            </div>
+            }
+            else
+            {
+                if (Model.Approved.Value)
+                {
+                    <span class="label label-success">Approved</span>
+                }
+                else
+                {
+                    <span class="label label-important">Denied</span>
+                }
+            }
+        </legend>
 
         <fieldset>
             <div class="span4">
@@ -125,19 +147,23 @@
 
         </div>
     </div>
-    <div class="form-actions">
-        @using(Html.BeginForm("Review", "Request", new {Approved=true, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" value="Approve" class="btn btn-success" />    
-        }
-        @using(Html.BeginForm("Review", "Request", new {Approved=false, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
-        {
-            @Html.AntiForgeryToken()
-            <input type="submit" value="Deny" class="btn btn-danger"/>
-        }
-        @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
-    </div>
+    @if(Model.Pending)
+    {
+        <div class="form-actions">
+            @using(Html.BeginForm("Review", "Request", new {Approved=true, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Approve" class="btn btn-success" />    
+            }
+            @using(Html.BeginForm("Review", "Request", new {Approved=false, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Deny" class="btn btn-danger"/>
+            }
+            @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+        </div>    
+    }
+    
 
 </div>
 

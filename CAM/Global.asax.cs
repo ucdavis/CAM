@@ -57,6 +57,8 @@ namespace CAM
             RegisterRoutes(RouteTable.Routes);
 
             BundleTable.Bundles.RegisterTemplateBundles();
+
+            AutomapperConfig.Configure();
         }
     }
 }

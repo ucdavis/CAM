@@ -20,30 +20,28 @@ namespace CAM.Models
         {
             var viewModel = new RequestViewModel()
             {
-                Request = new Request() {Site = site}
+                Request = request ?? new Request() {Site = site}
             };
 
-            if (request == null)
+            if (request == null && templateId.HasValue)
             {
-                if (templateId.HasValue)
-                {
-                    // load the template
-                    var template = repositoryFactory.RequestTemplateRepository.GetNullableById(templateId.Value);
+                // load the template
+                var template = repositoryFactory.RequestTemplateRepository.GetNullableById(templateId.Value);
 
-                    // copy the values
-                    viewModel.Request = new Request(template);
+                // copy the values
+                viewModel.Request = new Request(template);
 
-                    viewModel.Softwares = template.AvailableSoftware;
-                    viewModel.NetworkShares = template.AvailableNetworkShares;
-                    viewModel.SecurityGroups = template.AvailableSecurityGroups;
-                }
-                else
-                {
-                    viewModel.Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
-                    viewModel.NetworkShares = repositoryFactory.NetworkShareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
-                    viewModel.SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
-                }
+                viewModel.Softwares = template.AvailableSoftware;
+                viewModel.NetworkShares = template.AvailableNetworkShares;
+                viewModel.SecurityGroups = template.AvailableSecurityGroups;
             }
+            else
+            {
+                viewModel.Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
+                viewModel.NetworkShares = repositoryFactory.NetworkShareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
+                viewModel.SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
+            }
+
 
             return viewModel;
         }

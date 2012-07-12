@@ -78,5 +78,48 @@ namespace CAM.Controllers
             Message = string.Format("Requeste for {0} {1} has {2} approved.", request.FirstName, request.LastName, Approved ? "been" : "not been");
             return RedirectToAction("Index");
         }
+
+        public ActionResult Edit(int id)
+        {
+            var request = _repositoryFactory.RequestRepository.GetNullableById(id);
+
+            if (request == null)
+            {
+                Message = "The request was not found, please try your request again.";
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = RequestViewModel.Create(_repositoryFactory, request, LoadSite(), null);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id, Request request)
+        {
+            var requestToEdit = _repositoryFactory.RequestRepository.GetNullableById(id);
+
+            if (ModelState.IsValid && requestToEdit != null)
+            {
+                AutoMapper.Mapper.Map(request, requestToEdit);
+
+                // deal with the lists
+                var securityadd = request.SecurityGroups.Where(a => !requestToEdit.SecurityGroups.Contains(a));
+                var securityremove = requestToEdit.SecurityGroups.Where(a => !request.SecurityGroups.Contains(a));
+                foreach(var a in securityadd) requestToEdit.SecurityGroups.Add(a);
+                foreach (var a in securityremove) requestToEdit.SecurityGroups.Remove(a);
+
+                var softwareadd = request.Software.Where(a => !requestToEdit.Software.Contains(a));
+                var softwareremove = requestToEdit.Software.Where(a => !request.Software.Contains(a));
+                foreach (var a in softwareadd) requestToEdit.Software.Add(a);
+                foreach (var a in softwareremove) requestToEdit.Software.Remove(a);
+
+                _repositoryFactory.RequestRepository.EnsurePersistent(requestToEdit);
+                Message = "Request has been updated.";
+                return RedirectToAction("Review", new {id = id});
+            }
+
+            var viewModel = RequestViewModel.Create(_repositoryFactory, request, LoadSite(), null);
+            return View(viewModel);
+        }
     }
 }
