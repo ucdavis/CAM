@@ -10,8 +10,10 @@
     [HardwareType] VARCHAR(15) NULL, 
     [EmployeeType] VARCHAR(15) NULL, 
     [DistributionLists] VARCHAR(MAX) NULL, 
+	[OrganizationalUnitId] INT NULL, 
     CONSTRAINT [PK_RequestTemplates] PRIMARY KEY CLUSTERED ([Id] ASC), 
     CONSTRAINT [FK_RequestTemplates_Sites] FOREIGN KEY (SiteId) REFERENCES [Sites]([Id]), 
-    CONSTRAINT [FK_RequestTemplates_Units] FOREIGN KEY ([UnitId]) REFERENCES [Units]([Id])
+    CONSTRAINT [FK_RequestTemplates_Units] FOREIGN KEY ([UnitId]) REFERENCES [Units]([Id]),
+	CONSTRAINT [FK_RequestTemplates_OrganizationalUnits] FOREIGN KEY ([OrganizationalUnitId]) REFERENCES [OrganizationalUnits]([Id]) 
 );
 

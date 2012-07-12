@@ -15,6 +15,7 @@ namespace CAM.Models
         public IEnumerable<Software> Softwares { get; set; }
         public IEnumerable<NetworkShare> NetworkShares { get; set; }
         public IEnumerable<SecurityGroup> SecurityGroups { get; set; }
+        public IEnumerable<OrganizationalUnit> OrganizationalUnits { get; set; } 
 
         public static RequestViewModel Create(IRepositoryFactory repositoryFactory, Request request, Site site, int? templateId)
         {
@@ -40,6 +41,7 @@ namespace CAM.Models
                 viewModel.Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
                 viewModel.NetworkShares = repositoryFactory.NetworkShareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
                 viewModel.SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
+                viewModel.OrganizationalUnits = repositoryFactory.OrganizationalUnitRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
             }
 
 
@@ -61,5 +63,9 @@ namespace CAM.Models
             return NetworkShares.Select(n => new ExtendedSelectListItem() { Selected = Request.NetworkShares.Contains(n), Text = n.Name, Value = n.Id.ToString(), ForceSelect = n.ForceSelect, GroupId = n.GroupId }).ToList();
         }
 
+        public List<SelectListItem> GetOrganizationalUnits()
+        {
+            return OrganizationalUnits.OrderBy(a => a.Name).Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = (Request.OrganizationalUnit != null ? Request.OrganizationalUnit.Id == a.Id : false) }).ToList();
+        }
     }
 }

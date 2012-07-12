@@ -14,6 +14,7 @@ namespace CAM.Models
         public IEnumerable<Unit> Units { get; set; }
         public IEnumerable<Software> Softwares { get; set; }
         public IEnumerable<SecurityGroup> SecurityGroups { get; set; }
+        public IEnumerable<OrganizationalUnit> OrganizationalUnits { get; set; } 
 
         public static RequestTemplateViewModel Create(IRepositoryFactory repositoryFactory, string siteId, RequestTemplate requestTemplate = null)
         {
@@ -24,7 +25,8 @@ namespace CAM.Models
                     RequestTemplate= requestTemplate ?? new RequestTemplate() {Site = site},
                     Units = repositoryFactory.UnitRepository.Queryable.Where(a => a.Site.Id == siteId).ToList(),
                     Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList(),
-                    SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList()
+                    SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList(),
+                    OrganizationalUnits = repositoryFactory.OrganizationalUnitRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList()
                 };
 
             return viewModel;
@@ -43,6 +45,11 @@ namespace CAM.Models
         public List<ExtendedSelectListItem> GetSecurityGroups()
         {
             return SecurityGroups.Select(a => new ExtendedSelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = RequestTemplate.SecurityGroups.Contains(a), Available = RequestTemplate.AvailableSecurityGroups.Contains(a), Description = a.Description}).ToList();
+        }
+
+        public List<SelectListItem> GetOrganizationalUnits()
+        {
+            return OrganizationalUnits.OrderBy(a => a.Name).Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = (RequestTemplate.OrganizationalUnit != null ? RequestTemplate.OrganizationalUnit.Id == a.Id : false) }).ToList();
         }
     }
 }

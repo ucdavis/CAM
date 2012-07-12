@@ -451,6 +451,12 @@
   <ItemGroup>
     <Content Include="Views\Request\Edit.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\RequestTemplate\_RequestTemplateAD.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Request\_RequestAD.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

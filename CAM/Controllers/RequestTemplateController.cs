@@ -97,6 +97,7 @@ namespace CAM.Controllers
                 templateToEdit.Description = requestTemplate.Description;
                 templateToEdit.NeedsEmail = requestTemplate.NeedsEmail;
 
+                templateToEdit.OrganizationalUnit = requestTemplate.OrganizationalUnit;
                 templateToEdit.HireType = requestTemplate.HireType;
                 templateToEdit.EmployeeType = requestTemplate.EmployeeType;
 

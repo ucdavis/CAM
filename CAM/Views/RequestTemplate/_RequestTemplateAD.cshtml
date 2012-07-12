@@ -1,0 +1,17 @@
+﻿@model CAM.Models.RequestTemplateViewModel
+
+<div class="control-group">
+    <legend>Active Directory</legend>
+    <div class="control-group">
+        @Html.LabelFor(model => model.RequestTemplate.OrganizationalUnit, new {@class="control-label"})
+        <div class="controls">
+            <select name="RequestTemplate.OrganizationalUnit" class="hastip" title="Active Directory OU, user will be created into.">
+                <option value="0">--Select AD OU--</option>
+                @foreach(var a in Model.GetOrganizationalUnits())
+                {
+                    <option value="@a.Value" @(a.Selected ? "selected" : string.Empty)>@a.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>

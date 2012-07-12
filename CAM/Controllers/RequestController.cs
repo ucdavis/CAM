@@ -71,6 +71,10 @@ namespace CAM.Controllers
                 return RedirectToAction("Index");
             }
 
+            // validate the necessary fields to create the necessary objects
+
+            // then create the objects
+
             request.Pending = false;
             request.Approved = Approved;
             _repositoryFactory.RequestRepository.EnsurePersistent(request);

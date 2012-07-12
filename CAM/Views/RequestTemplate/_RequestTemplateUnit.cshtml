@@ -9,7 +9,6 @@
             <div class="control-group">
                 @Html.LabelFor(model => model.RequestTemplate.Unit, new {@class="control-label"})
                 <div class="controls">
-                    @*@Html.DropDownListFor(model => model.RequestTemplate.Unit, Model.GetUnits(), "--Select Unit--")*@
                     <select name="RequestTemplate.Unit">
                         @foreach(var u in Model.GetUnits())
                         {

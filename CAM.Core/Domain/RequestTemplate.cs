@@ -40,6 +40,8 @@ namespace CAM.Core.Domain
             Map(x => x.NeedsEmail);
             Map(x => x.AdditionalFolders);
 
+            References(x => x.OrganizationalUnit);
+
             HasManyToMany(x => x.Software).Table("RequestTemplatesXSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();
             HasManyToMany(x => x.AvailableSoftware).Table("RequestTemplatesXAvailableSoftware").ParentKeyColumn("RequestTemplateId").ChildKeyColumn("SoftwareId").Cascade.SaveUpdate();
             
