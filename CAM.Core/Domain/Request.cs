@@ -65,14 +65,30 @@ namespace CAM.Core.Domain
         [Phone]
         [Display(Name="Contact Phone")]
         public virtual string ContactPhone { get; set; }
+        [StringLength(50)]
+        [Phone]
+        [Display(Name="Office Phone")]
+        public virtual string OfficePhone { get; set; }
 
         public virtual DateTime Start { get; set; }
         public virtual DateTime? End { get; set; }
 
         public virtual bool Pending { get; set; }
         public virtual bool? Approved { get; set; }
+        /// <summary>
+        /// kerb id of the user who is requesting it
+        /// </summary>
         public virtual string CreatedBy { get; set; }
+        /// <summary>
+        /// Kerb id of the supervisor
+        /// </summary>
+        public virtual string Supervisor { get; set; }
         public virtual string CreatedDate { get; set; }
+
+        public virtual string GetHomeDirectory()
+        {
+            return string.Format(HomeDirectory, LastName);
+        }
     }
 
     public class RequestMap : ClassMap<Request>

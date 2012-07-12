@@ -55,7 +55,7 @@ namespace CAM.Controllers
             var site = LoadSite();
             _activeDirectoryService.Initialize(site.Username, site.Password, site);
             var groups = new string[2] { "Developers", "CRU" };
-            _activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", groups.ToList());
+            _activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", "unit", groups.ToList());
 
             //var result = _activeDirectoryService.GetUser("lai");
             

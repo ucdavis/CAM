@@ -35,6 +35,10 @@ namespace CAM.Core.BaseClasses
 
         [Display(Name="Active Directory OU")]
         public virtual OrganizationalUnit OrganizationalUnit { get; set; }
+
+        // home directory
+        // \\uncpath\{0}\homefolder => {0} = username
+        public virtual string HomeDirectory { get; set; }
     }
 
     public enum HireType { NewPosition, Rehire };

@@ -35,7 +35,7 @@ namespace CAM.Services
         AdUser GetUser(string userId);
 
         void AssignEmployeeId(string userId, string employeeId);
-        void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, List<string> securityGroups);
+        void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, string unit, List<string> securityGroups);
         void AssignUserToGroup(string userId, string groupId);
     }
 
@@ -144,7 +144,7 @@ namespace CAM.Services
             }
         }
 
-        public void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, List<string> securityGroups)
+        public void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, string unit, List<string> securityGroups)
         {
             using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
             {
@@ -165,9 +165,14 @@ namespace CAM.Services
                 user.Surname = lastName;
                 
                 user.EmployeeId = loginId.ToLower();
-                user.Description = title;
+                user.Description = string.Format("{0} - {1}", unit, title);
+                
+                // only if email is requested
                 user.EmailAddress = string.IsNullOrEmpty(email) ? string.Format("{0}@caes.ucdavis.edu", lastName.ToLower()) : email;
                 
+                //logon script
+                //home directory => user.HomeDirectory and user.HomeDrive
+
                 user.SamAccountName = lastName;
                 user.SetPassword("Devel$$123456789");
 
