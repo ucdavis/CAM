@@ -93,14 +93,7 @@ namespace CAM.Controllers
 
             if (ModelState.IsValid)
             {
-                templateToEdit.Name = requestTemplate.Name;
-                templateToEdit.Description = requestTemplate.Description;
-                templateToEdit.NeedsEmail = requestTemplate.NeedsEmail;
-
-                templateToEdit.OrganizationalUnit = requestTemplate.OrganizationalUnit;
-                templateToEdit.HireType = requestTemplate.HireType;
-                templateToEdit.EmployeeType = requestTemplate.EmployeeType;
-
+                AutoMapper.Mapper.Map(requestTemplate, templateToEdit);
                 templateToEdit.AvailableSecurityGroups = requestTemplate.AvailableSecurityGroups;
                 templateToEdit.SecurityGroups = requestTemplate.SecurityGroups;
                 templateToEdit.AvailableSoftware = requestTemplate.AvailableSoftware;

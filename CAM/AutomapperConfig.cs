@@ -31,6 +31,16 @@ namespace CAM
                 .ForMember(x => x.SecurityGroups, x => x.Ignore())
                 ;
 
+            CreateMap<RequestTemplate, RequestTemplate>()
+                .ForMember(x => x.Id, x => x.Ignore())
+                .ForMember(x => x.Software, x => x.Ignore())
+                .ForMember(x => x.NetworkShares, x => x.Ignore())
+                .ForMember(x => x.SecurityGroups, x => x.Ignore())
+                .ForMember(x => x.OrganizationalUnit, x => x.Ignore())
+                .ForMember(x => x.AvailableSoftware, x => x.Ignore())
+                .ForMember(x => x.AvailableNetworkShares, x => x.Ignore())
+                .ForMember(x => x.AvailableSecurityGroups, x => x.Ignore())
+                ;
         }
     }
 }
