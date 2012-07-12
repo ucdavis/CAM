@@ -26,16 +26,33 @@ namespace CAM.Controllers
 
         public ActionResult SecurityGroups()
         {
+            var site = LoadSite();
+            if (site.HasCredentials())
+            {
+                _activeDirectoryService.Initialize(site.Username, site.Password, site);
+                var results = _activeDirectoryService.GetSecurityGroups();
+                var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
+                return View(viewModel);    
+            }
+
             return View();
         }
 
         [HttpPost]
         public ActionResult SecurityGroups(string userName, string password, List<string> add, List<string> update, List<int> remove)
         {
-            _activeDirectoryService.Initialize(userName, password, LoadSite());
-            var results = _activeDirectoryService.GetSecurityGroups();
             var site = LoadSite();
-
+            if (site.HasCredentials())
+            {
+                _activeDirectoryService.Initialize(site.Username, site.Password, site);    
+            }
+            else
+            {
+                _activeDirectoryService.Initialize(userName, password, site);
+            }
+            
+            var results = _activeDirectoryService.GetSecurityGroups();
+            
             if (add != null)
             {
                 foreach (var s in add)
@@ -96,15 +113,34 @@ namespace CAM.Controllers
 
         public ActionResult OrganizationalUnits()
         {
+            var site = LoadSite();
+
+            if (site.HasCredentials())
+            {
+                _activeDirectoryService.Initialize(site.Username, site.Password, LoadSite());
+                
+                var results = _activeDirectoryService.GetOrganizationalUnits();
+                var viewModel = AdOuViewModel.Create(_repositoryFactory, LoadSite(), results);
+                return View(viewModel);
+            }
+
             return View();
         }
 
         [HttpPost]
         public ActionResult OrganizationalUnits(string userName, string passWord, List<string> add, List<string> remove)
         {
-            _activeDirectoryService.Initialize(userName, passWord, LoadSite());
-            var results = _activeDirectoryService.GetOrganizationalUnits();
             var site = LoadSite();
+
+            if (site.HasCredentials())
+            {
+                _activeDirectoryService.Initialize(site.Username, site.Password, site);    
+            }
+            else
+            {
+                _activeDirectoryService.Initialize(userName, passWord, site);    
+            }
+            var results = _activeDirectoryService.GetOrganizationalUnits();
 
             if (add != null)
             {
