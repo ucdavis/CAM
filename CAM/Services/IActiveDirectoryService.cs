@@ -197,6 +197,7 @@ namespace CAM.Services
                 AutoMapper.Mapper.Map(adUser, user);
 
                 user.SamAccountName = loginId;
+                user.UserPrincipalName = string.Format("{0}@caesdo.caes.ucdavis.edu", loginId);
                 if (adUser.LastName.ToLower() != loginId)
                 {
                     user.Name = string.Format("{0}, {1} ({2})", adUser.LastName, adUser.FirstName, loginId);
