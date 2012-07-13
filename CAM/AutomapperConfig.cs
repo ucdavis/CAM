@@ -30,6 +30,20 @@ namespace CAM
             CreateMap<RequestTemplate, RequestTemplate>()
                 .ForMember(x => x.Id, x => x.Ignore())
                 ;
+            
+            CreateMap<RequestTemplate, Request>()
+                .ForMember(dest => dest.Site, opt => opt.MapFrom(src => src.Site))
+                .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Unit))
+                .ForMember(dest => dest.NeedsEmail, opt => opt.MapFrom(src => src.NeedsEmail))
+                .ForMember(dest => dest.AdditionalFolders, opt => opt.MapFrom(src => src.AdditionalFolders))
+                .ForMember(dest => dest.PositionTitle, opt => opt.MapFrom(src => src.PositionTitle))
+                .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.DepartmentName))
+                .ForMember(dest => dest.UnitName, opt => opt.MapFrom(src => src.UnitName))
+                .ForMember(dest => dest.HireType, opt => opt.MapFrom(src => src.HireType))
+                .ForMember(dest => dest.HardwareType, opt => opt.MapFrom(src => src.HardwareType))
+                .ForMember(dest => dest.Software, opt => opt.MapFrom(src => src.Software))
+                .ForMember(dest => dest.SecurityGroups, opt => opt.MapFrom(src => src.SecurityGroups))
+                ;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace CAM.Models
                 var template = repositoryFactory.RequestTemplateRepository.GetNullableById(templateId.Value);
 
                 // copy the values
-                viewModel.Request = new Request(template);
+                AutoMapper.Mapper.Map(template, viewModel.Request);
 
                 viewModel.Softwares = template.AvailableSoftware;
                 viewModel.NetworkShares = template.AvailableNetworkShares;
@@ -43,7 +43,6 @@ namespace CAM.Models
                 viewModel.SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
                 viewModel.OrganizationalUnits = repositoryFactory.OrganizationalUnitRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
             }
-
 
             return viewModel;
         }

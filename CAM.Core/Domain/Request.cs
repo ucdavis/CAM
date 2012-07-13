@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CAM.Core.BaseClasses;
 using FluentNHibernate.Mapping;
@@ -12,32 +13,35 @@ namespace CAM.Core.Domain
             SetDefaults();
         }
 
-        public Request(RequestTemplate template)
-        {
-            SetDefaults();
+        //public Request(RequestTemplate template)
+        //{
+        //    SetDefaults();
 
-            Site = template.Site;
-            Unit = template.Unit;
+        //    Site = template.Site;
+        //    Unit = template.Unit;
 
-            NeedsEmail = template.NeedsEmail;
-            AdditionalFolders = template.AdditionalFolders;
+        //    NeedsEmail = template.NeedsEmail;
+        //    AdditionalFolders = template.AdditionalFolders;
 
-            PositionTitle = template.PositionTitle;
-            DepartmentName = template.DepartmentName;
-            UnitName = template.UnitName;
+        //    PositionTitle = template.PositionTitle;
+        //    DepartmentName = template.DepartmentName;
+        //    UnitName = template.UnitName;
 
-            HireType = template.HireType;
-            HardwareType = template.HardwareType;
+        //    HireType = template.HireType;
+        //    HardwareType = template.HardwareType;
 
-            foreach(var sf in template.Software) { Software.Add(sf); }
-            foreach(var ns in template.NetworkShares) { NetworkShares.Add(ns);}
-        }
+        //    foreach(var sf in template.Software) { Software.Add(sf); }
+        //    foreach(var ns in template.NetworkShares) { NetworkShares.Add(ns);}
+        //}
 
         private void SetDefaults()
         {
             Start = DateTime.Now.AddDays(14);
 
             Pending = true;
+
+            Software = new List<Software>();
+            SecurityGroups = new List<SecurityGroup>();
         }
 
         [Required]
