@@ -107,15 +107,15 @@ namespace CAM.Controllers
                 AutoMapper.Mapper.Map(request, requestToEdit);
 
                 // deal with the lists
-                var securityadd = request.SecurityGroups.Where(a => !requestToEdit.SecurityGroups.Contains(a));
-                var securityremove = requestToEdit.SecurityGroups.Where(a => !request.SecurityGroups.Contains(a));
-                foreach(var a in securityadd) requestToEdit.SecurityGroups.Add(a);
-                foreach (var a in securityremove) requestToEdit.SecurityGroups.Remove(a);
+                //var securityadd = request.SecurityGroups.Where(a => !requestToEdit.SecurityGroups.Contains(a));
+                //var securityremove = requestToEdit.SecurityGroups.Where(a => !request.SecurityGroups.Contains(a));
+                //foreach(var a in securityadd) requestToEdit.SecurityGroups.Add(a);
+                //foreach (var a in securityremove) requestToEdit.SecurityGroups.Remove(a);
 
-                var softwareadd = request.Software.Where(a => !requestToEdit.Software.Contains(a));
-                var softwareremove = requestToEdit.Software.Where(a => !request.Software.Contains(a));
-                foreach (var a in softwareadd) requestToEdit.Software.Add(a);
-                foreach (var a in softwareremove) requestToEdit.Software.Remove(a);
+                //var softwareadd = request.Software.Where(a => !requestToEdit.Software.Contains(a));
+                //var softwareremove = requestToEdit.Software.Where(a => !request.Software.Contains(a));
+                //foreach (var a in softwareadd) requestToEdit.Software.Add(a);
+                //foreach (var a in softwareremove) requestToEdit.Software.Remove(a);
 
                 _repositoryFactory.RequestRepository.EnsurePersistent(requestToEdit);
                 Message = "Request has been updated.";

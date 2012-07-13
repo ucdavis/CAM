@@ -22,9 +22,9 @@ namespace CAM
                 .ForMember(x => x.Approved, x => x.Ignore())
                 .ForMember(x => x.CreatedBy, x => x.Ignore())
                 .ForMember(x => x.CreatedDate, x => x.Ignore())
-                .ForMember(x => x.Software, x=>x.Ignore())
-                .ForMember(x => x.NetworkShares, x => x.Ignore())
-                .ForMember(x => x.SecurityGroups, x => x.Ignore())
+                //.ForMember(x => x.Software, x=>x.Ignore())
+                //.ForMember(x => x.NetworkShares, x => x.Ignore())
+                //.ForMember(x => x.SecurityGroups, x => x.Ignore())
                 ;
 
             CreateMap<RequestTemplate, RequestTemplate>()
