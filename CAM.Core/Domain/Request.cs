@@ -61,7 +61,7 @@ namespace CAM.Core.Domain
         /// <summary>
         /// Kerb id of the supervisor
         /// </summary>
-        public virtual string Supervisor { get; set; }
+        public virtual string Manager { get; set; }
         public virtual string CreatedDate { get; set; }
 
         public virtual string GetHomeDirectory()
@@ -94,6 +94,7 @@ namespace CAM.Core.Domain
             Map(x => x.Approved);
             Map(x => x.CreatedBy);
             Map(x => x.CreatedDate);
+            Map(x => x.Manager);
 
             References(x => x.Unit);
             References(x => x.Site);

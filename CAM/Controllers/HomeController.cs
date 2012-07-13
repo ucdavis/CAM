@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using CAM.Core.Domain;
 using CAM.Core.Repositories;
 using CAM.Models;
 using CAM.Services;
@@ -51,15 +52,21 @@ namespace CAM.Controllers
 
         public ActionResult Test(string userName, string password)
         {
-            
             var site = LoadSite();
             _activeDirectoryService.Initialize(site.Username, site.Password, site);
-            var groups = new string[2] { "Developers", "CRU" };
-            _activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", "unit", groups.ToList());
+            var groups = new List<string> { "Developers", "CRU" };
+            //_activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", "unit", groups.ToList());
+
+            var request = _repositoryFactory.RequestRepository.GetNullableById(3);
+            var adUser = new AdUser();
+            AutoMapper.Mapper.Map(request, adUser);
+            _activeDirectoryService.CreateUser(adUser, request.OrganizationalUnit.Path, groups);
+
+            //_activeDirectoryService.GetUser("fakerson");
 
             //var result = _activeDirectoryService.GetUser("lai");
             
-
+            //_activeDirectoryService.AssignUserToGroup("fakerson", "CRU");
 
             //if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password) )
             //{

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using CAM.Core.Domain;
@@ -33,9 +35,10 @@ namespace CAM.Services
         List<AdUser> GetUsers();
 
         AdUser GetUser(string userId);
+        AdUser GetUserByEmployeeId(string employeeId);
 
         void AssignEmployeeId(string userId, string employeeId);
-        void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, string unit, List<string> securityGroups);
+        void CreateUser(AdUser adUser, string container, List<string> securityGroups );
         void AssignUserToGroup(string userId, string groupId);
     }
 
@@ -115,7 +118,32 @@ namespace CAM.Services
                 using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
                 {
                     var u = UserPrincipal.FindByIdentity(ad, userId);
+                    var test = u.Manager();
                     if (u != null) return new AdUser(u);
+                }
+            }
+
+            return null;
+        }
+
+        public AdUser GetUserByEmployeeId(string employeeId)
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return null; }
+
+            var ous = Site.UserOu.Split('|');
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var user = new UserPrincipal(ad) {EmployeeId = employeeId};
+                    var searcher = new PrincipalSearcher(user);
+
+                    var result = searcher.FindOne();
+                    if (result  !=  null)
+                    {
+                        return new AdUser((UserPrincipal)result);
+                    }
                 }
             }
 
@@ -144,48 +172,62 @@ namespace CAM.Services
             }
         }
 
-        public void CreateUser(string firstName, string lastName, string email, string loginId, string container, string title, string unit, List<string> securityGroups)
+        public void CreateUser(AdUser adUser, string container, List<string> securityGroups)
         {
-            using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
+            string loginId, manager = string.Empty;
+
+            // find the supervisor
+            if (!string.IsNullOrEmpty(adUser.ManagerKerb))
             {
-                // example John Smith
-                // lastname
-                // jsmith
-                // josmith
-                // johsmith
+                var supervisor = GetUserByEmployeeId(adUser.ManagerKerb);
+                if (supervisor != null) manager = supervisor.DistinguishedName;
 
-                if (UserPrincipal.FindByIdentity(ad, lastName) != null)
-                {
-                    throw new Exception("user id already taken.");
-                }
-
-                var user = new UserPrincipal(ad);
-                user.Name = string.Format("{0}, {1}", lastName, firstName);
-                user.GivenName = firstName;
-                user.Surname = lastName;
-                
-                user.EmployeeId = loginId.ToLower();
-                user.Description = string.Format("{0} - {1}", unit, title);
-                
-                // only if email is requested
-                user.EmailAddress = string.IsNullOrEmpty(email) ? string.Format("{0}@caes.ucdavis.edu", lastName.ToLower()) : email;
-                
-                //logon script
-                //home directory => user.HomeDirectory and user.HomeDrive
-
-                user.SamAccountName = lastName;
-                user.SetPassword("Devel$$123456789");
-
-                user.Save();
             }
 
-            foreach(var groupId in securityGroups) AssignUserToGroup(lastName, groupId);
+            using (var upc = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
+            {
+                loginId = CheckForExistingUser(adUser.FirstName, adUser.LastName, upc);
 
-            // create exchange mailbox if needed
+                if (loginId == null)
+                {
+                    throw new DuplicateNameException("Unable to determine a valid userid for the requested user.");
+                }
+
+                var user = new UserPrincipal(upc);
+                AutoMapper.Mapper.Map(adUser, user);
+
+                user.SamAccountName = loginId;
+                if (adUser.LastName.ToLower() != loginId)
+                {
+                    user.Name = string.Format("{0}, {1} ({2})", adUser.LastName, adUser.FirstName, loginId);
+                }
+
+                user.SetPassword(GeneratePassword(16));
+                
+                if (adUser.NeedsEmail)
+                {
+                    user.EmailAddress = string.Format("{0}@caes.ucdavis.edu", loginId);
+                }
+
+                user.Save();
+
+                foreach (var groupId in securityGroups)
+                {
+                    AddToGroup(user, groupId);
+                }
+            }
+
+            //// create exchange mailbox if needed
 
             using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
             {
-                var user = UserPrincipal.FindByIdentity(ad, lastName);
+                var user = UserPrincipal.FindByIdentity(ad, loginId);
+
+                // set the extended properties that cannot be done before first save
+                user.OfficeLocation(adUser.OfficeLocation);
+                user.Manager(manager);
+
+                // disable the account by default
                 user.Enabled = false;
                 user.Save();
             }
@@ -195,18 +237,97 @@ namespace CAM.Services
         {
             if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return; }
 
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(groupId)) { return; }
-
             var ous = Site.UserOu.Split('|');
 
             foreach (var ou in ous)
             {
                 using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
                 {
-                    var user = UserPrincipal.FindByIdentity(ad, userId);
+                    var u = UserPrincipal.FindByIdentity(ad, userId);
+                    if (u != null)
+                    {
+                        AddToGroup(u, groupId);
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Find a login id we can use
+        /// </summary>
+        /// <remarks>
+        /// example John Smith
+        /// lastname
+        /// jsmith
+        /// josmith
+        /// johsmith
+        /// </remarks>
+        /// <param name="firstname"></param>
+        /// <param name="lastname"></param>
+        /// <param name="pc"></param>
+        /// <returns></returns>
+        private string CheckForExistingUser(string firstname, string lastname, PrincipalContext pc)
+        {
+            var up = new UserPrincipal(pc);
+            var searcher = new PrincipalSearcher(up);
+
+            // first try the last name
+            up.SamAccountName = lastname;
+            up.Name = string.Format("{0}, {1}", lastname, firstname);
+
+            if (!searcher.FindAll().Any())
+            {
+                return lastname.ToLower();
+            }
+
+            // start trying combo's with the first name
+            for (int i = 1; i <= firstname.Length; i++)
+            {
+                var login = string.Format("{0}{1}", firstname.Substring(0, i), lastname).ToLower();
+                up.SamAccountName = login;
+                up.Name = string.Format("{0}, {1} ({2})", lastname, firstname, login);
+
+                if (!searcher.FindAll().Any())
+                {
+                    return login;
+                }
+            }
+
+            /*
+            // first just try the last name
+            if (UserPrincipal.FindByIdentity(pc, lastname) == null)
+            {
+                return lastname.ToLower();
+            }
+
+            // start trying combo's with the first name
+            for (int i = 1; i <= firstname.Length; i++ )
+            {
+                var login = string.Format("{0}{1}", firstname.Substring(0, i), lastname).ToLower();
+                if (UserPrincipal.FindByIdentity(pc, login) == null)
+                {
+                    return login;
+                }
+            }
+            */
+
+            return null;
+        }
+
+        private void AddToGroup(UserPrincipal user, string groupId)
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return; }
+
+            var ous = Site.SecurityGroupOu.Split('|');
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
                     var group = GroupPrincipal.FindByIdentity(ad, groupId);
 
-                    if (user != null || group != null)
+                    if (user != null && group != null)
                     {
                         if (!group.Members.Contains(user))
                         {
@@ -240,6 +361,19 @@ namespace CAM.Services
 
             return results;
         }
+
+        private readonly Random _rng = new Random();
+        private const string _chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?><:[]!@#$%^&*()=+;";
+        private string GeneratePassword(int size)
+        {
+            char[] buffer = new char[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                buffer[i] = _chars[_rng.Next(_chars.Length)];
+            }
+            return new string(buffer);
+        }
     } 
 
     public class AdGroup
@@ -270,21 +404,16 @@ namespace CAM.Services
 
     public class AdUser
     {
+        public AdUser()
+        {
+            
+        }
+
         public AdUser(UserPrincipal userPrincipal)
         {
-            Id = userPrincipal.SamAccountName;
-            EmployeeId = userPrincipal.EmployeeId;
-
-            FirstName = userPrincipal.GivenName;
-            LastName = userPrincipal.Surname;
-            Email = userPrincipal.EmailAddress;
-            Description = userPrincipal.Description;
-            SID = userPrincipal.Sid.Value;
-
-            ContainerPath = userPrincipal.DistinguishedName;
-
-            Expiration = userPrincipal.AccountExpirationDate;
-            Enabled = userPrincipal.Enabled;
+            AutoMapper.Mapper.Map(userPrincipal, this);
+            OfficeLocation = userPrincipal.OfficeLocation();
+            Manager = userPrincipal.Manager();
         }
 
         /// <summary>
@@ -292,22 +421,32 @@ namespace CAM.Services
         /// </summary>
         public string Id { get; set; }
         /// <summary>
-        /// Employee ID field from AD
+        /// Full ldap query string to the user
+        /// </summary>
+        public string DistinguishedName { get; set; }
+        /// <summary>
+        /// Employee ID field from AD, we're using kerb ids
         /// </summary>
         public string EmployeeId { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public string DisplayName { get; set; }
+        public string Name { get; set; }
+
         /// <summary>
-        /// User's description
+        /// Unit + Title
         /// </summary>
         public string Description { get; set; }
-        
-        /// <summary>
-        /// Security ID
-        /// </summary>
-        public string SID { get; set; }
-        public string ContainerPath { get; set; }
+        public string Email { get; set; }
+
+        public string HomeDrive { get; set; }
+        public string HomeDirectory { get; set; }
+
+        public string Phone { get; set; }
+        public string OfficeLocation { get; set; }
+        public string Manager { get; set; }
+
         /// <summary>
         /// Account expiration
         /// </summary>
@@ -316,19 +455,24 @@ namespace CAM.Services
 
         public string GetContainer()
         {
-            var startIndex = ContainerPath.IndexOf("OU=") + 3;
-            var endIndex = ContainerPath.IndexOf(',', startIndex);
+            var startIndex = DistinguishedName.IndexOf("OU=") + 3;
+            var endIndex = DistinguishedName.IndexOf(',', startIndex);
 
-            return ContainerPath.Substring(startIndex, endIndex - startIndex);
+            return DistinguishedName.Substring(startIndex, endIndex - startIndex);
         }
-
         public string GetContainerPath()
         {
-            var startIndex = ContainerPath.IndexOf("OU=");
-            var endIndex = ContainerPath.Length;
+            var startIndex = DistinguishedName.IndexOf("OU=");
+            var endIndex = DistinguishedName.Length;
 
-            return ContainerPath.Substring(startIndex, endIndex - startIndex);
+            return DistinguishedName.Substring(startIndex, endIndex - startIndex);
         }
+
+        // === Support fields
+        public string PositionTitle { get; set; }
+        public string Unit { get; set; }
+        public bool NeedsEmail { get; set; }
+        public string ManagerKerb { get; set; }
     }
 
     public class AdOrganizationalUnit
@@ -341,5 +485,58 @@ namespace CAM.Services
 
         public string Name { get; set; }
         public string Path { get; set; }
+    }
+
+    public static class AccountManagementExtensions
+    {
+        public static String GetProperty(this Principal principal, String property)
+        {
+            var directoryEntry = principal.GetUnderlyingObject() as DirectoryEntry;
+            if (directoryEntry.Properties.Contains(property))
+                return directoryEntry.Properties[property].Value.ToString();
+            
+            return String.Empty;
+        }
+
+        public static void SetProperty(this Principal principal, string property, string value)
+        {
+            var directoryEntry = principal.GetUnderlyingObject() as DirectoryEntry;
+            directoryEntry.Properties[property].Value = value;
+        }
+
+        private const string _officeLocation = "physicalDeliveryOfficeName";
+        private const string _company = "company";
+        private const string _department = "department";
+        private const string _manager = "manager";
+
+        private static string ProcessProperty(Principal principal, string property, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                principal.SetProperty(property, value);
+            }
+
+            return principal.GetProperty(property);
+        }
+
+        public static string OfficeLocation(this Principal principal, string value = null)
+        {
+            return ProcessProperty(principal, _officeLocation, value);
+        }
+
+        public static string Manager(this Principal principal, string value = null)
+        {
+            return ProcessProperty(principal, _manager, value);
+        }
+
+        public static String GetCompany(this Principal principal, string value = null)
+        {
+            return ProcessProperty(principal, _company, value);
+        }
+
+        public static String GetDepartment(this Principal principal, string value = null)
+        {
+            return ProcessProperty(principal, _department, value);
+        }
     }
 }

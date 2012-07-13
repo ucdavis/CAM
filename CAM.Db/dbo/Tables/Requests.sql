@@ -24,6 +24,7 @@
     [Approved] BIT NULL, 
     [CreatedBy] VARCHAR(15) NOT NULL, 
     [CreatedDate] DATETIME NOT NULL DEFAULT getdate(), 
+	[Manager] varchar(15),
     [OrganizationalUnitId] INT NULL, 
 	[HomeDirectory] VARCHAR(100) NULL, 
     [HomeDrive] VARCHAR(5) NULL, 
