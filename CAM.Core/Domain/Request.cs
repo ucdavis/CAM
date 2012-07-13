@@ -13,27 +13,6 @@ namespace CAM.Core.Domain
             SetDefaults();
         }
 
-        //public Request(RequestTemplate template)
-        //{
-        //    SetDefaults();
-
-        //    Site = template.Site;
-        //    Unit = template.Unit;
-
-        //    NeedsEmail = template.NeedsEmail;
-        //    AdditionalFolders = template.AdditionalFolders;
-
-        //    PositionTitle = template.PositionTitle;
-        //    DepartmentName = template.DepartmentName;
-        //    UnitName = template.UnitName;
-
-        //    HireType = template.HireType;
-        //    HardwareType = template.HardwareType;
-
-        //    foreach(var sf in template.Software) { Software.Add(sf); }
-        //    foreach(var ns in template.NetworkShares) { NetworkShares.Add(ns);}
-        //}
-
         private void SetDefaults()
         {
             Start = DateTime.Now.AddDays(14);
