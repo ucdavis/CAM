@@ -92,7 +92,7 @@ namespace CAM
                 .ForMember(dest => dest.PositionTitle, opt => opt.MapFrom(src => src.PositionTitle))
                 .ForMember(dest => dest.NeedsEmail, opt => opt.MapFrom(src => src.NeedsEmail))
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.OfficePhone))
-                .ForMember(dest => dest.OfficeLocation, opt => opt.MapFrom(src => src.OfficeLocation))
+                .ForMember(dest => dest.OfficeLocation, opt => opt.MapFrom(src => string.Format("{0} {1}", src.Room, src.OfficeLocation)))
                 .ForMember(dest => dest.ManagerKerb, opt => opt.MapFrom(src => src.Manager))
                 ;
 
