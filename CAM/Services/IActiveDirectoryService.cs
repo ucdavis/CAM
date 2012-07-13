@@ -44,9 +44,6 @@ namespace CAM.Services
 
     public class ActiveDirectoryService : IActiveDirectoryService
     {
-        private readonly string _aduser = ConfigurationManager.AppSettings["aduser"];
-        private readonly string _adpass = ConfigurationManager.AppSettings["adpass"];
-
         private Site Site { get; set; }
         private string UserName { get; set; }
         private string Password { get; set; }
