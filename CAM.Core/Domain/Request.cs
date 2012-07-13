@@ -85,6 +85,7 @@ namespace CAM.Core.Domain
             Map(x => x.OfficeLocation);
             Map(x => x.Room);
             Map(x => x.ContactPhone);
+            Map(x => x.OfficePhone);
 
             Map(x => x.Start);
             Map(x => x.End).Column("`End`");

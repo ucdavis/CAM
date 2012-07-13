@@ -1,4 +1,4 @@
-﻿@model CAM.Models.RequestTemplateViewModel
+﻿@model RequestTemplateViewModel
 
 <div class="control-group">
     <legend>Active Directory</legend>
@@ -12,6 +12,13 @@
                     <option value="@a.Value" @(a.Selected ? "selected" : string.Empty)>@a.Text</option>
                 }
             </select>
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.RequestTemplate.HomeDirectory, new {@class="control-label"})
+        <div class="controls">
+		    @Html.TextBoxFor(model => model.RequestTemplate.HomeDrive, new {@class="span1 hastip", title="Home Drive"})
+            @Html.TextBoxFor(model => model.RequestTemplate.HomeDirectory, new {@class="hastip", title="Home Directory"})
         </div>
     </div>
 </div>

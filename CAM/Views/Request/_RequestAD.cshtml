@@ -14,4 +14,11 @@
             </select>
         </div>
     </div>
+    <div class="control-group">
+        @Html.LabelFor(model => model.Request.HomeDirectory, new {@class="control-label"})
+        <div class="controls">
+		    @Html.TextBoxFor(model => model.Request.HomeDrive, new {@class="span1 hastip", title="Home Drive"})
+            @Html.TextBoxFor(model => model.Request.HomeDirectory, new {@class="hastip", title="Home Directory"})
+        </div>
+    </div>
 </div>

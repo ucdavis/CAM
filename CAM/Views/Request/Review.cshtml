@@ -41,31 +41,37 @@
                     <div class="controls form-text">@string.Format("{0} {1}", Model.FirstName, Model.LastName)</div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Email</label>
+                    @Html.LabelFor(model => model.Email, new {@class="control-label"})
                     <div class="controls form-text">
                         @Model.Email
                     </div>
                 </div>  
                 <div class="control-group">
-                    <label class="control-label">Contact Phone</label>
+                    @Html.LabelFor(model => model.ContactPhone, new {@class="control-label"})
                     <div class="controls form-text">
                         @Model.ContactPhone
+                    </div>
+                </div>
+                <div class="control-group">
+                    @Html.LabelFor(model => model.OfficePhone, new {@class="control-label"})
+                    <div class="controls form-text">
+                        @Model.OfficePhone
                     </div>
                 </div>
             </div>    
             <div class="span4">
                 <div class="control-group">
-                    <label class="control-label">Unit</label>
+                    @Html.LabelFor(model => model.UnitName, new {@class="control-label"})
                     <div class="controls form-text">@Model.UnitName </div>
                 </div>  
                 <div class="control-group">
-                    <label class="control-label">Needs Email</label>
+                    @Html.LabelFor(model => model.NeedsEmail, new {@class="control-label"})
                     <div class="controls form-text">
                         @(Model.NeedsEmail ? "Yes" : "No")
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Location</label>
+                    @Html.LabelFor(model => model.OfficeLocation, new {@class="control-label"})
                     <div class="controls form-text">
                         @string.Format("{0} {1}", Model.Room, Model.OfficeLocation)
                     </div>
@@ -91,25 +97,25 @@
             </div>    
             <div class="span4">
                 <div class="control-group">
-                    <label class="control-label">Employee Type</label>
+                    @Html.LabelFor(model => model.EmployeeType, new {@class="control-label"})
                     <div class="controls form-text">
                         @Model.EmployeeType
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Hire Type</label>
+                    @Html.LabelFor(model => model.HireType, new {@class="control-label"})
                     <div class="controls form-text">
                         @Model.HireType
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Supervisor</label>
+                    @Html.LabelFor(model => model.CreatedBy, new {@class="control-label"})
                     <div class="controls form-text">
                         @Model.CreatedBy
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Date Request</label>
+                    @Html.LabelFor(model => model.CreatedDate, new {@class="control-label"})
                     <div class="controls form-text">
                         @Model.CreatedDate
                     </div>
@@ -117,9 +123,15 @@
             </div>    
             <div class="span12">
                 <div class="control-group">
-                    <label class="control-label">AD Container</label>
+                    @Html.LabelFor(model => model.OrganizationalUnit, new {@class="control-label"})
                     <div class="controls form-text">
                         @(Model.OrganizationalUnit != null ? Model.OrganizationalUnit.Name : string.Empty)
+                    </div>
+                </div>
+                <div class="control-group">
+                    @Html.LabelFor(model => model.HomeDirectory, new {@class="control-label"})
+                    <div class="controls">
+		                @(string.Format("{0} {1}", Model.HomeDrive, Model.HomeDirectory))
                     </div>
                 </div>
             </div>

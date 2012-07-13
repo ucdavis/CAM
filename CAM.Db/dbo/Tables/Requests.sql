@@ -10,6 +10,7 @@
     [OfficeLocation] VARCHAR(100) NOT NULL, 
     [Room] VARCHAR(20) NULL, 
     [ContactPhone] VARCHAR(50) NULL, 
+	[OfficePhone] VARCHAR(50) NULL,
     [Start] DATE NOT NULL, 
     [End] DATE NULL, 
     [HireType] VARCHAR(50) NULL, 

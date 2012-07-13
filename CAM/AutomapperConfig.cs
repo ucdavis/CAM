@@ -22,9 +22,6 @@ namespace CAM
                 .ForMember(x => x.Approved, x => x.Ignore())
                 .ForMember(x => x.CreatedBy, x => x.Ignore())
                 .ForMember(x => x.CreatedDate, x => x.Ignore())
-                //.ForMember(x => x.Software, x=>x.Ignore())
-                //.ForMember(x => x.NetworkShares, x => x.Ignore())
-                //.ForMember(x => x.SecurityGroups, x => x.Ignore())
                 ;
 
             CreateMap<RequestTemplate, RequestTemplate>()
@@ -43,6 +40,8 @@ namespace CAM
                 .ForMember(dest => dest.HardwareType, opt => opt.MapFrom(src => src.HardwareType))
                 .ForMember(dest => dest.Software, opt => opt.MapFrom(src => src.Software))
                 .ForMember(dest => dest.SecurityGroups, opt => opt.MapFrom(src => src.SecurityGroups))
+                .ForMember(dest => dest.HomeDrive, opt => opt.MapFrom(src => src.HomeDrive))
+                .ForMember(dest => dest.HomeDirectory, opt => opt.MapFrom(src => src.HomeDirectory))
                 ;
         }
     }
