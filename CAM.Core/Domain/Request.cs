@@ -15,6 +15,8 @@ namespace CAM.Core.Domain
 
         private void SetDefaults()
         {
+            CreatedDate = DateTime.Now;
+
             Start = DateTime.Now.AddDays(14);
 
             Pending = true;
@@ -62,7 +64,7 @@ namespace CAM.Core.Domain
         /// Kerb id of the supervisor
         /// </summary>
         public virtual string Manager { get; set; }
-        public virtual string CreatedDate { get; set; }
+        public virtual DateTime CreatedDate { get; set; }
 
         public virtual string GetHomeDirectory()
         {

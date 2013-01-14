@@ -3,16 +3,19 @@ using System.Web.Mvc;
 using CAM.Core.Domain;
 using CAM.Core.Repositories;
 using CAM.Models;
+using CAM.Services;
 
 namespace CAM.Controllers
 {
     public class RequestController : ApplicationController
     {
         private readonly IRepositoryFactory _repositoryFactory;
+        private readonly IActiveDirectoryService _activeDirectoryService;
 
-        public RequestController(IRepositoryFactory repositoryFactory)
+        public RequestController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService)
         {
             _repositoryFactory = repositoryFactory;
+            _activeDirectoryService = activeDirectoryService;
         }
 
         public ActionResult Create(int? id)
@@ -26,6 +29,8 @@ namespace CAM.Controllers
         {
             if (ModelState.IsValid)
             {
+                request.CreatedBy = User.Identity.Name;
+
                 _repositoryFactory.RequestRepository.EnsurePersistent(request);
                 Message = "Request has been successfully submitted.";
                 return RedirectToAction("Index", "Home");
@@ -74,12 +79,16 @@ namespace CAM.Controllers
             // validate the necessary fields to create the necessary objects
 
             // then create the objects
+            var adUsr = new AdUser();
+            AutoMapper.Mapper.Map(request, adUsr);
+            _activeDirectoryService.Initialize(LoadSite().Username, LoadSite().Password, LoadSite());
+            _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList());
 
             request.Pending = false;
             request.Approved = Approved;
             _repositoryFactory.RequestRepository.EnsurePersistent(request);
 
-            Message = string.Format("Requeste for {0} {1} has {2} approved.", request.FirstName, request.LastName, Approved ? "been" : "not been");
+            Message = string.Format("Request for {0} {1} has {2} approved.", request.FirstName, request.LastName, Approved ? "been" : "not been");
             return RedirectToAction("Index");
         }
 
