@@ -8,16 +8,17 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="@Url.Content("~/Assets/css/bootstrap.css")" rel="stylesheet" >
+    
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
     </style>
-    <link href="@Url.Content("~/Content/Custom.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/bootstrap-responsive.css")" rel="stylesheet" >
-    <link href="@Url.Content("~/Content/themes/uibootstrap/jquery-ui-1.8.16.custom.css")" rel="stylesheet"/>
-      
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" >
+    <link href="@Url.Content("~/Content/font-awesome.css")" rel="stylesheet" >
+      <link href="@Url.Content("~/Content/bootstrap-custom.css")" rel="stylesheet" >
+    <link href="@Url.Content("~/Content/bootstrap-responsive.css")" rel="stylesheet" >
+    <link href="@Url.Content("~/Content/custom.css")" rel="stylesheet"/>  
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -28,49 +29,11 @@
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">CA&ES Computing Access Request</a>
-          
-           @Html.Partial("_LoginPartial")
-
-        <div class="nav-collapse">
-            <ul class="nav">
-                <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                
-                @if (ViewContext.RequestContext.RouteData.Values["site"] != "none")
-                {
-                    @*<li class="">@Html.ActionLink("Request Access", "Index", "Request")</li>*@
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Administration
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Review Requests", "Index", "Request")</li>
-                            <li>@Html.ActionLink("Request Templates", "Index", "RequestTemplate")</li>
-                            <li>@Html.ActionLink("Site Settings", "Settings", "Site")</li>
-                            <li class="divider"></li>
-                            <li class="nav-header">Active Directory</li>
-                            <li>@Html.ActionLink("Security Groups", "SecurityGroups", "ActiveDirectory")</li>
-                            <li>@Html.ActionLink("Organizational Units", "OrganizationalUnits", "ActiveDirectory")</li>
-                        </ul>
-                    </li>
-                }
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+    @Html.Partial("_navigation")
 
     @RenderSection("featured", required: false)
 
-    <div class="container-fluid">
+    <div class="container">
         
         @if(!string.IsNullOrEmpty(TempData["Message"] as string))
         {

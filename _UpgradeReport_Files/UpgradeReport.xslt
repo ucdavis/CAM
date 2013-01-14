@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl='urn:schemas-microsoft-com:xslt'>
+  <xsl:output omit-xml-declaration="yes" />
 
   <!-- Keys -->
   <xsl:key name="ProjectKey" match="Event" use="@Project" />
@@ -22,7 +23,7 @@
   </xsl:template>
 
   <!-- Intermediate Templates -->
-  <xsl:template match="UpgradeLog" mode="ProjectOverviewXML">
+  <xsl:template match="UpgradeReport" mode="ProjectOverviewXML">
     <Projects>
       <xsl:for-each select="Event[generate-id(.) = generate-id(key('ProjectKey', @Project))]">
         <Project>
@@ -48,12 +49,15 @@
             <xsl:value-of select="$projectName"/>
           </xsl:attribute>
           <xsl:attribute name="ProjectDisplayName">
+
+            <xsl:variable name="localProjectName" select="@Project" />
+
             <!-- Sometimes it is possible to have project name set to a path over a real project name,
                  we split the string on '\' and if we end up with >1 part in the resulting tokens set
                  we format the ProjectDisplayName as ..\prior\last -->
             <xsl:variable name="pathTokens">
               <xsl:call-template name="SplitString">
-                <xsl:with-param name="source" select="$projectName" />
+                <xsl:with-param name="source" select="$localProjectName" />
                 <xsl:with-param name="separator" select="$pathSplitSeparator" />
               </xsl:call-template>
             </xsl:variable>
@@ -63,7 +67,7 @@
                 <xsl:value-of select="concat('..', $pathSplitSeparator, msxsl:node-set($pathTokens)/part[last() - 1], $pathSplitSeparator, msxsl:node-set($pathTokens)/part[last()])"/>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:value-of select="$projectName"/>
+                <xsl:value-of select="$localProjectName"/>
               </xsl:otherwise>
             </xsl:choose>
 
@@ -72,7 +76,7 @@
             <xsl:value-of select="translate($projectName, '\', '-')"/>
           </xsl:attribute>
           <xsl:attribute name="Solution">
-            <xsl:value-of select="/UpgradeLog/Properties/Property[@Name='Solution']/@Value"/>
+            <xsl:value-of select="/UpgradeReport/Properties/Property[@Name='Solution']/@Value"/>
           </xsl:attribute>
           <xsl:attribute name="Source">
             <xsl:value-of select="@Source"/>
@@ -143,80 +147,86 @@
         <th _locID="WarningsTableHeader">Warnings</th>
         <th _locID="MessagesTableHeader">Messages</th>
       </tr>
-      <tr>
-        <xsl:for-each select="Project">
 
-          <xsl:sort select="@ErrorCount" order="descending" />
-          <xsl:sort select="@WarningCount" order="descending" />
-          <!-- Always make solution last within a group -->
-          <xsl:sort select="@IsSolution" order="ascending" />
-          <xsl:sort select="@ProjectSafeName" order="ascending" />
+      <xsl:for-each select="Project">
 
-          <tr>
-            <td>
-              <img width="16" height="16">
-                <xsl:attribute name="src">
-                  <xsl:choose>
-                    <xsl:when test="@Status = 'Error'">_UpgradeReport_Files\UpgradeReport_Error.png</xsl:when>
-                    <xsl:when test="@Status = 'Warning'">_UpgradeReport_Files\UpgradeReport_Warning.png</xsl:when>
-                    <xsl:when test="@Status = 'Success'">_UpgradeReport_Files\UpgradeReport_Success.png</xsl:when>
-                  </xsl:choose>
-                </xsl:attribute>
-                <xsl:attribute name="alt">
-                  <xsl:value-of select="@Status" />
-                </xsl:attribute>
-              </img>
-            </td>
-            <td>
-              <strong>
-                <a>
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="concat('#', @ProjectSafeName)"/>
-                  </xsl:attribute>
-                  <xsl:value-of select="@ProjectDisplayName" />
-                </a>
-              </strong>
-            </td>
-            <td>
-              <xsl:value-of select="@Source" />
-            </td>
-            <td class="textCentered">
+        <xsl:sort select="@ErrorCount" order="descending" />
+        <xsl:sort select="@WarningCount" order="descending" />
+        <!-- Always make solution last within a group -->
+        <xsl:sort select="@IsSolution" order="ascending" />
+        <xsl:sort select="@ProjectSafeName" order="ascending" />
+
+        <tr>
+          <td>
+            <img width="16" height="16">
+              <xsl:attribute name="src">
+                <xsl:choose>
+                  <xsl:when test="@Status = 'Error'">_UpgradeReport_Files\UpgradeReport_Error.png</xsl:when>
+                  <xsl:when test="@Status = 'Warning'">_UpgradeReport_Files\UpgradeReport_Warning.png</xsl:when>
+                  <xsl:when test="@Status = 'Success'">_UpgradeReport_Files\UpgradeReport_Success.png</xsl:when>
+                </xsl:choose>
+              </xsl:attribute>
+              <xsl:attribute name="alt">
+                <xsl:value-of select="@Status" />
+              </xsl:attribute>
+            </img>
+          </td>
+          <td>
+            <strong>
               <a>
-                <xsl:if test="@ErrorCount > 0">
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="concat('#', @ProjectSafeName, 'Error')"/>
-                  </xsl:attribute>
-                </xsl:if>
-                <xsl:value-of select="@ErrorCount" />
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#', @ProjectSafeName)"/>
+                </xsl:attribute>
+                <xsl:choose>
+                  <xsl:when test="@ProjectDisplayName = ''">
+                    <span _locID="OverviewSolutionSpan">Solution</span>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="@ProjectDisplayName" />
+                  </xsl:otherwise>
+                </xsl:choose>
               </a>
-            </td>
-            <td class="textCentered">
-              <a>
-                <xsl:if test="@WarningCount > 0">
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="concat('#', @ProjectSafeName, 'Warning')"/>
-                  </xsl:attribute>
-                </xsl:if>
-                <xsl:value-of select="@WarningCount" />
-              </a>
-            </td>
-            <td class="textCentered">
-              <a href="#">
-                <xsl:if test="@MessageCount > 0">
-                  <xsl:attribute name="onclick">
-                    <xsl:variable name="apos">
-                      <xsl:text>'</xsl:text>
-                    </xsl:variable>
-                    <xsl:variable name="JS" select="concat('ScrollToFirstVisibleMessage(', $apos, @ProjectSafeName, $apos, ')')" />
-                    <xsl:value-of select="concat($JS, '; return false;')"/>
-                  </xsl:attribute>
-                </xsl:if>
-                <xsl:value-of select="@MessageCount" />
-              </a>
-            </td>
-          </tr>
-        </xsl:for-each>
-      </tr>
+            </strong>
+          </td>
+          <td>
+            <xsl:value-of select="@Source" />
+          </td>
+          <td class="textCentered">
+            <a>
+              <xsl:if test="@ErrorCount > 0">
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#', @ProjectSafeName, 'Error')"/>
+                </xsl:attribute>
+              </xsl:if>
+              <xsl:value-of select="@ErrorCount" />
+            </a>
+          </td>
+          <td class="textCentered">
+            <a>
+              <xsl:if test="@WarningCount > 0">
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#', @ProjectSafeName, 'Warning')"/>
+                </xsl:attribute>
+              </xsl:if>
+              <xsl:value-of select="@WarningCount" />
+            </a>
+          </td>
+          <td class="textCentered">
+            <a href="#">
+              <xsl:if test="@MessageCount > 0">
+                <xsl:attribute name="onclick">
+                  <xsl:variable name="apos">
+                    <xsl:text>'</xsl:text>
+                  </xsl:variable>
+                  <xsl:variable name="JS" select="concat('ScrollToFirstVisibleMessage(', $apos, @ProjectSafeName, $apos, ')')" />
+                  <xsl:value-of select="concat($JS, '; return false;')"/>
+                </xsl:attribute>
+              </xsl:if>
+              <xsl:value-of select="@MessageCount" />
+            </a>
+          </td>
+        </tr>
+      </xsl:for-each>
     </table>
   </xsl:template>
 
@@ -331,9 +341,16 @@
           <xsl:value-of select="@ProjectSafeName"/>
         </xsl:attribute>
       </a>
-      <h3>
-        <xsl:value-of select="@ProjectDisplayName"/>
-      </h3>
+      <xsl:choose>
+        <xsl:when test="@ProjectDisplayName = ''">
+          <h3 _locID="ProjectDisplayNameHeader">Solution</h3>
+        </xsl:when>
+        <xsl:otherwise>
+          <h3>
+            <xsl:value-of select="@ProjectDisplayName"/>
+          </h3>
+        </xsl:otherwise>
+      </xsl:choose>
 
       <table>
         <tr>
@@ -370,9 +387,18 @@
               <td>
                 <img width="16" height="16" src="_UpgradeReport_Files\UpgradeReport_Information.png" />
               </td>
-              <td class="messageCell" _locID="NoMessagesRow">
-                <xsl:value-of select="@ProjectDisplayName" /> logged no messages.
-              </td>
+              <xsl:choose>
+                <xsl:when test="@ProjectDisplayName = ''">
+                  <td class="messageCell" _locID="NoMessagesRow2">
+                    Solution logged no messages.
+                  </td>
+                </xsl:when>
+                <xsl:otherwise>
+                  <td class="messageCell" _locID="NoMessagesRow">
+                    <xsl:value-of select="@ProjectDisplayName" /> logged no messages.
+                  </td>
+                </xsl:otherwise>
+              </xsl:choose>
             </tr>
           </xsl:when>
         </xsl:choose>
@@ -380,21 +406,25 @@
     </xsl:for-each>
   </xsl:template>
 
-  <!-- Document, matches "UpgradeLog" -->
-  <xsl:template match="UpgradeLog">
+  <!-- Document, matches "UpgradeReport" -->
+  <xsl:template match="UpgradeReport">
+    <!-- Output doc type the 'Mark of the web' which disabled prompting to run JavaScript from local HTML Files in IE -->
+    <!-- NOTE: The whitespace around the 'Mark of the web' is important it must be exact -->
+    <xsl:text disable-output-escaping="yes"><![CDATA[<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+]]>
+    </xsl:text>
     <html>
       <head>
         <meta content="en-us" http-equiv="Content-Language" />
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <meta content="text/html; charset=utf-16" http-equiv="Content-Type" />
         <link type="text/css" rel="stylesheet" href="_UpgradeReport_Files\UpgradeReport.css" />
         <title _locID="ConversionReport0">
-          Migration Report&#160;
-          <xsl:if test="Properties/Property[@Name='LogNumber']">
-            <xsl:value-of select="Properties/Property[@Name='LogNumber']/@Value"/>
-          </xsl:if>
+          Migration Report
         </title>
 
         <script type="text/javascript" language="javascript">
+          <xsl:text disable-output-escaping="yes">
           <![CDATA[
           
             // Startup 
@@ -497,6 +527,7 @@
               }
             }
           ]]>
+        </xsl:text>
         </script>
       </head>
       <body>
