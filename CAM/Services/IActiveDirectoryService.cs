@@ -5,13 +5,16 @@ using System.Data;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
+using System.Security;
 using CAM.Core.Domain;
 
 namespace CAM.Services
 {
     public interface IActiveDirectoryService
     {
-        void Initialize(string userName, string password, Site site);
+        void Initialize(string userName, string password, Site site, string lyncUri);
 
         /// <summary>
         /// Loads a list of security groups according to site filters
@@ -38,18 +41,29 @@ namespace CAM.Services
         AdUser GetUserByEmployeeId(string employeeId);
 
         void AssignEmployeeId(string userId, string employeeId);
-        void CreateUser(AdUser adUser, string container, List<string> securityGroups );
+        /// <summary>
+        /// Creates an AD user account
+        /// </summary>
+        /// <param name="adUser"></param>
+        /// <param name="container"></param>
+        /// <param name="securityGroups"></param>
+        /// <returns>SAM Account name</returns>
+        string CreateUser(AdUser adUser, string container, List<string> securityGroups );
         void AssignUserToGroup(string userId, string groupId);
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
     {
+        private const string _schema = "http://schemas.microsoft.com/powershell/Microsoft.PowerShell";
+
+        private string _lyncUri;
         private Site Site { get; set; }
         private string UserName { get; set; }
         private string Password { get; set; }
 
-        public void Initialize(string userName, string password, Site site)
+        public void Initialize(string userName, string password, Site site, string lyncUri)
         {
+            _lyncUri = lyncUri;
             Site = site;
             UserName = userName;
             Password = password;
@@ -169,7 +183,7 @@ namespace CAM.Services
             }
         }
 
-        public void CreateUser(AdUser adUser, string container, List<string> securityGroups)
+        public string CreateUser(AdUser adUser, string container, List<string> securityGroups)
         {
             string loginId, manager = string.Empty;
 
@@ -215,6 +229,8 @@ namespace CAM.Services
                 }
             }
 
+            EnableLync(loginId);
+
             //// create exchange mailbox if needed
 
             using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
@@ -229,6 +245,8 @@ namespace CAM.Services
                 user.Enabled = false;
                 user.Save();
             }
+
+            return loginId;
         }
 
         public void AssignUserToGroup(string userId, string groupId)
@@ -249,6 +267,34 @@ namespace CAM.Services
                 }
             }
 
+        }
+
+        private void EnableLync(string samName)
+        {
+            var password = new SecureString();
+            foreach (var c in Password) password.AppendChar(c);
+
+            var credentials = new PSCredential(UserName, password);
+            var rri = new WSManConnectionInfo(new Uri(_lyncUri), _schema, credentials);
+            rri.AuthenticationMechanism = AuthenticationMechanism.Negotiate;
+
+            var remoteRunspace = RunspaceFactory.CreateRunspace(rri);
+            remoteRunspace.Open();
+
+            using (var powershell = PowerShell.Create())
+            {
+                powershell.Runspace = remoteRunspace;
+                powershell.AddCommand("Enable-CsUser");
+
+                powershell.AddParameter("Identity", samName);
+                powershell.AddParameter("RegistrarPool", "lync.caesdo.caes.ucdavis.edu");
+                powershell.AddParameter("SipAddressType", "SamAccountName");
+                powershell.AddParameter("SipDomain", "caesdo.caes.ucdavis.edu");
+
+                powershell.Invoke();
+            }
+
+            remoteRunspace.Close();
         }
 
         /// <summary>

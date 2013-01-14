@@ -15,12 +15,14 @@ namespace CAM.Controllers
         private readonly IRepositoryFactory _repositoryFactory;
         private readonly IActiveDirectoryService _activeDirectoryService;
         private readonly IDirectorySearchService _directorySearchService;
+        private readonly ILyncService _lyncService;
 
-        public HomeController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService, IDirectorySearchService directorySearchService)
+        public HomeController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService, IDirectorySearchService directorySearchService, ILyncService lyncService)
         {
             _repositoryFactory = repositoryFactory;
             _activeDirectoryService = activeDirectoryService;
             _directorySearchService = directorySearchService;
+            _lyncService = lyncService;
         }
 
         public ActionResult Index()
@@ -50,17 +52,24 @@ namespace CAM.Controllers
             return View();
         }
 
-        public ActionResult Test(string userName, string password)
+        public ActionResult Test()
         {
             var site = LoadSite();
-            _activeDirectoryService.Initialize(site.Username, site.Password, site);
-            var groups = new List<string> { "Developers", "CRU" };
-            //_activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", "unit", groups.ToList());
+            _activeDirectoryService.Initialize(site.Username, site.Password, site, null);
+            _lyncService.Initialize(site.Username, site.Password, "https://lync.caesdo.caes.ucdavis.edu/OcsPowershell");
 
-            var request = _repositoryFactory.RequestRepository.GetNullableById(3);
-            var adUser = new AdUser();
-            AutoMapper.Mapper.Map(request, adUser);
-            _activeDirectoryService.CreateUser(adUser, request.OrganizationalUnit.Path, groups);
+            var usr = _activeDirectoryService.GetUser("nononsense");
+
+            _lyncService.EnableLync(usr.Id);
+
+            
+            //var groups = new List<string> { "Developers", "CRU" };
+            ////_activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", "unit", groups.ToList());
+
+            //var request = _repositoryFactory.RequestRepository.GetNullableById(3);
+            //var adUser = new AdUser();
+            //AutoMapper.Mapper.Map(request, adUser);
+            //_activeDirectoryService.CreateUser(adUser, request.OrganizationalUnit.Path, groups);
 
             //_activeDirectoryService.GetUser("fakerson");
 

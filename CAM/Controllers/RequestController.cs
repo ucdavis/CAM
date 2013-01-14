@@ -11,11 +11,13 @@ namespace CAM.Controllers
     {
         private readonly IRepositoryFactory _repositoryFactory;
         private readonly IActiveDirectoryService _activeDirectoryService;
+        private readonly ILyncService _lyncService;
 
-        public RequestController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService)
+        public RequestController(IRepositoryFactory repositoryFactory, IActiveDirectoryService activeDirectoryService, ILyncService lyncService)
         {
             _repositoryFactory = repositoryFactory;
             _activeDirectoryService = activeDirectoryService;
+            _lyncService = lyncService;
         }
 
         public ActionResult Create(int? id)
@@ -81,7 +83,7 @@ namespace CAM.Controllers
             // then create the objects
             var adUsr = new AdUser();
             AutoMapper.Mapper.Map(request, adUsr);
-            _activeDirectoryService.Initialize(LoadSite().Username, LoadSite().Password, LoadSite());
+            _activeDirectoryService.Initialize(LoadSite().Username, LoadSite().Password, LoadSite(), "https://lync.caesdo.caes.ucdavis.edu/OcsPowershell");
             _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList());
 
             request.Pending = false;
