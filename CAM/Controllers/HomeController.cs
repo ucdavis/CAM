@@ -29,6 +29,12 @@ namespace CAM.Controllers
         {
             var viewModel = HomeIndexViewModel.Create(_repositoryFactory, Site);
 
+            if (!viewModel.HasSite() && _repositoryFactory.SiteRepository.Queryable.Count() == 1)
+            {
+                var site = _repositoryFactory.SiteRepository.Queryable.First();
+                return RedirectToAction("Index", new {Site = site.Id});
+            }
+
             return View(viewModel);
         }
 

@@ -29,7 +29,8 @@ footer {
 /* Styles for navbar
 -----------------------------------------------------------*/
 .nav i { margin-right: 7px; }
-.brand img { height: 20px; margin-right: 5px; }
+.navbar .brand { padding: 15px 20px 10px;}
+.brand img { height: 30px; margin-right: 5px; }
 
 /* Styles for jumbotron header
 -----------------------------------------------------------*/
