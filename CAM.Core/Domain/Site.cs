@@ -29,6 +29,9 @@ namespace CAM.Core.Domain
         [DataType(DataType.Password)]
         public virtual string Password { get; set; }
 
+        [Display(Name = "Lync Server Uri")]
+        public string LyncUri { get; set; }
+
         public virtual IList<OrganizationalUnit> OrganizationalUnits { get; set; }
 
         public virtual bool HasUnits()
@@ -74,6 +77,7 @@ namespace CAM.Core.Domain
             Map(x => x.ActiveDirectoryServer);
             Map(x => x.SecurityGroupOu);
             Map(x => x.UserOu);
+            Map(x => x.LyncUri);
 
             Map(x => x.Username);
             Map(x => x.Password);

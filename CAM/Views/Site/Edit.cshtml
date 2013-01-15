@@ -99,6 +99,13 @@
                     @Html.ValidationMessageFor(model => model.Password)
                 </div>
             </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.LyncUri, new {@class="control-label"})
+                <div class="controls">
+                    @Html.EditorFor(model => model.LyncUri, string.Empty)
+                    @Html.ValidationMessageFor(model => model.LyncUri)
+                </div>
+            </div>
         </fieldset>
     </div>
     

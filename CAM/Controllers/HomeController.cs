@@ -56,7 +56,7 @@ namespace CAM.Controllers
         {
             var site = LoadSite();
             _activeDirectoryService.Initialize(site.Username, site.Password, site, null);
-            _lyncService.Initialize(site.Username, site.Password, "https://lync.caesdo.caes.ucdavis.edu/OcsPowershell");
+            _lyncService.Initialize(site.Username, site.Password, site.LyncUri);
 
             var usr = _activeDirectoryService.GetUser("nononsense");
 

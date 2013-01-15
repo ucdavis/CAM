@@ -83,7 +83,7 @@ namespace CAM.Controllers
             // then create the objects
             var adUsr = new AdUser();
             AutoMapper.Mapper.Map(request, adUsr);
-            _activeDirectoryService.Initialize(LoadSite().Username, LoadSite().Password, LoadSite(), "https://lync.caesdo.caes.ucdavis.edu/OcsPowershell");
+            _activeDirectoryService.Initialize(LoadSite().Username, LoadSite().Password, LoadSite(), LoadSite().LyncUri);
             _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList());
 
             request.Pending = false;

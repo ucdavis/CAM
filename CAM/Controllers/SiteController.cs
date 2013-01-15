@@ -38,6 +38,7 @@ namespace CAM.Controllers
                 siteToEdit.UserOu = string.Join("|", userou.Where(a => !string.IsNullOrEmpty(a)));
                 siteToEdit.Username = siteValues.Username;
                 siteToEdit.Password = siteValues.Password;
+                siteToEdit.LyncUri = siteValues.LyncUri;
 
                 _repositoryFactory.SiteRepository.EnsurePersistent(siteToEdit);
                 Message = "Site has been updated.";
