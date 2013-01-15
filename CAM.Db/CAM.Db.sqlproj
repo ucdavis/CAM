@@ -62,6 +62,7 @@
     <Folder Include="dbo\Tables\" />
     <Folder Include="Publish" />
     <Folder Include="Data" />
+    <Folder Include="SchemaCompare" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Sites.sql" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />
+    <None Include="SchemaCompare\sqlexpress.scmp" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CAM.Db.refactorlog" />

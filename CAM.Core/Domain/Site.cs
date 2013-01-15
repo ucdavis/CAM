@@ -30,7 +30,7 @@ namespace CAM.Core.Domain
         public virtual string Password { get; set; }
 
         [Display(Name = "Lync Server Uri")]
-        public string LyncUri { get; set; }
+        public virtual string LyncUri { get; set; }
 
         public virtual IList<OrganizationalUnit> OrganizationalUnits { get; set; }
 

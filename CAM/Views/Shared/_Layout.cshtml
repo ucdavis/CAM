@@ -30,8 +30,16 @@
   <body>
 
     @Html.Partial("_navigation")
-
-    @RenderSection("featured", required: false)
+      
+      <div class="jumbotron">
+          <div class="container">
+              @RenderSection("subhead", required: false)              
+              <ul class="nav nav-pills pull-right">
+                  @RenderSection("subnav", required: false)
+              </ul>
+          </div>
+      </div>
+      
 
     <div class="container">
         
