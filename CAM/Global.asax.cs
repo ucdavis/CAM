@@ -21,20 +21,20 @@ namespace CAM
             routes.MapRoute(
                 name: "request",
                 url: "{site}/request/{id}",
-                defaults: new { site = "none", controller = "Request", action = "SelectUnit", id = UrlParameter.Optional },
+                defaults: new { site = "none", controller = "Request", action = "Index", id = UrlParameter.Optional },
                 constraints: new { id = @"\d+" }
                 );
 
             routes.MapRoute(
                 name: "acct",
                 url: "Account/{action}",
-                defaults: new { site = "", controller = "Account", action = "SelectUnit" }
+                defaults: new { site = "", controller = "Account", action = "Index" }
                 );
 
             routes.MapRoute(
                 name: "sitebase",
                 url: "{site}/{controller}/{action}/{id}",
-                defaults: new {site = "none", controller = "Home", action = "SelectUnit", id = UrlParameter.Optional}
+                defaults: new {site = "none", controller = "Home", action = "Index", id = UrlParameter.Optional}
                 );
         }
 

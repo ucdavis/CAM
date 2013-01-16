@@ -1,11 +1,16 @@
 ﻿@using CAM.Core.BaseClasses
+@using CAM.Resources
 @model RequestViewModel
 
 @{
-    ViewBag.Title = "SelectUnit";
+    ViewBag.Title = "Create Request";
+    ViewBag.Group = PageGroups.Request;
 }
 
-<h2 class="page-header">Create Access Request</h2>
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
 
 @using (Html.BeginForm("Create", "Request", FormMethod.Post, new { @class = "form-horizontal" }))
 {
@@ -24,10 +29,6 @@
 
     <div class="form-actions">
         <input type="submit" value="Submit" class="btn btn-primary" />
-        <a href="#" class="btn">Cancel</a>
+        <a href="@Url.Action("Index", "Home")" class="btn">Cancel</a>
     </div>
 }
-
-@section AdditionalScripts{
-}
-
