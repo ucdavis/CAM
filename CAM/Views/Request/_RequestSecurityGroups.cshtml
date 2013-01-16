@@ -1,4 +1,4 @@
-﻿@model CAM.Models.RequestViewModel
+﻿@model RequestViewModel
 
 <legend>Security Groups</legend>
 
@@ -7,7 +7,7 @@
         <div class="control-group">
             @Html.LabelFor(model => model.Request.SecurityGroups, new {@class="control-label"})
             <div class="controls">
-                <ul class="unstyled">
+                <ul class="unstyled col-list">
                     @foreach(var sg in Model.GetSecurityGroups().OrderBy(a => a.Text))
                     {
                         <li>

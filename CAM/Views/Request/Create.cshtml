@@ -12,6 +12,16 @@
     <h1>@ViewBag.Title</h1>
 }
 
+@section styles
+{
+    <style type="text/css">
+        .col-list li {
+            float: left;
+            width: 50%;
+        }
+    </style>
+}
+
 @using (Html.BeginForm("Create", "Request", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
