@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace CAM.Filters
 {
@@ -12,5 +8,10 @@ namespace CAM.Filters
         {
             Roles = "Admin";
         }
+    }
+
+    public static class RoleNames
+    {
+        public static string Admin = "Admin";
     }
 }

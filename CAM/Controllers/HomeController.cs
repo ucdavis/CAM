@@ -38,11 +38,7 @@ namespace CAM.Controllers
             return View(viewModel);
         }
 
-        public JsonNetResult LoadTemplates(int unitId)
-        {
-            var templates = _repositoryFactory.RequestTemplateRepository.Queryable.Where(a => a.Unit.Id == unitId);
-            return new JsonNetResult(templates.Select(a => new {Id = a.Id, Name = a.Name}));
-        }
+
 
         public ActionResult About()
         {

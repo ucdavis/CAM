@@ -180,7 +180,8 @@
                 @Html.AntiForgeryToken()
                 <input type="submit" value="Deny" class="btn btn-danger"/>
             }
-            @Html.ActionLink("Cancel", "Index", new {}, new {@class="btn"})
+
+            @Html.ActionLink("Cancel", "SelectUnit", new {}, new {@class="btn"})
         </div>    
     }
     

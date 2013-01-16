@@ -5,6 +5,7 @@ using CAM.Core.Repositories;
 using CAM.Filters;
 using CAM.Models;
 using CAM.Services;
+using UCDArch.Web.ActionResults;
 
 namespace CAM.Controllers
 {
@@ -21,9 +22,9 @@ namespace CAM.Controllers
             _lyncService = lyncService;
         }
 
-        public ActionResult Index(bool viewAll = false)
+        public ActionResult SelectUnit()
         {
-            var units = _repositoryFactory.UnitRepository.Queryable.Where(a => a.Site.Id == Site);
+            var units = _repositoryFactory.UnitRepository.Queryable.Where(a => a.Site.Id == Site  && a.IsActive);
             return View(units);
         }
 
@@ -70,7 +71,7 @@ namespace CAM.Controllers
             if (request == null)
             {
                 Message = "Request not found.";
-                return RedirectToAction("Index");
+                return RedirectToAction("SelectUnit");
             }
             
             return View(request);
@@ -85,7 +86,7 @@ namespace CAM.Controllers
             if (request == null)
             {
                 Message = "Request not found.";
-                return RedirectToAction("Index");
+                return RedirectToAction("SelectUnit");
             }
 
             // validate the necessary fields to create the necessary objects
@@ -101,7 +102,7 @@ namespace CAM.Controllers
             _repositoryFactory.RequestRepository.EnsurePersistent(request);
 
             Message = string.Format("Request for {0} {1} has {2} approved.", request.FirstName, request.LastName, Approved ? "been" : "not been");
-            return RedirectToAction("Index");
+            return RedirectToAction("SelectUnit");
         }
 
         public ActionResult Edit(int id)
@@ -111,7 +112,7 @@ namespace CAM.Controllers
             if (request == null)
             {
                 Message = "The request was not found, please try your request again.";
-                return RedirectToAction("Index");
+                return RedirectToAction("SelectUnit");
             }
 
             var viewModel = RequestViewModel.Create(_repositoryFactory, request, LoadSite(), null);
@@ -145,6 +146,16 @@ namespace CAM.Controllers
 
             var viewModel = RequestViewModel.Create(_repositoryFactory, request, LoadSite(), null);
             return View(viewModel);
+        }
+
+        /*
+         * Ajax Functions
+         */
+
+        public JsonNetResult LoadTemplates(int unitId)
+        {
+            var templates = _repositoryFactory.RequestTemplateRepository.Queryable.Where(a => a.Unit.Id == unitId);
+            return new JsonNetResult(templates.Select(a => new { Id = a.Id, Name = a.Name }));
         }
     }
 }

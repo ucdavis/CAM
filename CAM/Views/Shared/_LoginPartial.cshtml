@@ -26,5 +26,13 @@
 
 
 <ul class="nav pull-right">
-    <li><a href="#"><i class="icon-user"></i> Logout</a></li>
+    <li>
+        <div style="color: white; padding: 20px 15px 20px;"><i class="icon-user"></i>Welcome @Context.User.Identity.Name</div>
+    </li>
+    <li>
+        <a href="@Url.Action("Logout", "Account")">
+            <i class="icon-signout"></i>
+            Logout
+        </a>
+    </li>
 </ul>

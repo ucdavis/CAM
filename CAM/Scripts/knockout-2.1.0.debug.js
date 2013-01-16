@@ -635,7 +635,7 @@ ko.exportSymbol('utils.domNodeDisposal.removeDisposeCallback', ko.utils.domNodeD
         // This won't affect anyone who has referenced jQuery, and there's always the workaround of inserting a dummy node
         // (possibly a text node) in front of the comment. So, KO does not attempt to workaround this IE issue automatically at present.
 
-        // Trim whitespace, otherwise indexOf won't work as expected
+        // Trim whitespace, otherwise SelectUnitOf won't work as expected
         var tags = ko.utils.stringTrim(html).toLowerCase(), div = document.createElement("div");
 
         // Finds the first match from the left column, and returns the corresponding "wrap" data from the right column

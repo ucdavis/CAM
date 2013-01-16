@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
@@ -27,33 +21,21 @@ namespace CAM
             routes.MapRoute(
                 name: "request",
                 url: "{site}/request/{id}",
-                defaults: new { site = "none", controller = "Request", action = "Index", id = UrlParameter.Optional },
+                defaults: new { site = "none", controller = "Request", action = "SelectUnit", id = UrlParameter.Optional },
                 constraints: new { id = @"\d+" }
                 );
 
             routes.MapRoute(
                 name: "acct",
                 url: "Account/{action}",
-                defaults: new { site = "", controller = "Account", action = "Index" }
+                defaults: new { site = "", controller = "Account", action = "SelectUnit" }
                 );
 
             routes.MapRoute(
                 name: "sitebase",
                 url: "{site}/{controller}/{action}/{id}",
-                defaults: new {site = "none", controller = "Home", action = "Index", id = UrlParameter.Optional}
+                defaults: new {site = "none", controller = "Home", action = "SelectUnit", id = UrlParameter.Optional}
                 );
-
-            //routes.MapHttpRoute(
-            //    name: "DefaultApi",
-            //    routeTemplate: "api/{controller}/{id}",
-            //    defaults: new { id = RouteParameter.Optional }
-            //);
-
-            //routes.MapRoute(
-            //    name: "Default",
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            //);
         }
 
         protected void Application_Start()

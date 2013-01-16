@@ -125,7 +125,7 @@ $.fn.extend({
 		if ( this.length ) {
 			var elem = $( this[ 0 ] ), position, value;
 			while ( elem.length && elem[ 0 ] !== document ) {
-				// Ignore z-index if position is set to a value where z-index is ignored by the browser
+				// Ignore z-SelectUnit if position is set to a value where z-SelectUnit is ignored by the browser
 				// This makes behavior of this function consistent across browsers
 				// WebKit always returns auto if the element is positioned
 				position = elem.css( "position" );
@@ -133,7 +133,7 @@ $.fn.extend({
 					// IE returns 0 when zIndex is not specified
 					// other browsers return a string
 					// we ignore the case of nested elements with an explicit value of 0
-					// <div style="z-index: -10;"><div style="z-index: 0;"></div></div>
+					// <div style="z-SelectUnit: -10;"><div style="z-SelectUnit: 0;"></div></div>
 					value = parseInt( elem.css( "zIndex" ), 10 );
 					if ( !isNaN( value ) && value !== 0 ) {
 						return value;
@@ -217,7 +217,7 @@ $.extend( $.expr[ ":" ], {
 
 	focusable: function( element ) {
 		var nodeName = element.nodeName.toLowerCase(),
-			tabIndex = $.attr( element, "tabindex" );
+			tabIndex = $.attr( element, "tabSelectUnit" );
 		if ( "area" === nodeName ) {
 			var map = element.parentNode,
 				mapName = map.name,
@@ -238,7 +238,7 @@ $.extend( $.expr[ ":" ], {
 	},
 
 	tabbable: function( element ) {
-		var tabIndex = $.attr( element, "tabindex" );
+		var tabIndex = $.attr( element, "tabSelectUnit" );
 		return ( isNaN( tabIndex ) || tabIndex >= 0 ) && $( element ).is( ":focusable" );
 	}
 });
@@ -4417,7 +4417,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 		//Do what was originally in plugins
 		if(this._storedCursor) $('body').css("cursor", this._storedCursor); //Reset cursor
 		if(this._storedOpacity) this.helper.css("opacity", this._storedOpacity); //Reset opacity
-		if(this._storedZIndex) this.helper.css("zIndex", this._storedZIndex == 'auto' ? '' : this._storedZIndex); //Reset z-index
+		if(this._storedZIndex) this.helper.css("zIndex", this._storedZIndex == 'auto' ? '' : this._storedZIndex); //Reset z-SelectUnit
 
 		this.dragging = false;
 		if(this.cancelHelperRemoval) {
@@ -5648,7 +5648,7 @@ $.widget("ui.menu", {
 		
 		items.children("a")
 			.addClass("ui-corner-all")
-			.attr("tabindex", -1)
+			.attr("tabSelectUnit", -1)
 			// mouseenter doesn't work with event delegation
 			.mouseenter(function( event ) {
 				self.activate( event, $(this).parent() );
@@ -6485,7 +6485,7 @@ $.widget("ui.dialog", {
 			maxZ = 0;
 			$('.ui-dialog').each(function() {
 				if (this !== self.uiDialog[0]) {
-					thisZ = $(this).css('z-index');
+					thisZ = $(this).css('z-SelectUnit');
 					if(!isNaN(thisZ)) {
 						maxZ = Math.max(maxZ, thisZ);
 					}
@@ -6518,14 +6518,14 @@ $.widget("ui.dialog", {
 		}
 		if (self.overlay) {
 			$.ui.dialog.maxZ += 1;
-			self.overlay.$el.css('z-index', $.ui.dialog.overlay.maxZ = $.ui.dialog.maxZ);
+			self.overlay.$el.css('z-SelectUnit', $.ui.dialog.overlay.maxZ = $.ui.dialog.maxZ);
 		}
 
 		//Save and then restore scroll since Opera 9.5+ resets when parent z-Index is changed.
 		//  http://ui.jquery.com/bugs/ticket/3193
 		saveScroll = { scrollTop: self.element.attr('scrollTop'), scrollLeft: self.element.attr('scrollLeft') };
 		$.ui.dialog.maxZ += 1;
-		self.uiDialog.css('z-index', $.ui.dialog.maxZ);
+		self.uiDialog.css('z-SelectUnit', $.ui.dialog.maxZ);
 		self.element.attr(saveScroll);
 		self._trigger('focus', event);
 
@@ -6945,7 +6945,7 @@ $.extend($.ui.dialog.overlay, {
 				// handle $(el).dialog().dialog('close') (see #4065)
 				if ($.ui.dialog.overlay.instances.length) {
 					$(document).bind($.ui.dialog.overlay.events, function(event) {
-						// stop events if the z-index of the target is < the z-index of the overlay
+						// stop events if the z-SelectUnit of the target is < the z-SelectUnit of the overlay
 						// we cannot return true when we don't want to cancel the event (#3523)
 						if ($(event.target).zIndex() < $.ui.dialog.overlay.maxZ) {
 							return false;
@@ -6998,7 +6998,7 @@ $.extend($.ui.dialog.overlay, {
 		// adjust the maxZ to allow other modal dialogs to continue to work (see #4309)
 		var maxZ = 0;
 		$.each(this.instances, function() {
-			maxZ = Math.max(maxZ, this.css('z-index'));
+			maxZ = Math.max(maxZ, this.css('z-SelectUnit'));
 		});
 		this.maxZ = maxZ;
 	},
@@ -7243,13 +7243,13 @@ $.widget( "ui.slider", $.ui.mouse, {
 			});
 
 		this.handles.each(function( i ) {
-			$( this ).data( "index.ui-slider-handle", i );
+			$( this ).data( "SelectUnit.ui-slider-handle", i );
 		});
 
 		this.handles
 			.keydown(function( event ) {
 				var ret = true,
-					index = $( this ).data( "index.ui-slider-handle" ),
+					index = $( this ).data( "SelectUnit.ui-slider-handle" ),
 					allowed,
 					curVal,
 					newVal,
@@ -7322,7 +7322,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 	
 			})
 			.keyup(function( event ) {
-				var index = $( this ).data( "index.ui-slider-handle" );
+				var index = $( this ).data( "SelectUnit.ui-slider-handle" );
 	
 				if ( self._keySliding ) {
 					self._keySliding = false;
@@ -7675,7 +7675,7 @@ $.widget( "ui.slider", $.ui.mouse, {
 
 	//internal values getter
 	// _values() returns array of values trimmed by min and max, aligned by step
-	// _values( index ) returns single value trimmed by min and max, aligned by step
+	// _values( SelectUnit ) returns single value trimmed by min and max, aligned by step
 	_values: function( index ) {
 		var val,
 			vals,
@@ -8250,8 +8250,8 @@ $.widget( "ui.tabs", {
 	},
 
     _getIndex: function( index ) {
-		// meta-function to give users option to provide a href string instead of a numerical index.
-		// also sanitizes numerical indexes to valid values.
+		// meta-function to give users option to provide a href string instead of a numerical SelectUnit.
+		// also sanitizes numerical SelectUnites to valid values.
 		if ( typeof index == "string" ) {
 			index = this.anchors.index( this.anchors.filter( "[href$=" + index + "]" ) );
 		}
@@ -8477,7 +8477,7 @@ $.widget( "ui.tabs", {
 
 				self._trigger( "load", null, self._ui( self.anchors[ index ], self.panels[ index ] ) );
 				try {
-					// Passing index avoid a race condition when this method is
+					// Passing SelectUnit avoid a race condition when this method is
 					// called after the user has selected another tab.
 					// Pass the anchor that initiated this request allows
 					// loadError to manipulate the tab content panel via $(a.hash)
@@ -8651,7 +8651,7 @@ function Datepicker() {
 	this._unselectableClass = 'ui-datepicker-unselectable'; // The name of the unselectable cell marker class
 	this._currentClass = 'ui-datepicker-current-day'; // The name of the current day marker class
 	this._dayOverClass = 'ui-datepicker-days-cell-over'; // The name of the day hover marker class
-	this.regional = []; // Available regional settings, indexed by language code
+	this.regional = []; // Available regional settings, SelectUnited by language code
 	this.regional[''] = { // Default regional settings
 		closeText: 'Done', // Display text for close link
 		prevText: 'Prev', // Display text for previous month link
@@ -8903,7 +8903,7 @@ $.extend(Datepicker.prototype, {
 			this.uuid += 1;
 			var id = 'dp' + this.uuid;
 			this._dialogInput = $('<input type="text" id="' + id +
-				'" style="position: absolute; top: -100px; width: 0px; z-index: -10;"/>');
+				'" style="position: absolute; top: -100px; width: 0px; z-SelectUnit: -10;"/>');
 			this._dialogInput.keydown(this._doKeyDown);
 			$('body').append(this._dialogInput);
 			inst = this._dialogInst = this._newInst(this._dialogInput, false);
@@ -9618,7 +9618,7 @@ $.extend(Datepicker.prototype, {
 			iValue += num[0].length;
 			return parseInt(num[0], 10);
 		};
-		// Extract a name from the string value and convert to an index
+		// Extract a name from the string value and convert to an SelectUnit
 		var getName = function(match, shortNames, longNames) {
 			var names = (lookAhead(match) ? longNames : shortNames);
 			for (var i = 0; i < names.length; i++) {
@@ -10932,7 +10932,7 @@ $.extend($.effects, {
 		} else {
 			$.extend(props, {
 				position: element.css('position'),
-				zIndex: element.css('z-index')
+				zIndex: element.css('z-SelectUnit')
 			});
 			$.each(['top', 'left', 'bottom', 'right'], function(i, pos) {
 				props[pos] = element.css(pos);

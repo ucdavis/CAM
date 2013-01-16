@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 * Note:  While Microsoft is not the author of this script file, Microsoft
 * grants you the right to use this file for the sole purpose of either: 
 * (i) interacting through your browser with the Microsoft website, subject 
@@ -474,8 +474,8 @@ window.Modernizr = (function( window, document, undefined ) {
 
     // Vendors had inconsistent prefixing with the experimental Indexed DB:
     // - Webkit's implementation is accessible through webkitIndexedDB
-    // - Firefox shipped moz_indexedDB before FF4b9, but since then has been mozIndexedDB
-    // For speed, we don't test the legacy (and beta-only) indexedDB
+    // - Firefox shipped moz_SelectUnitedDB before FF4b9, but since then has been mozIndexedDB
+    // For speed, we don't test the legacy (and beta-only) SelectUnitedDB
     tests['indexedDB'] = function() {
       for ( var i = -1, len = domPrefixes.length; ++i < len; ){
         if ( window[domPrefixes[i].toLowerCase() + 'IndexedDB'] ){
@@ -685,7 +685,7 @@ window.Modernizr = (function( window, document, undefined ) {
     // e.g.  Modernizr.video     // true
     //       Modernizr.video.ogg // 'probably'
     //
-    // Codec values from : http://github.com/NielsLeenheer/html5test/blob/9106a8/index.html#L845
+    // Codec values from : http://github.com/NielsLeenheer/html5test/blob/9106a8/SelectUnit.html#L845
     //                     thx to NielsLeenheer and zcorpan
 
     // Note: in FF 3.5.1 and 3.5.0, "no" was a return value instead of empty string.

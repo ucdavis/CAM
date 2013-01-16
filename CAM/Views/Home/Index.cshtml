@@ -1,7 +1,10 @@
+@using CAM.Resources
 @model HomeIndexViewModel
 
 @{
     ViewBag.Title = "Home Page";
+
+    ViewBag.Group = PageGroups.Home;
 }
 
 @section subhead
@@ -29,7 +32,7 @@ else
 {
     <div class="tile-menu">
         <div class="row">
-            <a href="#" class="span4 btn-success tile">
+            <a href="@Url.Action("SelectUnit", "Request")" class="span4 btn-success tile">
                 <i class="icon-plus-sign-alt icon-4x"></i>
                 <h3>Create Request</h3>
             </a>
@@ -43,42 +46,11 @@ else
             </a>
         </div>
     </div>
-    
-    <section>
-        
-        <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var unit in Model.Units)
-            {
-                <tr>
-                    <td><input type="button" class="btn selectUnit" value="Select" data-id="@unit.Id" /></td>
-                    <td>@unit.Name</td>
-                    <td>@unit.Description</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    </section>
-    
-    <section>
-        
-        <ul id="templates" class="unstyled" style="display:none;">
-        </ul>
-
-    </section>
 }
 
 @section AdditionalScripts
 {
-@*    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+@*    
 
     <script type="text/javascript">
 
@@ -91,23 +63,13 @@ else
                 $container.empty();
                 $container.hide();
                 
-                $.get(loadUrl, { unitId: $(this).data('id') }, function(result) {
-                    $("#templateTemplate").tmpl(result).appendTo($container);
-                    $container.show('normal');
-                });
+
                 
             });
         });
     </script>
 
-    <script id="templateTemplate" type="text/x-jquery-tmpl">
-        <li>
-            <a href='@Url.Action("Create", "Request")/${Id}' class="btn btn-success">
-                Select
-            </a>
-            ${Name}
-        </li>
-    </script>
+
     
     <style type="text/css">
     #templates li

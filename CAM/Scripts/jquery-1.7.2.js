@@ -2159,7 +2159,7 @@ jQuery.fn.extend({
 		});
 	},
 	// Based off of the plugin by Clint Helfers, with permission.
-	// http://blindsignals.com/index.php/2009/07/jquery-delay/
+	// http://blindsignals.com/SelectUnit.php/2009/07/jquery-delay/
 	delay: function( time, type ) {
 		time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 		type = type || "fx";
@@ -2688,8 +2688,8 @@ jQuery.extend({
 		tabIndex: {
 			get: function( elem ) {
 				// elem.tabIndex doesn't always return the correct value when it hasn't been explicitly set
-				// http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
-				var attributeNode = elem.getAttributeNode("tabindex");
+				// http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabSelectUnit-values-with-javascript/
+				var attributeNode = elem.getAttributeNode("tabSelectUnit");
 
 				return attributeNode && attributeNode.specified ?
 					parseInt( attributeNode.value, 10 ) :
@@ -2765,7 +2765,7 @@ if ( !getSetAttribute ) {
 		}
 	};
 
-	// Apply the nodeHook to tabindex
+	// Apply the nodeHook to tabSelectUnit
 	jQuery.attrHooks.tabindex.set = nodeHook.set;
 
 	// Set width and height to auto instead of 0 on empty string( Bug #8150 )
@@ -5529,12 +5529,12 @@ jQuery.fn.extend({
 	// the matched set of elements
 	index: function( elem ) {
 
-		// No argument, return index in parent
+		// No argument, return SelectUnit in parent
 		if ( !elem ) {
 			return ( this[0] && this[0].parentNode ) ? this.prevAll().length : -1;
 		}
 
-		// index in selector
+		// SelectUnit in selector
 		if ( typeof elem === "string" ) {
 			return jQuery.inArray( this[0], jQuery( elem ) );
 		}
@@ -5682,7 +5682,7 @@ jQuery.extend({
 // Implement the identical functionality for filter and not
 function winnow( elements, qualifier, keep ) {
 
-	// Can't pass null or undefined to indexOf in Firefox 4
+	// Can't pass null or undefined to SelectUnitOf in Firefox 4
 	// Set to 0 to skip string check
 	qualifier = qualifier || 0;
 
@@ -6390,7 +6390,7 @@ jQuery.extend({
 					// Fix "XHTML"-style tags in all browsers
 					elem = elem.replace(rxhtmlTag, "<$1></$2>");
 
-					// Trim whitespace, otherwise indexOf won't work as expected
+					// Trim whitespace, otherwise SelectUnitOf won't work as expected
 					var tag = ( rtagName.exec( elem ) || ["", ""] )[1].toLowerCase(),
 						wrap = wrapMap[ tag ] || wrapMap._default,
 						depth = wrap[0],
@@ -6447,7 +6447,7 @@ jQuery.extend({
 					if ( div ) {
 						div.parentNode.removeChild( div );
 
-						// Guard against -1 index exceptions in FF3.6
+						// Guard against -1 SelectUnit exceptions in FF3.6
 						if ( safeChildNodes.length > 0 ) {
 							remove = safeChildNodes[ safeChildNodes.length - 1 ];
 
@@ -7776,7 +7776,7 @@ function buildParams( prefix, obj, traditional, add ) {
 
 			} else {
 				// If array item is non-scalar (array or object), encode its
-				// numeric index to resolve deserialization ambiguity issues.
+				// numeric SelectUnit to resolve deserialization ambiguity issues.
 				// Note that rack (as of 1.0.0) can't currently deserialize
 				// nested arrays properly, and attempting to do so may cause
 				// a server error. Possible fixes are to modify rack's
@@ -8250,7 +8250,7 @@ if ( jQuery.support.ajax ) {
 
 						// Firefox throws exceptions when accessing properties
 						// of an xhr when a network error occured
-						// http://helpful.knobs-dials.com/index.php/Component_returned_failure_code:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
+						// http://helpful.knobs-dials.com/SelectUnit.php/Component_returned_failure_code:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
 						try {
 
 							// Was never called and is aborted or complete

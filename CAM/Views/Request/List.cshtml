@@ -9,11 +9,11 @@
 <div class="pull-right">
     @if (!Convert.ToBoolean(Request.QueryString["viewAll"]))
     {
-        @Html.ActionLink("View All", "Index", new {@viewall = true}, new {@class="btn"})    
+        @Html.ActionLink("View All", "SelectUnit", new {@viewall = true}, new {@class="btn"})
     }
     else
     {
-        @Html.ActionLink("View Pending", "Index", new {@viewall = false}, new {@class="btn"})    
+        @Html.ActionLink("View Pending", "SelectUnit", new {@viewall = false}, new {@class="btn"})
     }
     
 </div>

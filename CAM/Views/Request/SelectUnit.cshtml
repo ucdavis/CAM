@@ -1,0 +1,111 @@
+﻿@using CAM.Resources
+@model IEnumerable<Unit>
+
+@{
+    ViewBag.Title = "Request : Select Unit";
+    ViewBag.Group = PageGroups.Request;
+}
+
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
+
+@section scripts
+{
+    @Html.Partial("_dataTables")
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+
+    <script type="text/javascript">
+
+        var loadurl = '@Url.Action("LoadTemplates")';
+
+        $(function() {
+            $(".unit-button").click(function(event) {
+
+                toggleSpinner(this);
+
+                var id = $(this).data('id');
+                var that = this;
+
+                $.get(loadurl, { unitId: id }, function(result) {
+
+                    $("#template-list").empty();
+                    if (result.length > 0) {
+                        $("#templateTemplate").tmpl(result).appendTo($("#template-list"));
+                    } else {
+                        $("#template-list").append($("<li>").html("No templates found."));
+                    }
+
+                    $("#template-modal").modal('show');
+                    toggleSpinner(that);
+                });
+
+                event.preventDefault();
+            });
+        });
+
+        function toggleSpinner(btn) {
+            $(btn).find("i").toggleClass("icon-hand-up icon-refresh icon-spin");
+        }
+    </script>
+    
+    <script id="templateTemplate" type="text/x-jquery-tmpl">
+        <li>
+            <a href='@Url.Action("Create", "Request")/${Id}' class="btn btn-success">
+                <i class="icon-hand-up"></i>
+                Select
+            </a>
+            ${Name}
+        </li>
+    </script>
+}
+
+@section styles
+{
+    <style type="text/css">
+        .table tbody tr td:first-child { width: 100px;}
+        #template-list li { margin-bottom: .5em;}
+        #template-list a { margin-right: 15px;}
+    </style>
+}
+
+<table class="table table-striped default_table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>
+                    <button class="btn btn-primary unit-button" data-id="@u.Id">
+                        <i class="icon-hand-up"></i>
+                        Select
+                    </button>
+                </td> 
+                <td>@u.Name</td>
+                <td>@u.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal hide fade" id="template-modal">
+    <div class="modal-header"><h3>Select Template</h3></div>
+    
+    <div class="modal-body">
+        <ul id="template-list" class="unstyled">
+        </ul>
+    </div>
+    
+    <div class="modal-footer">
+        <a href="#" class="btn btn-info pull-left">No Template</a>
+        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
