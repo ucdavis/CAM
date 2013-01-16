@@ -62,6 +62,17 @@ footer {
 .jumbotron h1 { color: #c99700; /* Gold */ }
 .jumbotron ul.nav { margin-bottom: 0px; }
 
+/* Tile Menu
+-----------------------------------------------------------*/
+.tile-menu {}
+.tile {
+    padding-top: 15px;
+    text-align: center;
+    text-decoration: none;
+}
+.tile:hover { text-decoration: none;color: #dddddd;}
+.tile h3 { color: white;}
+
 /* Styles for forms
 -----------------------------------------------------------*/
 form .required {color: red;}
