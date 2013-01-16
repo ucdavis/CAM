@@ -32,6 +32,12 @@ namespace CAM
                 );
 
             routes.MapRoute(
+                name: "acct",
+                url: "Account/{action}",
+                defaults: new { site = "", controller = "Account", action = "Index" }
+                );
+
+            routes.MapRoute(
                 name: "sitebase",
                 url: "{site}/{controller}/{action}/{id}",
                 defaults: new {site = "none", controller = "Home", action = "Index", id = UrlParameter.Optional}
