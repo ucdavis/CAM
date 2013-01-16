@@ -1,0 +1,82 @@
+﻿@model IQueryable<Request>
+
+@{
+    ViewBag.Title = "Pending Requests";
+}
+
+<h2 class="page-header">Pending Requests</h2>
+
+<div class="pull-right">
+    @if (!Convert.ToBoolean(Request.QueryString["viewAll"]))
+    {
+        @Html.ActionLink("View All", "Index", new {@viewall = true}, new {@class="btn"})    
+    }
+    else
+    {
+        @Html.ActionLink("View Pending", "Index", new {@viewall = false}, new {@class="btn"})    
+    }
+    
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Unit</th>
+            <th>Start</th>
+            <th>Position</th>
+            <th>Hire Type</th>
+            <th>Employee Type</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var rq in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Review", "Review", new {id=rq.Id}, new {@class="btn btn-primary"})
+                </td>
+                <td>@rq.FirstName</td>
+                <td>@rq.LastName</td>
+                <td>@rq.UnitName</td>
+                <td>
+                    @if(DateTime.Now >= rq.Start.AddDays(-7) && DateTime.Now <= rq.Start)
+                    {
+                        <span class="label label-warning">@rq.Start.ToString("d")</span>
+                    }
+                    else if (DateTime.Now > rq.Start)
+                    {
+                        <span class="label label-important">@rq.Start.ToString("d")</span>
+                    }
+                    else
+                    {
+                        @rq.Start.ToString("d")
+                    }
+                </td>
+                <td>@rq.PositionTitle</td>
+                <td>@rq.HireType</td>
+                <td>@rq.EmployeeType</td>
+                <td>
+                    @if(rq.Pending)
+                    {
+                        <span class="label label-info">Pending</span>
+                    }
+                    else
+                    {
+                        if (rq.Approved.Value)
+                        {
+                            <span class="label label-success">Approved</span>
+                        }
+                        else
+                        {
+                            <span class="label label-important">Denied</span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

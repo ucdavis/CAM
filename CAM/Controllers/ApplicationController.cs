@@ -6,6 +6,7 @@ using UCDArch.Web.Controller;
 
 namespace CAM.Controllers
 {
+    [Authorize]
     public class ApplicationController : SuperController
     {
         public string Site { get; private set; }

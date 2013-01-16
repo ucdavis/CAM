@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using CAM.Core.Domain;
 using CAM.Core.Repositories;
+using CAM.Filters;
 using CAM.Models;
 using CAM.Services;
 
@@ -18,6 +19,12 @@ namespace CAM.Controllers
             _repositoryFactory = repositoryFactory;
             _activeDirectoryService = activeDirectoryService;
             _lyncService = lyncService;
+        }
+
+        public ActionResult Index(bool viewAll = false)
+        {
+            var units = _repositoryFactory.UnitRepository.Queryable.Where(a => a.Site.Id == Site);
+            return View(units);
         }
 
         public ActionResult Create(int? id)
@@ -42,7 +49,8 @@ namespace CAM.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Index(bool viewAll = false)
+        [AdminOnly]
+        public ActionResult List(bool viewAll = false)
         {
             var results = _repositoryFactory.RequestRepository.Queryable.Where(a => a.Site.Id == Site);
 
@@ -51,9 +59,10 @@ namespace CAM.Controllers
                 results = results.Where(a => a.Pending);
             }
 
-            return View(results);
+            return View(results);    
         }
 
+        [AdminOnly]
         public ActionResult Review(int id)
         {
             var request = _repositoryFactory.RequestRepository.GetNullableById(id);
@@ -67,6 +76,7 @@ namespace CAM.Controllers
             return View(request);
         }
 
+        [AdminOnly]
         [HttpPost]
         public ActionResult Review(int id, bool Approved)
         {

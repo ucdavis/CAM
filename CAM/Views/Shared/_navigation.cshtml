@@ -7,37 +7,36 @@
         <span class="icon-bar"></span>
         </a>
         <a class="brand" href="@Url.Action("Index", "Home")">
-            @*<img src="@Url.Content("~/Content/Img/ucdavis_logo.png")" alt="UC Davis Logo"/>*@
             <img src="@Url.Content("~/Content/Img/caes-with-mark-darkbg.png")" alt="CA&ES Logo"/>
             Computing Access
         </a>
           
         @Html.Partial("_LoginPartial")
 
-    <div class="nav-collapse">
-        <ul class="nav">
-            <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
+        <div class="nav-collapse">
+            <ul class="nav">
+                <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
                 
-            @if (ViewContext.RequestContext.RouteData.Values["site"] != "none")
-            {
-                @*<li class="">@Html.ActionLink("Request Access", "Index", "Request")</li>*@
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Administration
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("Review Requests", "Index", "Request")</li>
-                        <li>@Html.ActionLink("Request Templates", "Index", "RequestTemplate")</li>
-                        <li>@Html.ActionLink("Site Settings", "Settings", "Site")</li>
-                        <li class="divider"></li>
-                        <li class="nav-header">Active Directory</li>
-                        <li>@Html.ActionLink("Security Groups", "SecurityGroups", "ActiveDirectory")</li>
-                        <li>@Html.ActionLink("Organizational Units", "OrganizationalUnits", "ActiveDirectory")</li>
-                    </ul>
-                </li>
-            }
-        </ul>
-        </div><!--/.nav-collapse -->
-    </div>
+                @if (ViewContext.RequestContext.RouteData.Values["site"] != "none")
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Administration
+                            <i class="icon-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Review Requests", "Index", "Request")</li>
+                            <li>@Html.ActionLink("Request Templates", "Index", "RequestTemplate")</li>
+                            <li>@Html.ActionLink("Site Settings", "Settings", "Site")</li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Active Directory</li>
+                            <li>@Html.ActionLink("Security Groups", "SecurityGroups", "ActiveDirectory")</li>
+                            <li>@Html.ActionLink("Organizational Units", "OrganizationalUnits", "ActiveDirectory")</li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+            </div><!--/.nav-collapse -->
+        </div>
     </div>
 </div>
