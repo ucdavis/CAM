@@ -9,6 +9,10 @@ footer {
 
 button i, .btn i { margin-right: 5px;}
 
+/* Tables
+-----------------------------------------------------------*/
+.one-button tbody tr td:first-child { width: 100px; }
+
 /* Styles for critical messages
 -----------------------------------------------------------*/
 #critical-message {

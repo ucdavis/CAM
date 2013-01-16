@@ -27,14 +27,6 @@ namespace CAM.Controllers
             return View(templates);
         }
 
-        ////
-        //// GET: /RequestTemplate/Details/5
-
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
         //
         // GET: /RequestTemplate/Create
 

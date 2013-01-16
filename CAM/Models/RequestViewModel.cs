@@ -41,9 +41,9 @@ namespace CAM.Models
                 viewModel.Softwares = repositoryFactory.SoftwareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
                 viewModel.NetworkShares = repositoryFactory.NetworkShareRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
                 viewModel.SecurityGroups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
-                viewModel.OrganizationalUnits = repositoryFactory.OrganizationalUnitRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
             }
 
+            viewModel.OrganizationalUnits = repositoryFactory.OrganizationalUnitRepository.Queryable.Where(a => a.Site == site && a.IsActive).ToList();
             return viewModel;
         }
 
@@ -64,7 +64,7 @@ namespace CAM.Models
 
         public List<SelectListItem> GetOrganizationalUnits()
         {
-            return OrganizationalUnits.OrderBy(a => a.Name).Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = (Request.OrganizationalUnit != null ? Request.OrganizationalUnit.Id == a.Id : false) }).ToList();
+            return OrganizationalUnits.OrderBy(a => a.Name).Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Name, Selected = (Request.OrganizationalUnit != null && Request.OrganizationalUnit.Id == a.Id) }).ToList();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@using CAM.Core.BaseClasses
-@model CAM.Models.RequestViewModel
+@model RequestViewModel
 
 <legend>Employee Information</legend>
 
@@ -54,22 +54,26 @@
                 @Html.ValidationMessageFor(model => model.Request.UnitName)
             </div>
         </div>
-        <div class="control-group">
-            @Html.LabelFor(model => model.Request.OrganizationalUnit, new {@class="control-label"})
-            @if (Model.Request.OrganizationalUnit != null)
-            {
-                <div class="controls form-text">
-                    @Model.Request.OrganizationalUnit.Name
-                    @Html.HiddenFor(model => model.Request.OrganizationalUnit)
-                </div>
-            }
-            else
-            {
-                <div class="controls">
-                    @Html.DropDownListFor(model => model.Request.OrganizationalUnit, Model.OrganizationalUnits.Select(b => new SelectListItem() {Text = b.Name, Value = b.Id.ToString()}))
-                </div>
-            }
-        </div>
+        @if (ViewBag.ShowOU != null && (bool)ViewBag.ShowOU)
+        {
+            <div class="control-group">
+                @Html.LabelFor(model => model.Request.OrganizationalUnit, new {@class="control-label"})
+                @if (Model.Request.OrganizationalUnit != null)
+                {
+                    <div class="controls form-text">
+                        @Model.Request.OrganizationalUnit.Name
+                        @Html.HiddenFor(model => model.Request.OrganizationalUnit)
+                    </div>
+                }
+                else
+                {
+                    <div class="controls">
+                        @Html.DropDownListFor(model => model.Request.OrganizationalUnit, Model.GetOrganizationalUnits(), "--Select Organizational Unit--")
+                    </div>
+                }
+            </div>            
+        }
+
         <div class="control-group">
             @Html.LabelFor(model => model.Request.OfficeLocation, new { @class = "control-label" })
             <div class="controls">

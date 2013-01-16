@@ -4,16 +4,28 @@
     ViewBag.Title = "Request Templates";
 }
 
-<h2 class="page-header">Request Templates</h2>
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
 
-<div class="row-fluid">
-    <a href="@Url.Action("Create")" class="btn pull-right btn-primary">
-        <i class="icon-plus"></i>
-        Create
-    </a>
-</div>
+@section scripts
+{
+    @Html.Partial("_dataTables")
+}
 
-<table class="table table-striped">
+<ul class="pull-right unstyled">
+    <li>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="icon-plus"></i>
+            Create
+        </a>
+    </li>
+</ul>
+
+<div style="clear:both;"></div>
+
+<table class="table table-striped default_table one-button">
     <thead>
         <tr>
             <th></th>

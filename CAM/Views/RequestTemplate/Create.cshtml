@@ -4,7 +4,10 @@
     ViewBag.Title = "Create Request Template";
 }
 
-<h2 class="page-header">Create Request Template</h2>
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
 
 @using (Html.BeginForm("Create", "RequestTemplate", FormMethod.Post, new { @class = "form-horizontal" }))
 {
@@ -32,7 +35,7 @@
     </div>
 }
 
-@section AdditionalScripts
+@section scripts
 {
     <script type="text/javascript" src="@Url.Content("~/Scripts/RequestTemplate.js")"></script>
 }
