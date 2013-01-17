@@ -36,7 +36,8 @@ namespace CAM.Services
         /// </summary>
         /// <returns></returns>
         List<AdUser> GetUsers();
-
+        List<AdUser> SearchUserByName(string firstname, string lastname);
+            
         AdUser GetUser(string userId);
         AdUser GetUserByEmployeeId(string employeeId);
 
@@ -100,6 +101,31 @@ namespace CAM.Services
             return results.ToList();
         }
 
+        public List<AdUser> SearchUserByName(string firstname, string lastname)
+        {
+            if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return new List<AdUser>(); }
+
+            var ous = Site.UserOu.Split('|');
+            var results = new List<AdUser>();
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var u = new UserPrincipal(ad) {Enabled = true};
+
+                    if (!string.IsNullOrEmpty(firstname)) u.GivenName = firstname;
+                    if (!string.IsNullOrEmpty(lastname)) u.Surname = lastname;
+
+                    var searcher = new PrincipalSearcher(u);
+
+                    results.AddRange(searcher.FindAll().Select(a => new AdUser((UserPrincipal)a)));
+                }
+            }
+
+            return results;
+        }
+
         public AdUser GetUser(string userId)
         {
             if (Site == null || string.IsNullOrEmpty(Site.UserOu)) { return null; }
@@ -111,7 +137,6 @@ namespace CAM.Services
                 using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
                 {
                     var u = UserPrincipal.FindByIdentity(ad, userId);
-                    var test = u.Manager();
                     if (u != null) return new AdUser(u);
                 }
             }
@@ -178,6 +203,8 @@ namespace CAM.Services
                     EnableLync(loginId);        
                 }
             }
+
+            DisableAccount(loginId, container);
             
             return loginId;
         }
@@ -260,8 +287,6 @@ namespace CAM.Services
                 user.OfficeLocation(adUser.OfficeLocation);
                 user.Manager(manager);
 
-                // disable the account by default
-                user.Enabled = false;
                 user.Save();
             }
 
@@ -319,6 +344,18 @@ namespace CAM.Services
             }
 
             remoteRunspace.Close();
+        }
+
+        private void DisableAccount(string loginId, string container)
+        {
+            using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, container, UserName, Password))
+            {
+                var user = UserPrincipal.FindByIdentity(ad, loginId);
+
+                // disable the account by default
+                user.Enabled = false;
+                user.Save();
+            }
         }
 
         private void AddToGroup(UserPrincipal user, string groupId)
@@ -458,7 +495,7 @@ namespace CAM.Services
 
     }
 
-#region Support Classes
+    #region Support Classes
     public class AdGroup
     {
         public AdGroup(GroupPrincipal groupPrincipal)
@@ -619,6 +656,6 @@ namespace CAM.Services
             return ProcessProperty(principal, _department, value);
         }
     }
-#endregion
+    #endregion
 
 }

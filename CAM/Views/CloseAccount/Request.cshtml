@@ -1,0 +1,186 @@
+﻿@{
+    ViewBag.Title = "Request: Close Account";
+}
+
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
+    <script type="text/javascript">
+
+        var searchUrl = '@Url.Action("Search")';
+
+        $(function() {
+            $("#search-btn").click(function(event) {
+
+                $("#result-table tbody").empty();
+                $("#result-table").hide();
+                
+                $(this).removeClass('btn-primary btn-success').addClass('btn-warning');
+                $(this).find('i').toggleClass('icon-search icon-refresh icon-spin');
+
+                var that = this;
+                var loginid = $('#loginid').val();
+                var firstname = $('#firstname').val();
+                var lastname = $('#lastname').val();
+
+                // perform the search
+                $.get(searchUrl, { loginId: loginid, firstname: firstname, lastname: lastname }, function(results) {
+
+                    $(that).find('i').toggleClass('icon-search icon-refresh icon-spin');
+
+                    // no results
+                    if (results == false) {
+                        $(that).removeClass('btn-warning').addClass('btn-danger');
+                        $('#results').append($("<div>").addClass("alert alert-error").html("No results found."));
+                        return;
+                    }
+                        // one result
+                    else if (isNaN(results.length)) {
+                        $('#modal').modal('show');
+                        $('#modal-loginid').html(results.Id);
+                        $('#modal-firstname').html(results.FirstName);
+                        $('#modal-lastname').html(results.LastName);
+                        $('#modal-email').html(results.Email);
+                    }
+                        // multiple result
+                    else {
+                        $("#result-table").show('normal');
+                        $("#resultRow").tmpl(results).appendTo("#result-table tbody");
+                        $("#result-table tbody").show('normal');
+                    }
+
+                    $(that).removeClass('btn-warning').addClass('btn-success');
+                });
+
+                event.preventDefault();
+            });
+
+            $('body').on('click', '.account-btn', function (event) {
+                $('#modal').modal('show');
+                $('#modal-loginid').html($(this).data('id'));
+                $('#modal-firstname').html($(this).data('firstname'));
+                $('#modal-lastname').html($(this).data('lastname'));
+                $('#modal-email').html($(this).data('email'));
+            });
+        });
+    </script>
+    
+    <script id="resultRow" type="text/x-jquery-tmpl">
+        <tr>
+            <td>
+                <a href="#" class="btn btn-primary account-btn" data-id="${Id}" data-firstname="${FirstName}" data-lastname="${LastName}" data-email="${Email}">
+                    <i class="icon-hand-up"></i>
+                    Select
+                </a>
+            </td>
+            <td>${FirstName}</td>
+            <td>${LastName}</td>
+            <td>${Id}</td>
+            <td>${Email}</td>
+        </tr>
+    </script>
+}
+
+@section styles
+{
+    <style type="text/css">
+        #result-table { display: none;}
+    </style>
+}
+
+<div class="form-horizontal">
+	
+    <div class="control-group">
+        <fieldset>
+            <legend>Search</legend>
+            
+            <div class="control-group">
+                <label class="control-label">Login Id</label>
+                <div class="controls">
+                    <input type="text" id="loginid"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">First Name</label>
+                <div class="controls">
+                    <input type="text" id="firstname"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Last Name</label>
+                <div class="controls">
+                    <input type="text" id="lastname"/>
+                </div>
+            </div>
+
+        </fieldset>
+        
+        <div class="form-actions">
+            <button id="search-btn" class="btn btn-primary">
+                <i class="icon-search"></i>
+                Search
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="results">
+    <table id="result-table" class="table table-striped one-button">
+        <thead>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Login</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div id="modal" class="modal fade hide">
+    <div class="modal-header">
+        <h4>Selected Account to Close</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Login Id</label>
+                <div class="controls form-text">
+                    <span id="modal-loginid"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">First Name</label>
+                <div class="controls form-text">
+                    <span id="modal-firstname"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Last Name</label>
+                <div class="controls form-text">
+                    <span id="modal-lastname"></span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Email</label>
+                <div class="controls form-text">
+                    <span id="modal-email"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary">Confirm</a>
+        <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
