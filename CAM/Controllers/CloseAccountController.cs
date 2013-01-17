@@ -14,16 +14,24 @@ namespace CAM.Controllers
             _activeDirectoryService = activeDirectoryService;
         }
 
-        //
-        // GET: /CloseAccount/
-
-        public ActionResult Index()
+        public ActionResult Request()
         {
             return View();
         }
 
-        public ActionResult Request()
+        [HttpPost]
+        public ActionResult Request(string loginid)
         {
+            var site = LoadSite();
+            _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, null, null);
+
+            if (_activeDirectoryService.DeactivateAccount(loginid))
+            {
+                Message = "Account has been deactivated.";
+                return RedirectToAction("Index", "Home");    
+            }
+
+            Message = "Error locating account, please try again.";
             return View();
         }
 

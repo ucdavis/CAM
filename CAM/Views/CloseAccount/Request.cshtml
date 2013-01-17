@@ -46,6 +46,7 @@
                         $('#modal-firstname').html(results.FirstName);
                         $('#modal-lastname').html(results.LastName);
                         $('#modal-email').html(results.Email);
+                        $('#form-loginid').val(results.Id);
                     }
                         // multiple result
                     else {
@@ -66,6 +67,7 @@
                 $('#modal-firstname').html($(this).data('firstname'));
                 $('#modal-lastname').html($(this).data('lastname'));
                 $('#modal-email').html($(this).data('email'));
+                $('#form-loginid').val($(this).data('id')); 
             });
         });
     </script>
@@ -90,6 +92,7 @@
 {
     <style type="text/css">
         #result-table { display: none;}
+        .modal-footer form { display: inline;}
     </style>
 }
 
@@ -180,7 +183,12 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn btn-primary">Confirm</a>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="loginid" id="form-loginid"/>
+            <input type="submit" class="btn btn-primary" value="Confirm"/>
+        }
         <a href="#" class="btn btn-danger" data-dismiss="modal">Cancel</a>
     </div>
 </div>

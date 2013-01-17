@@ -51,6 +51,7 @@ namespace CAM.Services
         /// <returns>SAM Account name</returns>
         string CreateUser(AdUser adUser, string container, List<string> securityGroups, bool needsMailbox, string exchangeDatabase = null);
         void AssignUserToGroup(string userId, string groupId);
+        bool DeactivateAccount(string userid);
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
@@ -227,6 +228,27 @@ namespace CAM.Services
                 }
             }
 
+        }
+
+        public bool DeactivateAccount(string userid)
+        {
+            var ous = Site.UserOu.Split('|');
+
+            foreach (var ou in ous)
+            {
+                using (var ad = new PrincipalContext(ContextType.Domain, Site.ActiveDirectoryServer, ou, UserName, Password))
+                {
+                    var u = UserPrincipal.FindByIdentity(ad, userid);
+
+                    if (u != null)
+                    {
+                        DisableAccount(userid, ou);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         #region helper functions
