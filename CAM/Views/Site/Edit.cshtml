@@ -89,7 +89,7 @@
                 @Html.LabelFor(model => model.Username, new { @class = "control-label" })
                 <div class="controls">
                     @Html.EditorFor(model => model.Username, string.Empty, "SiteValues.Username")
-                    @Html.ValidationMessageFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Username)
                 </div>
             </div>
             <div class="control-group">
@@ -102,7 +102,7 @@
             <div class="control-group">
                 @Html.LabelFor(model => model.LyncUri, new {@class="control-label"})
                 <div class="controls">
-                    @Html.EditorFor(model => model.LyncUri, string.Empty)
+                    @Html.EditorFor(model => model.LyncUri, string.Empty, "SiteValues.LyncUri")
                     @Html.ValidationMessageFor(model => model.LyncUri)
                 </div>
             </div>
@@ -115,7 +115,7 @@
     </div>
 }
 
-@section AdditionalScripts
+@section scripts
 {
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.tmpl.min.js")"></script>
 
