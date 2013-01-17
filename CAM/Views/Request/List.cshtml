@@ -4,21 +4,32 @@
     ViewBag.Title = "Pending Requests";
 }
 
-<h2 class="page-header">Pending Requests</h2>
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
 
-<div class="pull-right">
+@section scripts
+{
+    @Html.Partial("_dataTables")
+}
+
+<ul class="nav pull-right">
+    <li>
     @if (!Convert.ToBoolean(Request.QueryString["viewAll"]))
     {
-        @Html.ActionLink("View All", "SelectUnit", new {@viewall = true}, new {@class="btn"})
+        @Html.ActionLink("View All", "List", new {@viewall = true}, new {@class="btn"})
     }
     else
     {
-        @Html.ActionLink("View Pending", "SelectUnit", new {@viewall = false}, new {@class="btn"})
+        @Html.ActionLink("View Pending", "List", new {@viewall = false}, new {@class="btn"})
     }
-    
-</div>
+    </li>
+</ul>
 
-<table class="table table-striped">
+<div style="clear: both;"></div>
+
+<table class="table table-striped default_table">
     <thead>
         <tr>
             <th></th>
