@@ -5,7 +5,12 @@
     ViewBag.Title = "Active Directory Organizational Units";
 }
 
-<h2 class="page-header">Active Directory Organizational Units</h2>
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+    
+    <p>Changes from Active Directory from what is in the CAM database.</p>
+}
 
 @using(Html.BeginForm("OrganizationalUnits", "ActiveDirectory", FormMethod.Post, new {@class="form-horizontal"}))
 {
@@ -39,19 +44,19 @@
                 {
                     <tr>
                         <td>
-                            @if (row.ChangeType == ChangeType.Add)
+                            @if(row.ChangeType == ChangeType.Add)
                             {
-                                <div class="btn btn-success adaction" data-action="add"><i class="icon-plus"></i>Add</div>
+                                <button class="btn btn-success adaction"><i class="icon-ok"></i></button>
                                 <input type="checkbox" value="@row.Path" checked="checked" name="add"/>
                             }
                             else if (row.ChangeType == ChangeType.Update)
                             {
-                                <div class="btn btn-warning adaction" data-action="update"><i class="icon-refresh"></i>Update</div>
+                                <button class="btn btn-success adaction"><i class="icon-ok"></i></button>
                                 <input type="checkbox" value="@row.Path" checked="checked" name="update"/>
                             }
                             else if (row.ChangeType == ChangeType.Remove)
                             {
-                                <div class="btn btn-danger adaction" data-action="remove"><i class="icon-minus"></i>Remove</div>
+                                <button class="btn btn-success adaction"><i class="icon-ok"></i></button>
                                 <input type="checkbox" value="@row.Path" checked="checked" name="remove"/>
                             }
                         </td>
@@ -67,32 +72,29 @@
     }
 }
 
-@section scripts
+@section styles
 {
     <style type="text/css">
         input[type='checkbox'] { display: none;}
+        .adaction i { margin-right: 0;}
     </style>
+}
 
+@section scripts
+{
     <script type="text/javascript">
         $(function () {
-            $(".adaction").click(function () {
-                
-                if ($(this).hasClass("btn-inverse")) {
-                    $(this).removeClass("btn-inverse");
-                    if ($(this).data("action") == "add") {
-                        $(this).addClass("btn-success");
-                    }
-                    if ($(this).data("action") == "update") {
-                        $(this).addClass("btn-warning");
-                    }
-                    if ($(this).data("action") == "remove") {
-                        $(this).addClass("btn-danger");
-                    }
+            $(".adaction").click(function (event) {
+                $(this).toggleClass("btn-success btn-danger");
+                $(this).find('i').toggleClass('icon-ok icon-remove');
+
+                if ($(this).hasClass('btn-succes')) {
+                    $(this).siblings('input').attr('checked', 'checked');
                 } else {
-                    $(this).removeClass("btn-success btn-warning btn-danger");
-                    $(this).addClass("btn-inverse");
+                    $(this).siblings('input').removeAttr('checked');
                 }
 
+                event.preventDefault();
             });
         });
     </script>

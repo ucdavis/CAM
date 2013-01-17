@@ -18,14 +18,18 @@ namespace CAM.Models
                     AdGroupCompares = new List<AdGroupCompare>()
                 };
 
+            // load the groups from AD
             var groups = repositoryFactory.SecurityGroupRepository.Queryable.Where(a => a.Site.Id == siteId && a.IsActive).ToList();
 
-            var add = adGroups.Where(a => !groups.Any(x => x.SID == a.SID)).ToList();
+            // new groups that are not in the database
+            var add = adGroups.Where(a => groups.All(x => x.SID != a.SID)).ToList();
             viewModel.AdGroupCompares.AddRange(add.Select(a => new AdGroupCompare(){ SID = a.SID, Name = a.Name, Description = a.Description, ChangeType = ChangeType.Add}));
 
-            var remove = groups.Where(a => !adGroups.Any(x => x.SID == a.SID)).ToList();
+            // groups that are no longer in AD
+            var remove = groups.Where(a => adGroups.All(x => x.SID != a.SID)).ToList();
             viewModel.AdGroupCompares.AddRange(remove.Select(a => new AdGroupCompare() {SID = a.SID, GroupId = a.Id, Name = a.Name, Description = a.Description, ChangeType = ChangeType.Remove}));
 
+            // groups that are in both, but have some update (like name change)
             var overlap = adGroups.Where(a => groups.Any(x => x.SID == a.SID)).ToList();
             var gu = (
                     from g in overlap let sg = groups.FirstOrDefault(a => a.SID == g.SID) 
