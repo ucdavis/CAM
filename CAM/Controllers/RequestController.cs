@@ -31,7 +31,8 @@ namespace CAM.Controllers
 
         public ActionResult Index()
         {
-            throw new NotImplementedException();
+            var requests = _repositoryFactory.RequestRepository.Queryable.Where(a => a.CreatedBy == User.Identity.Name);
+            return View(requests);
         }
 
         public ActionResult Create(int? id)

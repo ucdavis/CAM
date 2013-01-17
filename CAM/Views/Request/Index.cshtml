@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Request>
+
+@{
+    ViewBag.Title = "Account Request History";
+}
+
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
+
+<table class="table table-striped default_table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date Requested</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rq in Model)
+        {
+            <tr>
+                <td></td>
+                <td>@rq.FirstName</td>
+                <td>@rq.LastName</td>
+                <td>@rq.CreatedDate.Date</td>
+                <td>@if (rq.Pending)
+                    {
+                        <div class="label label-info">Pending</div>
+                    }
+                    else
+                    {
+                        if ((bool)rq.Approved)
+                        {
+                            <div class="label label-success">Approved</div>
+                        }
+                        else
+                        {
+                            <div class="label label-important">Denied</div>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
