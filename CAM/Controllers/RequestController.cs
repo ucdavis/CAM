@@ -96,8 +96,8 @@ namespace CAM.Controllers
             // then create the objects
             var adUsr = new AdUser();
             AutoMapper.Mapper.Map(request, adUsr);
-            _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, site.LyncUri);
-            _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList());
+            _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, site.LyncUri, site.ExchangeUri);
+            _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList(), request.NeedsEmail);
 
             request.Pending = false;
             request.Approved = Approved;

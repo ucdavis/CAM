@@ -70,6 +70,23 @@
                     @Model.LyncUri
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label">Exchange Server Uri</label>
+                <div class="controls form-text">
+                    @Model.ExchangeUri
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.ExchangeDatabases, new {@class = "control-label"})
+                <div class="controls form-text">
+                    <ul class="unstyled">
+                        @foreach (var db in Model.GetExchangeDatabases())
+                        {
+                            <li>@db</li>
+                        }
+                    </ul>
+                </div>
+            </div>
         </fieldset>
     </div>
     

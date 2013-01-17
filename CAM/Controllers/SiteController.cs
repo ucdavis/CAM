@@ -23,11 +23,13 @@ namespace CAM.Controllers
 
         public ActionResult Edit()
         {
-            return View(LoadSite());
+            var site = LoadSite();
+            site.Password = string.Empty;
+            return View(site);
         }
 
         [HttpPost]
-        public ActionResult Edit(Site siteValues, List<string> securityou, List<string> userou )
+        public ActionResult Edit(Site siteValues, List<string> securityou, List<string> userou, List<string> exchangedb )
         {
             if (ModelState.IsValid)
             {
@@ -38,8 +40,10 @@ namespace CAM.Controllers
                 siteToEdit.SecurityGroupOu = string.Join("|", securityou.Where(a => !string.IsNullOrEmpty(a)));
                 siteToEdit.UserOu = string.Join("|", userou.Where(a => !string.IsNullOrEmpty(a)));
                 siteToEdit.Username = siteValues.Username;
-                siteToEdit.SetPassword(siteValues.Password, EncryptionKey);
+                if (!string.IsNullOrEmpty(siteValues.Password)) siteToEdit.SetPassword(siteValues.Password, EncryptionKey);
                 siteToEdit.LyncUri = siteValues.LyncUri;
+                siteToEdit.ExchangeUri = siteValues.ExchangeUri;
+                siteToEdit.ExchangeDatabases = string.Join("|", exchangedb.Where(a => !string.IsNullOrEmpty(a)));
 
                 _repositoryFactory.SiteRepository.EnsurePersistent(siteToEdit);
                 Message = "Site has been updated.";

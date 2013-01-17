@@ -14,7 +14,10 @@
     @Html.AntiForgeryToken()
     
     <div class="control-group">
+        
         <fieldset>
+            <legend>Settings</legend>
+            
             <div class="control-group">
                 @Html.LabelFor(model => model.Id, new {@class="control-label"})
                 <div class="controls">
@@ -29,6 +32,33 @@
                     @Html.ValidationMessageFor(model => model.Name)
                 </div>
             </div>
+
+        </fieldset>
+        
+        <fieldset>
+            <legend>Credentials</legend>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.Username, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.Username, string.Empty, "SiteValues.Username")
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+                <div class="controls">
+                    @Html.EditorFor(model => model.Password, string.Empty, "SiteValues.Password")
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+        
+            <legend>Active Directory</legend>
+                
             <div class="control-group">
                 @Html.LabelFor(model => model.ActiveDirectoryServer, new {@class="control-label"})
                 <div class="controls">
@@ -88,25 +118,58 @@
                     </div>
                 </div>
             </div>
-            <div class="control-group">
-                @Html.LabelFor(model => model.Username, new { @class = "control-label" })
-                <div class="controls">
-                    @Html.EditorFor(model => model.Username, string.Empty, "SiteValues.Username")
-                    @Html.ValidationMessageFor(model => model.Username)
-                </div>
-            </div>
-            <div class="control-group">
-                @Html.LabelFor(model => model.Password, new { @class = "control-label" })
-                <div class="controls">
-                    @Html.EditorFor(model => model.Password, string.Empty, "SiteValues.Password")
-                    @Html.ValidationMessageFor(model => model.Password)
-                </div>
-            </div>
+            
+        </fieldset>
+        
+        <fieldset>
+            <legend>Lync</legend>
+            
             <div class="control-group">
                 @Html.LabelFor(model => model.LyncUri, new {@class="control-label"})
                 <div class="controls">
-                    @Html.EditorFor(model => model.LyncUri, string.Empty, "SiteValues.LyncUri")
+                    @*@Html.EditorFor(model => model.LyncUri, string.Empty, "SiteValues.LyncUri")*@
+                    <input type="url" class="span5" id="SiteValues_LyncUri" name="SiteValues.LyncUri" value="@Model.LyncUri"/>
                     @Html.ValidationMessageFor(model => model.LyncUri)
+                </div>
+            </div>
+
+        </fieldset>
+        
+        <fieldset>
+            <legend>Exchange</legend>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.ExchangeUri, new {@class="control-label"})
+                <div class="controls">
+                    @*@Html.EditorFor(model => model.ExchangeUri, string.Empty, "SiteValues.ExchangeUri")*@
+                    <input type="url" class="span5" id="SiteValues_ExchangeUri" name="SiteValues.ExchangeUri" value="@Model.ExchangeUri"/>
+                    @Html.ValidationMessageFor(model => model.ExchangeUri)
+                </div>
+            </div>
+            <div class="control-group">
+                @Html.LabelFor(model => model.ExchangeDatabases, new {@class = "control-label"})
+                <div class="controls">
+                    @foreach (var db in Model.GetExchangeDatabases())
+                    {
+                        <div class="ou-container">
+                            <input type="text" name="exchangedb" class="span8" value="@db"/>
+                            <div class="btn btn-danger remove-ou">
+                                <i class="icon-minus"></i>
+                                Remove
+                            </div>
+                        </div>
+                    }
+                    <div class="ou-container">
+                        <input type="text" name="exchangedb" class="span8"/>
+                        <div class="btn btn-danger remove-ou">
+                            <i class="icon-minus"></i>
+                            Remove
+                        </div>
+                    </div>
+                    <div class="add-ou btn btn-success" data-name="exchangedb">
+                        <i class="icon-plus"></i>
+                        Add
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -114,7 +177,7 @@
     
     <div class="form-actions">
         <input type="submit" value="Save" class="btn btn-primary"/>
-        @Html.ActionLink("Cancel", "Settings", new {}, new {@class="btn"})
+        @Html.ActionLink("Cancel", "Settings", new { }, new { @class = "btn" })
     </div>
 }
 

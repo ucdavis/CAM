@@ -55,7 +55,7 @@ namespace CAM.Controllers
         public ActionResult Test()
         {
             var site = LoadSite();
-            _activeDirectoryService.Initialize(site.Username, site.Password, site, null);
+            _activeDirectoryService.Initialize(site.Username, site.Password, site, null, null);
             _lyncService.Initialize(site.Username, site.Password, site.LyncUri);
 
             var usr = _activeDirectoryService.GetUser("nononsense");

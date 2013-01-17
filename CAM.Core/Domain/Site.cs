@@ -31,6 +31,10 @@ namespace CAM.Core.Domain
 
         [Display(Name = "Lync Server Uri")]
         public virtual string LyncUri { get; set; }
+        [Display(Name="Exchange Server Uri")]
+        public virtual string ExchangeUri { get; set; }
+        [Display(Name="Exchange Databases")]
+        public virtual string ExchangeDatabases { get; set; }
 
         public virtual IList<OrganizationalUnit> OrganizationalUnits { get; set; }
 
@@ -41,13 +45,23 @@ namespace CAM.Core.Domain
 
         public virtual List<string> GetSecurityOus()
         {
+            if (string.IsNullOrEmpty(SecurityGroupOu)) return new List<string>();
+
             return SecurityGroupOu.Split('|').ToList();
         }
 
         public virtual List<string> GetUserOus()
         {
-            var test = UserOu.Split('|').ToList();
-            return test;
+            if (string.IsNullOrEmpty(UserOu)) return new List<string>();
+
+            return UserOu.Split('|').ToList();
+        }
+
+        public virtual List<string> GetExchangeDatabases()
+        {
+            if (string.IsNullOrEmpty(ExchangeDatabases)) return new List<string>();
+
+            return ExchangeDatabases.Split('|').ToList();
         }
 
         public virtual bool HasCredentials()
@@ -78,6 +92,8 @@ namespace CAM.Core.Domain
             Map(x => x.SecurityGroupOu);
             Map(x => x.UserOu);
             Map(x => x.LyncUri);
+            Map(x => x.ExchangeUri);
+            Map(x => x.ExchangeDatabases);
 
             Map(x => x.Username);
             Map(x => x.Password);
