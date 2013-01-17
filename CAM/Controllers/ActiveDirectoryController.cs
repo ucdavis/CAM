@@ -29,7 +29,7 @@ namespace CAM.Controllers
             var site = LoadSite();
             if (site.HasCredentials())
             {
-                _activeDirectoryService.Initialize(site.Username, site.Password, site, null);
+                _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, null);
                 var results = _activeDirectoryService.GetSecurityGroups();
                 var viewModel = AdGroupViewModel.Create(_repositoryFactory, Site, results);
                 return View(viewModel);    
@@ -44,7 +44,7 @@ namespace CAM.Controllers
             var site = LoadSite();
             if (site.HasCredentials())
             {
-                _activeDirectoryService.Initialize(site.Username, site.Password, site, null);    
+                _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, null);    
             }
             else
             {
@@ -117,7 +117,7 @@ namespace CAM.Controllers
 
             if (site.HasCredentials())
             {
-                _activeDirectoryService.Initialize(site.Username, site.Password, LoadSite(), null);
+                _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), LoadSite(), null);
                 
                 var results = _activeDirectoryService.GetOrganizationalUnits();
                 var viewModel = AdOuViewModel.Create(_repositoryFactory, LoadSite(), results);
@@ -134,7 +134,7 @@ namespace CAM.Controllers
 
             if (site.HasCredentials())
             {
-                _activeDirectoryService.Initialize(site.Username, site.Password, site, null);    
+                _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, null);    
             }
             else
             {

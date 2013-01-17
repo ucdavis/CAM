@@ -4,7 +4,10 @@
     ViewBag.Title = "Edit Site";
 }
 
-<h2 class="page-header">Edit Site</h2>
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
 
 @using(Html.BeginForm("Edit", "Site", FormMethod.Post, new {@class="form-horizontal"}))
 {
