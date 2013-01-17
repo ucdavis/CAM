@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using CAM.Core.Domain;
 using CAM.Core.Repositories;
@@ -26,6 +27,11 @@ namespace CAM.Controllers
         {
             var units = _repositoryFactory.UnitRepository.Queryable.Where(a => a.Site.Id == Site  && a.IsActive);
             return View(units);
+        }
+
+        public ActionResult Index()
+        {
+            throw new NotImplementedException();
         }
 
         public ActionResult Create(int? id)
@@ -71,29 +77,38 @@ namespace CAM.Controllers
             if (request == null)
             {
                 Message = "Request not found.";
-                return RedirectToAction("SelectUnit");
+                return RedirectToAction("List");
             }
-            
+
+            var site = LoadSite();
+            ViewBag.ExchangeDatabases = site.GetExchangeDatabases();
+
             return View(request);
         }
 
         [AdminOnly]
         [HttpPost]
-        public ActionResult Review(int id, bool Approved)
+        public ActionResult Review(int id, bool Approved, string ExchangeDatabase)
         {
             var request = _repositoryFactory.RequestRepository.GetNullableById(id);
 
             if (request == null)
             {
                 Message = "Request not found.";
-                return RedirectToAction("SelectUnit");
+                return RedirectToAction("List");
             }
-
-            // validate the necessary fields to create the necessary objects
 
             var site = LoadSite();
 
-            // then create the objects
+            if (request.NeedsEmail && string.IsNullOrEmpty(ExchangeDatabase))
+            {
+                Message = "Exchange database needs to be specified, this request needs a mailbox.";
+
+                ViewBag.ExchangeDatabases = site.GetExchangeDatabases();
+
+                return View(request);
+            }
+
             var adUsr = new AdUser();
             AutoMapper.Mapper.Map(request, adUsr);
             _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, site.LyncUri, site.ExchangeUri);
@@ -104,7 +119,7 @@ namespace CAM.Controllers
             _repositoryFactory.RequestRepository.EnsurePersistent(request);
 
             Message = string.Format("Request for {0} {1} has {2} approved.", request.FirstName, request.LastName, Approved ? "been" : "not been");
-            return RedirectToAction("SelectUnit");
+            return RedirectToAction("List");
         }
 
         public ActionResult Edit(int id)
@@ -114,7 +129,7 @@ namespace CAM.Controllers
             if (request == null)
             {
                 Message = "The request was not found, please try your request again.";
-                return RedirectToAction("SelectUnit");
+                return RedirectToAction("Index");
             }
 
             var viewModel = RequestViewModel.Create(_repositoryFactory, request, LoadSite(), null);

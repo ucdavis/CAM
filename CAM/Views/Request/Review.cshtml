@@ -139,7 +139,7 @@
         </fieldset>
     </div>
     <div class="control-group">
-        <div class="span6">
+        <div class="span5">
             <legend>Security Groups</legend>
         
             <ul class="unstyled">
@@ -150,7 +150,7 @@
             </ul>
 
         </div>
-        <div class="span6">
+        <div class="span5">
         
             <legend>Software</legend>
         
@@ -170,19 +170,49 @@
     </div>
     @if(Model.Pending)
     {
+        if (Model.NeedsEmail)
+        {
+            <fieldset>
+                <legend>Exchange Mailbox Options</legend>
+         
+                <div class="control-group">
+                    <label class="control-label">Email Alias</label>
+                    <div class="controls form-text">
+                        @(string.Format("{0}, {1}", Model.LastName, Model.FirstName))
+                    </div>
+                </div>
+                       
+                <div class="control-group">
+                    <label class="control-label">Exchange Database<span class="required">*</span></label>
+                    <div class="controls">
+                        <select id="ExchangeDatabase" class="span5">
+                            <option value="">--Select Exchange Database--</option>
+                            @foreach (var db in (ViewBag.ExchangeDatabases))
+                            {
+                                <option value="@db">@db</option>
+                            }
+                        </select>
+                    </div>
+                </div>    
+
+            </fieldset>
+        }
+        
         <div class="form-actions">
             @using(Html.BeginForm("Review", "Request", new {Approved=true, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
             {
                 @Html.AntiForgeryToken()
+                <input type="hidden" name="ExchangeDatabase"/>
                 <input type="submit" value="Approve" class="btn btn-success" />    
             }
             @using(Html.BeginForm("Review", "Request", new {Approved=false, Id=Model.Id}, FormMethod.Post, new {style="display:inline-block;"}))
             {
                 @Html.AntiForgeryToken()
+                <input type="hidden" name="ExchangeDatabase"/>
                 <input type="submit" value="Deny" class="btn btn-danger"/>
             }
 
-            @Html.ActionLink("Cancel", "SelectUnit", new {}, new {@class="btn"})
+            @Html.ActionLink("Cancel", "List", new {}, new {@class="btn"})
         </div>    
     }
     
@@ -191,4 +221,11 @@
 
 @section scripts
 {
+    <script type="text/javascript">
+        $(function() {
+            $('#ExchangeDatabase').change(function () {
+                $('input[name="ExchangeDatabase"]').val($(this).val());
+            });
+        });
+    </script>
 }
