@@ -38,8 +38,6 @@ namespace CAM.Controllers
             return View(viewModel);
         }
 
-
-
         public ActionResult About()
         {
             ViewBag.Message = "Your quintessential app description page.";

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using CAM.Core.Domain;
@@ -37,7 +38,7 @@ namespace CAM.Controllers
                 siteToEdit.SecurityGroupOu = string.Join("|", securityou.Where(a => !string.IsNullOrEmpty(a)));
                 siteToEdit.UserOu = string.Join("|", userou.Where(a => !string.IsNullOrEmpty(a)));
                 siteToEdit.Username = siteValues.Username;
-                siteToEdit.Password = siteValues.Password;
+                siteToEdit.SetPassword(siteValues.Password, EncryptionKey);
                 siteToEdit.LyncUri = siteValues.LyncUri;
 
                 _repositoryFactory.SiteRepository.EnsurePersistent(siteToEdit);

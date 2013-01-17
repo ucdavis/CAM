@@ -91,10 +91,12 @@ namespace CAM.Controllers
 
             // validate the necessary fields to create the necessary objects
 
+            var site = LoadSite();
+
             // then create the objects
             var adUsr = new AdUser();
             AutoMapper.Mapper.Map(request, adUsr);
-            _activeDirectoryService.Initialize(LoadSite().Username, LoadSite().Password, LoadSite(), LoadSite().LyncUri);
+            _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, site.LyncUri);
             _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList());
 
             request.Pending = false;

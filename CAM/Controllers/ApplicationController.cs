@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 using CAM.Core.Domain;
 using CAM.Core.Repositories;
@@ -10,6 +11,7 @@ namespace CAM.Controllers
     public class ApplicationController : SuperController
     {
         public string Site { get; private set; }
+        protected string EncryptionKey = ConfigurationManager.AppSettings["EncryptionKey"];
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
