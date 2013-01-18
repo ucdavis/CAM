@@ -5,6 +5,7 @@ namespace CAM.Core.Repositories
 {
     public interface IRepositoryFactory
     {
+        IRepository<CloseRequest> CloseRequestRepository { get; set; }
         IRepository<NetworkShare> NetworkShareRepository { get; set; }
         IRepository<OrganizationalUnit> OrganizationalUnitRepository { get; set; }
         IRepository<Request> RequestRepository { get; set; }
@@ -17,6 +18,7 @@ namespace CAM.Core.Repositories
 
     public class RepositoryFactory : IRepositoryFactory
     {
+        public IRepository<CloseRequest> CloseRequestRepository { get; set; }
         public IRepository<NetworkShare> NetworkShareRepository { get; set; }
         public IRepository<OrganizationalUnit> OrganizationalUnitRepository { get; set; }
         public IRepository<Request> RequestRepository { get; set; }

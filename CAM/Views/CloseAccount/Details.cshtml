@@ -1,0 +1,66 @@
+﻿@using CAM.Resources
+@model CloseRequest
+
+@{
+    ViewBag.Title = "Close Request";
+    ViewBag.Group = PageGroups.Administration;
+}
+
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
+
+@section subnav
+{
+    <li>@Html.ActionLink("Back to List", "Index")</li>
+}
+
+@section styles
+{
+    <style type="text/css">
+        .form-actions form { display: inline; }
+    </style>
+}
+
+<div class="form-horizontal">
+	
+    <div class="control-group">
+        <div class="control-group">
+            @Html.LabelFor(model => model.LoginId, new {@class = "control-label"})
+            <div class="controls form-text">
+                @Html.DisplayFor(model => model.LoginId)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.DateRequested, new {@class = "control-label"})
+            <div class="controls form-text">
+                @Html.DisplayFor(model => model.DateRequested)
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(model => model.RequestedBy, new {@class = "control-label"})
+            <div class="controls form-text">
+                @Html.DisplayFor(model => model.RequestedBy)
+                @Html.ValidationMessageFor(model => model.RequestedBy)
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Approved", true);
+            <input type="submit" class="btn btn-success" value="Approve"/>
+        }
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Approved", false);
+            <input type="submit" class="btn btn-danger" value="Denied"/>
+        }
+        <a href="@Url.Action("Index")" class="btn">Cancel</a>
+    </div>
+
+</div>

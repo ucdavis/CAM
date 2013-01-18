@@ -33,6 +33,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Create Request", "SelectUnit", "Request")</li>
+                            <li>@Html.ActionLink("Close Account", "Request", "CloseAccount")</li>
                         </ul>
                     </li>
                     
@@ -45,6 +46,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Review Requests", "List", "Request")</li>
+                                <li>@Html.ActionLink("Close Requests", "Index", "CloseAccount")</li>
                                 <li>@Html.ActionLink("Request Templates", "Index", "RequestTemplate")</li>
                                 <li>@Html.ActionLink("Site Settings", "Settings", "Site")</li>
                                 <li class="divider"></li>

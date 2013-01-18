@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="BaseClasses\GroupBase.cs" />
     <Compile Include="BaseClasses\ObjectBase.cs" />
+    <Compile Include="Domain\CloseRequest.cs" />
     <Compile Include="Domain\DnsName.cs" />
     <Compile Include="Domain\IpAddress.cs" />
     <Compile Include="Domain\NetworkShare.cs" />

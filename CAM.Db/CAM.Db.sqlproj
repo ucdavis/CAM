@@ -84,6 +84,7 @@
     <Build Include="dbo\Tables\RequestsXSoftwares.sql" />
     <Build Include="dbo\Tables\RequestsXSecurityGroups.sql" />
     <Build Include="dbo\Tables\OrganizationalUnits.sql" />
+    <Build Include="dbo\Tables\CloseRequests.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Publish\SqlExpress.publish.xml" />

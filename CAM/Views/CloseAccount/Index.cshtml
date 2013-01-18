@@ -1,0 +1,48 @@
+﻿@using CAM.Resources
+@model IEnumerable<CloseRequest>
+
+@{
+    ViewBag.Title = "Close Account Requests";
+    ViewBag.Group = PageGroups.Administration;
+}
+
+@section subhead
+{
+    <h1>@ViewBag.Title</h1>
+}
+
+@if (Model.Any())
+{
+    <table class="table table-striped one-button">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Login Id</th>
+                <th>Date Requested</th>
+                <th>Requested By</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cr in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Details", new {id=cr.Id})" class="btn btn-primary">
+                            <i class="icon-hand-up"></i>
+                            Select
+                        </a>
+                    </td>
+                    <td>@cr.LoginId</td>
+                    <td>@cr.DateRequested.Date</td>
+                    <td>@cr.RequestedBy</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">
+        No pending requests at this time.
+    </div>
+}

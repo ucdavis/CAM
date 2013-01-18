@@ -1,5 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using CAM.Core.Domain;
+using CAM.Core.Repositories;
+using CAM.Filters;
 using CAM.Services;
 using UCDArch.Web.ActionResults;
 
@@ -8,10 +11,59 @@ namespace CAM.Controllers
     public class CloseAccountController : ApplicationController
     {
         private readonly IActiveDirectoryService _activeDirectoryService;
+        private readonly IRepositoryFactory _repositoryFactory;
 
-        public CloseAccountController(IActiveDirectoryService activeDirectoryService)
+        public CloseAccountController(IActiveDirectoryService activeDirectoryService, IRepositoryFactory repositoryFactory)
         {
             _activeDirectoryService = activeDirectoryService;
+            _repositoryFactory = repositoryFactory;
+        }
+
+        [AdminOnly]
+        public ActionResult Index()
+        {
+            var requests = _repositoryFactory.CloseRequestRepository.Queryable.Where(a => a.IsPending);
+            return View(requests);
+        }
+
+        [AdminOnly]
+        public ActionResult Details(int id)
+        {
+            var request = _repositoryFactory.CloseRequestRepository.GetNullableById(id);
+
+            if (request == null)
+            {
+                Message = "Unable to load request, please try again.";
+                return RedirectToAction("Index");
+            }
+
+            return View(request);
+        }
+
+        [AdminOnly]
+        [HttpPost]
+        public ActionResult Details(int id, bool approved)
+        {
+            var request = _repositoryFactory.CloseRequestRepository.GetNullableById(id);
+
+            if (request == null)
+            {
+                Message = "Unable to load request, please try again.";
+                return RedirectToAction("Index");
+            }
+
+            if (approved)
+            {
+                var site = LoadSite();
+                _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, null, null);
+                _activeDirectoryService.DeactivateAccount(request.LoginId);
+            }
+
+            request.IsPending = false;
+            _repositoryFactory.CloseRequestRepository.EnsurePersistent(request);
+
+            Message = "Account has been deactivated.";
+            return RedirectToAction("Index");
         }
 
         public ActionResult Request()
@@ -22,17 +74,16 @@ namespace CAM.Controllers
         [HttpPost]
         public ActionResult Request(string loginid)
         {
-            var site = LoadSite();
-            _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, null, null);
+            var request = new CloseRequest()
+                {
+                    LoginId = loginid,
+                    RequestedBy = User.Identity.Name
+                };
 
-            if (_activeDirectoryService.DeactivateAccount(loginid))
-            {
-                Message = "Account has been deactivated.";
-                return RedirectToAction("Index", "Home");    
-            }
+            _repositoryFactory.CloseRequestRepository.EnsurePersistent(request);
 
-            Message = "Error locating account, please try again.";
-            return View();
+            Message = "Close request has been submitted";
+            return RedirectToAction("Index", "Home");
         }
 
         public JsonNetResult Search(string loginId, string firstname, string lastname)
