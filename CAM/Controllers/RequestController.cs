@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using CAM.Core.Domain;
@@ -31,7 +32,11 @@ namespace CAM.Controllers
 
         public ActionResult Index()
         {
-            var requests = _repositoryFactory.RequestRepository.Queryable.Where(a => a.CreatedBy == User.Identity.Name);
+            var requests = new List<RequestIndex>();
+
+            requests.AddRange(_repositoryFactory.RequestRepository.Queryable.Where(a => a.CreatedBy == User.Identity.Name).Select(a => new RequestIndex(a)));
+            requests.AddRange(_repositoryFactory.CloseRequestRepository.Queryable.Where(a => a.RequestedBy == User.Identity.Name).Select(a => new RequestIndex(a)));
+
             return View(requests);
         }
 
@@ -175,5 +180,39 @@ namespace CAM.Controllers
             var templates = _repositoryFactory.RequestTemplateRepository.Queryable.Where(a => a.Unit.Id == unitId);
             return new JsonNetResult(templates.Select(a => new { Id = a.Id, Name = a.Name }));
         }
+    }
+
+    public class RequestIndex
+    {
+        public RequestIndex(Request request)
+        {
+            Id = request.Id;
+            FirstName = request.FirstName;
+            LastName = request.LastName;
+            DateRequested = request.CreatedDate;
+            IsPending = request.Pending;
+            IsApproved = request.Approved;
+            Type = RequestType.NewAccount;
+        }
+
+        public RequestIndex(CloseRequest request)
+        {
+            Id = request.Id;
+            FirstName = request.LoginId;
+            DateRequested = request.DateRequested;
+            IsPending = request.IsPending;
+            Type = RequestType.Close;
+        }
+
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DateRequested { get; set; }
+        public bool IsPending { get; set; }
+        public bool? IsApproved { get; set; }
+
+        public RequestType Type { get; set; }
+
+        public enum RequestType { NewAccount, Close }
     }
 }
