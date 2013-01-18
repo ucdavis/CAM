@@ -33,6 +33,9 @@
                 // perform the search
                 $.get(searchUrl, { loginId: loginid, firstname: firstname, lastname: lastname }, function(results) {
 
+                    $("#results").empty();
+                    $("#result-table tbody").empty();
+
                     $(that).find('i').toggleClass('icon-search icon-refresh icon-spin');
 
                     // no results
@@ -137,20 +140,22 @@
 </div>
 
 <div id="results">
-    <table id="result-table" class="table table-striped one-button">
-        <thead>
-            <tr>
-                <th></th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Login</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
 </div>
+
+<table id="result-table" class="table table-striped one-button">
+    <thead>
+        <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Login</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
 
 <div id="modal" class="modal fade hide">
     <div class="modal-header">
