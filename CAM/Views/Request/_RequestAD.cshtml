@@ -5,13 +5,14 @@
     <div class="control-group">
         @Html.LabelFor(model => model.Request.OrganizationalUnit, new {@class="control-label"})
         <div class="controls">
-            <select name="Request.OrganizationalUnit" class="hastip" title="Active Directory OU, user will be created into.">
-                <option value="0">--Select AD OU--</option>
+            <select name="Request.OrganizationalUnit" class="hastip required" title="Active Directory OU, user will be created into.">
+                <option value="">--Select AD OU--</option>
                 @foreach(var a in Model.GetOrganizationalUnits())
                 {
                     <option value="@a.Value" @(a.Selected ? "selected" : string.Empty)>@a.Text</option>
                 }
             </select>
+            @Html.ValidationMessageFor(model => model.Request.OrganizationalUnit)
         </div>
     </div>
     <div class="control-group">

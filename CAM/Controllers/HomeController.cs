@@ -55,53 +55,16 @@ namespace CAM.Controllers
         public ActionResult Test()
         {
             var site = LoadSite();
-            _activeDirectoryService.Initialize(site.Username, site.Password, site, null, null);
-            _lyncService.Initialize(site.Username, site.Password, site.LyncUri);
+            _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, site.LyncUri, site.ExchangeUri);
 
-            var usr = _activeDirectoryService.GetUser("nononsense");
+            /*
+             * Create User
+             */
+            var request = _repositoryFactory.RequestRepository.GetNullableById(8);
+            var aduser = new AdUser();
+            AutoMapper.Mapper.Map(request, aduser);
 
-            _lyncService.EnableLync(usr.Id);
-
-            
-            //var groups = new List<string> { "Developers", "CRU" };
-            ////_activeDirectoryService.CreateUser("Johnny", "McFakerson", string.Empty, "mcfake", "OU=non-Admin Users - CRU,OU=Users,OU=AGDEAN,OU=DEPARTMENTS,DC=caesdo,DC=caes,DC=ucdavis,DC=edu", "Fake person", "unit", groups.ToList());
-
-            //var request = _repositoryFactory.RequestRepository.GetNullableById(3);
-            //var adUser = new AdUser();
-            //AutoMapper.Mapper.Map(request, adUser);
-            //_activeDirectoryService.CreateUser(adUser, request.OrganizationalUnit.Path, groups);
-
-            //_activeDirectoryService.GetUser("fakerson");
-
-            //var result = _activeDirectoryService.GetUser("lai");
-            
-            //_activeDirectoryService.AssignUserToGroup("fakerson", "CRU");
-
-            //if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password) )
-            //{
-            //    var results = new List<string>();
-
-            //    _activeDirectoryService.Initialize(userName, password, LoadSite());
-            //    var result = _activeDirectoryService.GetUser("lai");
-
-            //    if (result != null)
-            //    {
-            //        results.Add(result.Email);
-
-            //        var du = _directorySearchService.FindUser(result.Email);
-            //        results.Add(du.LoginId);
-            //        results.Add(result.EmployeeId);
-            //        results.Add("----------------");
-            //    }
-            //    else
-            //    {
-            //        results.Add("not found");
-            //    }
-
-            //    //_activeDirectoryService.AssignEmployeeId("lai", "anlai");
-
-            //    return View(results);    
-            //}
+            var loginid = _activeDirectoryService.CreateUser(aduser, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList(), request.NeedsEmail);
 
             return View();
         }

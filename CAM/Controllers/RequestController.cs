@@ -128,6 +128,7 @@ namespace CAM.Controllers
             return RedirectToAction("List");
         }
 
+        [AdminOnly]
         public ActionResult Edit(int id)
         {
             var request = _repositoryFactory.RequestRepository.GetNullableById(id);
@@ -142,6 +143,7 @@ namespace CAM.Controllers
             return View(viewModel);
         }
 
+        [AdminOnly]
         [HttpPost]
         public ActionResult Edit(int id, Request request)
         {

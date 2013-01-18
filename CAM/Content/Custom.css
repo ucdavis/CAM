@@ -84,7 +84,7 @@ button i, .btn i { margin-right: 5px;}
 
 /* Styles for forms
 -----------------------------------------------------------*/
-form .required, .form-horizontal .required {color: red;}
+form span.required, .form-horizontal span.required {color: red;}
 form .field-validation-error {color: #b94a48;}
 form .field-validation-valid {display: none;}
 form .input-validation-error {border-color: #B94A48;}
