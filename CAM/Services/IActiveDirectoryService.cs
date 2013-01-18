@@ -280,6 +280,7 @@ namespace CAM.Services
 
                 user.SamAccountName = loginId;
                 user.UserPrincipalName = string.Format("{0}@caesdo.caes.ucdavis.edu", loginId);
+                user.Enabled = true;
                 if (adUser.LastName.ToLower() != loginId)
                 {
                     user.Name = string.Format("{0}, {1} ({2})", adUser.LastName, adUser.FirstName, loginId);
@@ -287,10 +288,10 @@ namespace CAM.Services
 
                 user.SetPassword(GeneratePassword(16));
 
-                if (adUser.NeedsEmail)
-                {
-                    user.EmailAddress = string.Format("{0}@caes.ucdavis.edu", loginId);
-                }
+                //if (adUser.NeedsEmail)
+                //{
+                //    user.EmailAddress = string.Format("{0}@caes.ucdavis.edu", loginId);
+                //}
 
                 user.Save();
 
