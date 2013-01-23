@@ -333,7 +333,6 @@ namespace CAM.Services
                 powershell.AddCommand("Enable-Mailbox");
 
                 powershell.AddParameter("Identity", loginId);
-                powershell.AddParameter("Alias", alias);
                 powershell.AddParameter("Database", database);
 
                 powershell.Invoke();

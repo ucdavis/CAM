@@ -118,7 +118,7 @@ namespace CAM.Controllers
             var adUsr = new AdUser();
             AutoMapper.Mapper.Map(request, adUsr);
             _activeDirectoryService.Initialize(site.Username, site.GetPassword(EncryptionKey), site, site.LyncUri, site.ExchangeUri);
-            _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList(), request.NeedsEmail);
+            _activeDirectoryService.CreateUser(adUsr, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList(), request.NeedsEmail, ExchangeDatabase);
 
             request.Pending = false;
             request.Approved = Approved;
