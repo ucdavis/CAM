@@ -8,6 +8,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Security;
+using System.Threading;
 using CAM.Core.Domain;
 
 namespace CAM.Services
@@ -52,6 +53,8 @@ namespace CAM.Services
         string CreateUser(AdUser adUser, string container, List<string> securityGroups, bool needsMailbox, string exchangeDatabase = null);
         void AssignUserToGroup(string userId, string groupId);
         bool DeactivateAccount(string userid);
+
+        void EnableLync(string loginId);
     }
 
     public class ActiveDirectoryService : IActiveDirectoryService
@@ -201,6 +204,8 @@ namespace CAM.Services
 
                 if (!string.IsNullOrEmpty(_lyncUri))
                 {
+                    Thread.Sleep(5000);
+
                     EnableLync(loginId);        
                 }
             }
@@ -340,7 +345,7 @@ namespace CAM.Services
 
             remoteRunspace.Close();
         }
-        private void EnableLync(string loginId)
+        public void EnableLync(string loginId)
         {
             var password = new SecureString();
             foreach (var c in Password) password.AppendChar(c);

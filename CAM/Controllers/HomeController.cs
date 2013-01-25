@@ -60,11 +60,13 @@ namespace CAM.Controllers
             /*
              * Create User
              */
-            var request = _repositoryFactory.RequestRepository.GetNullableById(8);
-            var aduser = new AdUser();
-            AutoMapper.Mapper.Map(request, aduser);
+            //var request = _repositoryFactory.RequestRepository.GetNullableById(8);
+            //var aduser = new AdUser();
+            //AutoMapper.Mapper.Map(request, aduser);
 
-            var loginid = _activeDirectoryService.CreateUser(aduser, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList(), request.NeedsEmail, "Dean's Office Staff Mailboxes A-L");
+            //var loginid = _activeDirectoryService.CreateUser(aduser, request.OrganizationalUnit.Path, request.SecurityGroups.Select(a => a.SID).ToList(), request.NeedsEmail, "Dean's Office Staff Mailboxes A-L");
+
+            _activeDirectoryService.EnableLync("shukatest");
 
             return View();
         }
